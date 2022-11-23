@@ -80,7 +80,7 @@
 <script>
 export default {
   name: "LoginPage",
-  //layout: "login",
+  layout: "login",
 
   data: () => ({
     loginOrRegister: false,
