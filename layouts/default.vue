@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <!--v-if="$route.name!=='login'"-->
-    <Header />
+    <HeaderBar />
     <v-main>
       <nuxt />
     </v-main>
@@ -24,8 +24,8 @@ export default {
     };
   },
   components: {
-    Header: () => import("@/layouts/sections/Header"),
-    Footer: () => import("@/layouts/sections/Footer")
+    HeaderBar: () => import("@/layouts/sections/HeaderBar"),
+    Footer: () => import("@/layouts/sections/FooterBar")
   },
   methods: {}
 };
