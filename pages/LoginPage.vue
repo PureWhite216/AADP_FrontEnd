@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="loginFlag" class="LRBox">
+  <div class="background">
+    <div v-if="loginFlag" class="loginBox">
       <div class="loginTitle">
         Sign In
       </div>
@@ -43,7 +43,7 @@
         </v-btn>
       </v-form>
     </div>
-    <div v-else>
+    <div v-else class="registerBox">
       <div class="registerTitle">
         Sign Up
       </div>
@@ -180,12 +180,31 @@ export default {
 </script>
 
 <style scoped>
-.LRBox {
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(144, 144, 144, 0.1);
+}
+
+.loginBox {
   border: 1px black solid;
+  border-radius: 10px;
+  margin: 10% auto 0;
+  width: 40%;
+  background: white;
+}
+
+.registerBox {
+  border: 1px black solid;
+  border-radius: 10px;
+  margin: 5% auto 0;
+  width: 40%;
+  background: white;
 }
 
 .loginTitle {
-  margin: 10% auto 0;
+  margin: 20px auto 0;
   width: 40%;
   text-align: center;
   font-weight: bold;
@@ -195,12 +214,12 @@ export default {
 
 .loginForm{
   margin: 0 auto;
-  width: 40%;
+  width: 80%;
 }
 
 .registerTitle {
-  margin: 5% auto 0;
-  width: 40%;
+  margin: 20px auto 0;
+  width: 60%;
   text-align: center;
   font-weight: bold;
   font-size: 30px;
@@ -209,27 +228,31 @@ export default {
 
 .registerForm{
   margin: 0 auto;
-  width: 40%;
+  width: 80%;
 }
 
 .verifyBtn {
   float: right;
-  right: 10%;
+  right: 5%;
   height: 20px;
   color: white;
 }
 
 .loginBtn {
-  float: left;
-  left: 0;
   width: 40%;
-  margin-top: 10px;
+  margin: 20px 10% 20px 5%;
 }
 
 .registerBtn {
-  float: right;
-  right: 0;
   width: 40%;
-  margin-top: 10px;
+  margin: 20px 0 20px 0;
 }
+
+/*
+.registerBtn::after{
+  content:'';
+  display:block;
+  clear: both;
+}
+ */
 </style>
