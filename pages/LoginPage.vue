@@ -193,6 +193,7 @@ export default {
   margin: 10% auto 0;
   width: 40%;
   background: white;
+  box-shadow: 10px 10px 5px grey;
 }
 
 .registerBox {
@@ -201,6 +202,7 @@ export default {
   margin: 5% auto 0;
   width: 40%;
   background: white;
+  box-shadow: 10px 10px 5px grey;
 }
 
 .loginTitle {
