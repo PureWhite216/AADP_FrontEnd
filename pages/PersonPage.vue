@@ -5,7 +5,7 @@
         <v-img :src="imgStc" id="head_portrait" />
       </div>
       <div class="inline_div" id="div_name">
-        <p style="font-size: 40px; margin-bottom: 20px;">{{this.name}}</p>
+        <p style="font-size: 40px; margin-bottom: 15px;">{{this.name}}</p>
         <p style="font-size: 25px">{{this.organization}}</p>
       </div>
       <div class="inline_div" id="div_info">
@@ -26,6 +26,20 @@
       </div>
 
     </div>
+    <div class="text-center">
+      <div id="display">
+        <p>rerrererererererere</p>
+      </div>
+      <div id="co_workers">
+        <p id="co_workers_title">合作者</p>
+        <ul>
+          <li v-for="(item) in co_worker_list" style="list-style-type:none">
+            <p class="co_worker_name">{{item.name}}</p>
+            <p class="co_worker_organization">{{item.organization}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -40,6 +54,11 @@ export default {
       sum_aca_achv:10,
       sum_research:5,
       sum_quoted:233,
+      co_worker_list:[{name:"姓名1",organization:"所属单位1"},
+        {name:"姓名2",organization:"所属单位2"},
+        {name:"姓名3",organization:"所属单位3"},
+        {name:"姓名4",organization:"所属单位4"},
+        {name:"姓名5",organization:"所属单位5"},]
     }
   },
   computed:{
@@ -55,7 +74,7 @@ export default {
 #personPageHead{
   width: 1000px;
   height: 200px;
-  margin: 70px auto;
+  margin: 70px auto 20px;
   background-color: #F0F0F0;
   vertical-align: middle;
 }
@@ -69,7 +88,7 @@ export default {
   margin-right: 0;
 }
 #div_name{
-  margin-left: 80px;
+  margin-left: 40px;
   float: left;
 }
 #div_info{
@@ -98,5 +117,33 @@ td{
   text-align: right;
   font-weight: normal;
   color:black;
+}
+#display{
+  display: inline-block;
+  width: 680px;
+  border: #232a37;
+  border-width: medium;
+  border:solid;
+}
+#co_workers{
+  background-color: #F0F0F0;
+  display: inline-block;
+  width: 300px;
+  margin-left: 20px;
+  margin-top: 0;
+  border: #232a37;
+  border-width: medium;
+  border:solid;
+}
+#co_workers_title{
+  font-weight: normal;
+  font-size: xx-large;
+  margin-left: 10px;
+}
+.co_worker_name{
+  font-size: large;
+}
+.co_worker_organization{
+
 }
 </style>
