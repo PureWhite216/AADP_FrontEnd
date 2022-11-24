@@ -18,16 +18,6 @@ export default {
   name: "academicAchievement",
   props:['data1'],
   data(){
-    return{
-      title:"学术成果标题1",
-      authors:["author1" , "author2" , "author3"],
-      time:"2022-11-24",
-      type:"类型",
-      quoted:230,
-      journal:"期刊",
-      abstract:"dkfjvjcxnlkxjkldjjhfdjkvxcnzxmc,.cm,.zxcmcvmcx.,vxcmkldsjflkjjdljlgfdkgjlfjsdlkfjalkjdklaskldlasdkxzlkcjxlkvjcxlkvjlkjvxblxkbvkbvlbvclblcvbcvdfdfddfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfddfdfdfdfdfdfdfdfdfdfdfdfdffdf",
-
-    }
   }
 }
 </script>

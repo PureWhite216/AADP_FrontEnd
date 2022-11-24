@@ -158,7 +158,7 @@ export default {
 #personPageHead{
   width: 1000px;
   height: 200px;
-  margin: 70px auto 20px;
+  margin: 20px auto 20px;
   background-color: #F0F0F0;
   vertical-align: middle;
 }
