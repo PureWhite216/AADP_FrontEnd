@@ -1,13 +1,232 @@
 <template>
+  <div>
+    <div class="text-center" id="personPageHead">
+      <div class="inline_div" id="div_head_portrait">
+        <v-img :src="imgStc" id="head_portrait" />
+      </div>
+      <div class="inline_div" id="div_name">
+        <p style="font-size: 40px; margin-bottom: 15px;">{{this.name}}</p>
+        <p style="font-size: 25px">{{this.organization}}</p>
+      </div>
+      <div class="inline_div" id="div_info">
+        <table>
+          <tr>
+            <th>发表的学术成果数：</th>
+            <td>{{this.sum_aca_achv}}</td>
+          </tr>
+          <tr>
+            <th>发表的研究数：</th>
+            <td>{{this.sum_research}}</td>
+          </tr>
+          <tr>
+            <th>总被引数：</th>
+            <td>{{this.sum_quoted}}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+    <div class="text-center">
+      <div id="display">
+        <v-tabs
+          fixed-tabs
+          background-color="indigo"
+          white
+          style="margin-bottom: 10px"
+        >
+          <v-tab @click="display = 1" class ="tab">
+            发表的学术成果
+          </v-tab>
+          <v-tab @click="display = 2" class = "tab">
+            发表的研究
+          </v-tab>
+        </v-tabs>
+        <div v-show="display===1">
+          <div v-for="(item,index) in academic_achievements" :key="index">
+            <academic-achievement :data1="item"></academic-achievement>
+          </div>
+        </div>
+        <div v-show="display===2">
+          <div v-for="(item,index) in researchs" :key="index">
+            <research :data1="item"></research>
+          </div>
+        </div>
+
+      </div>
+      <div id="co_workers">
+        <p id="co_workers_title">合作者</p>
+        <ul>
+          <li v-for="item in co_worker_list" style="list-style-type:none">
+            <p class="co_worker_name">{{item.name}}</p>
+            <p class="co_worker_organization">{{item.organization}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
 </template>
 
 <script>
 export default {
-  name: "PersonPage"
+  name: "PersonPage",
+  components:{
+    AcademicAchievement: () => import("@/components/personPageComponents/academicAchievement"),
+    Research: () => import("@/components/personPageComponents/research"),
+  },
+  data(){
+    return{
+      name:"名字",
+      organization:"所属单位",
+      sum_aca_achv:10,
+      sum_research:5,
+      sum_quoted:233,
+      co_worker_list:[{name:"姓名1",organization:"所属单位1"},
+        {name:"姓名2",organization:"所属单位2"},
+        {name:"姓名3",organization:"所属单位3"},
+        {name:"姓名4",organization:"所属单位4"},
+        {name:"姓名5",organization:"所属单位5"},],
+      display:1,
+      academic_achievements:[
+        {
+          title:"学术成果标题1",
+          authors:["author1" , "author2" , "author3"],
+          time:"2022-11-24",
+          type:"类型",
+          quoted:230,
+          journal:"期刊",
+          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
+        },
+        {
+          title:"学术成果标题2",
+          authors:["author1" , "author2"],
+          time:"2022-11-25",
+          type:"类型",
+          quoted:122,
+          journal:"期刊",
+          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
+        },
+        {
+          title:"学术成果标题3",
+          authors:["author1" , "author2" , "author3"],
+          time:"2022-11-24",
+          type:"类型",
+          quoted:230,
+          journal:"期刊",
+          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
+        },
+        {
+          title:"学术成果标题4",
+          authors:["author1" , "author2" , "author3"],
+          time:"2022-11-24",
+          type:"类型",
+          quoted:230,
+          journal:"期刊",
+          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
+        },
+      ],
+      researchs:[
+        {
+          title:"研究标题1",
+          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
+        },
+        {
+          title:"研究标题2",
+          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
+        },
+        {
+          title:"研究标题3",
+          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
+        },
+        {
+          title:"研究标题4",
+          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
+        },
+      ]
+    }
+  },
+  computed:{
+    imgStc(){
+      //
+      return require('../assets/images/temp_img/head_portrait.jpg')
+    },
+  }
 }
 </script>
 
 <style scoped>
-
+#personPageHead{
+  width: 1000px;
+  height: 200px;
+  margin: 20px auto 20px;
+  background-color: #F0F0F0;
+  vertical-align: middle;
+}
+#head_portrait{
+  height:120px;
+  width:120px;
+}
+#div_head_portrait{
+  float: left;
+  margin-left: 40px;
+  margin-right: 0;
+}
+#div_name{
+  margin-left: 40px;
+  float: left;
+}
+#div_info{
+  float: right;
+  margin-right: 45px;
+}
+.inline_div{
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 40px;
+}
+p{
+  text-align: left;
+  color:black;
+}
+tr{
+  font-size: 20px;
+  line-height: 42px;
+}
+th{
+  text-align: left;
+  font-weight: normal;
+  color:black;
+}
+td{
+  text-align: right;
+  font-weight: normal;
+  color:black;
+}
+#display{
+  display: inline-block;
+  vertical-align: top;
+  background-color: #F0F0F0;
+  width: 680px;
+}
+#co_workers{
+  background-color: #F0F0F0;
+  display: inline-block;
+  width: 300px;
+  margin-left: 20px;
+  margin-top: 0;
+}
+#co_workers_title{
+  font-weight: normal;
+  font-size: xx-large;
+  margin-left: 10px;
+}
+.co_worker_name{
+  font-size: large;
+}
+.co_worker_organization{
+  margin-bottom: 20px;
+}
+.tab{
+  background-color: #F0F0F0;
+}
 </style>

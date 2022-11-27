@@ -1,79 +1,126 @@
 <template>
-  <div>
-    <div class="LRTitle">
-      注册
+  <div class="background">
+    <div v-if="loginFlag" class="loginBox">
+      <div class="loginTitle">
+        Sign In
+      </div>
+      <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        class="loginForm"
+      >
+        <v-text-field
+          v-model="account"
+          :counter="10"
+          :rules="accountRules"
+          label="账号"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="code"
+          :counter="16"
+          :rules="codeRules"
+          label="密码"
+          required
+        ></v-text-field>
+
+        <v-btn
+          color="success"
+          class="loginBtn"
+          @click="login"
+        >
+          登录
+        </v-btn>
+
+        <v-btn
+          color="success"
+          class="registerBtn"
+          @click="register"
+        >
+          注册
+        </v-btn>
+      </v-form>
     </div>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      class="LRForm"
-    >
-      <v-text-field
-        v-model="account"
-        :counter="10"
-        :rules="accountRules"
-        label="账号"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="code"
-        :counter="16"
-        :rules="codeRules"
-        label="密码"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="reCode"
-        :counter="16"
-        :rules="reCodeRules"
-        label="确认密码"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="邮箱"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="verifyCode"
-        :rules="verifyRules"
-        label="验证码"
-        style="display: inline-block; width: 60%"
-        required
-      ></v-text-field>
-
-      <v-btn
-        color="success"
-        class="verifyBtn"
-        @click=""
+    <div v-else class="registerBox">
+      <div class="registerTitle">
+        Sign Up
+      </div>
+      <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        class="registerForm"
       >
-        获取验证码
-      </v-btn>
+        <v-text-field
+          v-model="account"
+          :counter="10"
+          :rules="accountRules"
+          label="账号"
+          required
+        ></v-text-field>
 
-      <div></div>
+        <v-text-field
+          v-model="code"
+          :counter="16"
+          :rules="codeRules"
+          label="密码"
+          required
+        ></v-text-field>
 
-      <v-btn
-        color="success"
-        class="loginBtn"
-        @click=""
-      >
-        登录
-      </v-btn>
+        <v-text-field
+          v-model="reCode"
+          :counter="16"
+          :rules="reCodeRules"
+          label="确认密码"
+          required
+        ></v-text-field>
 
-      <v-btn
-        color="error"
-        class="registerBtn"
-        @click=""
-      >
-        注册
-      </v-btn>
-    </v-form>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="邮箱"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="verifyCode"
+          :rules="verifyRules"
+          label="验证码"
+          style="display: inline-block; width: 60%"
+          required
+        ></v-text-field>
+
+        <v-btn
+          color=#2196F3
+          class="verifyBtn"
+          @click=""
+        >
+          获取验证码
+        </v-btn>
+
+        <div></div>
+
+        <v-btn
+          color="success"
+          class="loginBtn"
+          @click="login"
+        >
+          登录
+        </v-btn>
+
+        <v-btn
+          color="success"
+          class="registerBtn"
+          @click="register"
+        >
+          注册
+        </v-btn>
+
+        <div></div>
+      </v-form>
+    </div>
   </div>
 </template>
 
@@ -83,7 +130,7 @@ export default {
   layout: "login",
 
   data: () => ({
-    loginOrRegister: false,
+    loginFlag: true,
     valid: true,
     account: '',
     accountRules: [
@@ -111,19 +158,55 @@ export default {
   }),
 
   methods: {
-    validate () {
-      this.$refs.form.validate()
+    login(){
+      if(this.loginFlag){
+
+      }
+      else this.loginFlag = true;
+      this.resetValidation();
     },
-    reset () {
-      this.$refs.form.reset()
+    register(){
+      if(!this.loginFlag){
+
+      }
+      else this.loginFlag = false;
+      this.resetValidation();
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
     },
   },
 }
 </script>
 
 <style scoped>
-.LRTitle {
-  margin: 5% auto -5%;
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(144, 144, 144, 0.1);
+}
+
+.loginBox {
+  border: 1px black solid;
+  border-radius: 10px;
+  margin: 10% auto 0;
+  width: 40%;
+  background: white;
+  box-shadow: 10px 10px 5px grey;
+}
+
+.registerBox {
+  border: 1px black solid;
+  border-radius: 10px;
+  margin: 5% auto 0;
+  width: 40%;
+  background: white;
+  box-shadow: 10px 10px 5px grey;
+}
+
+.loginTitle {
+  margin: 20px auto 0;
   width: 40%;
   text-align: center;
   font-weight: bold;
@@ -131,30 +214,47 @@ export default {
   color: black;
 }
 
-.LRForm{
-  margin: 5% auto 0;
-  width: 40%;
+.loginForm{
+  margin: 0 auto;
+  width: 80%;
 }
 
-.formItem{
+.registerTitle {
+  margin: 20px auto 0;
+  width: 60%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  color: black;
+}
 
+.registerForm{
+  margin: 0 auto;
+  width: 80%;
 }
 
 .verifyBtn {
   float: right;
-  right: 10%;
+  right: 5%;
   height: 20px;
+  color: white;
 }
 
 .loginBtn {
-  float: left;
-  left: 0;
   width: 40%;
+  margin: 20px 10% 20px 5%;
 }
 
 .registerBtn {
-  float: right;
-  right: 0;
   width: 40%;
+  margin: 20px 0 20px 0;
 }
+
+/*
+.registerBtn::after{
+  content:'';
+  display:block;
+  clear: both;
+}
+ */
 </style>
