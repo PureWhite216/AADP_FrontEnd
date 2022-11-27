@@ -194,7 +194,7 @@ export default {
           type:"类型",
           quoted:"12",
           title: "Supermodel",
-          authors: ["Foster the People","author1"],
+          authors: ["Foster the People dsahudsiahd dd","author1"],
           abstract:"abstract"
         },
         {
