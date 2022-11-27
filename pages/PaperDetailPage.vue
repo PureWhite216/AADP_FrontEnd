@@ -34,11 +34,11 @@
       <v-divider :inset="inset" light class="divier" ></v-divider>
       <v-divider :inset="inset" light class="divier" ></v-divider>
       <div>
-        <p style="font-size: 30px; color: black; text-align: left; margin-left: 12%; margin-top: 3%; margin-bottom: 5%;">参考文献</p>
+        <p style="font-size: 30px; color: black; text-align: left; margin-left: 12%; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
         <div v-for="(item,index) in reference" :key="index" class="div_reference">
           <div>{{item.title}}</div>
           <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
-          <div>{{item.time}}</div>
+          <div style="margin-left: 10px">{{item.time}}</div>
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@ export default {
 
 #whole{
   width: 1000px;
-  min-height: 1500px;
+  min-height: 1200px;
   background-color: rgb(229, 223, 223);
   vertical-align: middle;
   margin: 20px auto 20px;
