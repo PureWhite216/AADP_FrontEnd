@@ -1,53 +1,91 @@
 <template>
   <div>
     <v-app-bar
-      color="deep-purple accent-4"
-      dense
-      dark
+      blue
+      color="blue"
     >
-      <v-toolbar-title>AADP</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-menu
-        left
-        bottom
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon>mdi-dots-vertical</v-icon>
+<!--      <v-toolbar-title>论文搜索</v-toolbar-title>-->
+      <v-col cols="12" sm="4"></v-col>
+      <v-col cols="12" sm="4">
+        <v-row>
+          <v-text-field
+            v-model="select"
+            :loading="loading"
+            :items="items"
+            :search-input.sync="search"
+            cache-items
+            class="mx-4"
+            flat
+            hide-no-data
+            hide-details
+            label="search something"
+            solo-inverted
+            width="500px"
+          ></v-text-field>
+          <v-btn icon>
+            <v-icon>mdi-magnify</v-icon>
           </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            v-for="n in 5"
-            :key="n"
-            @click="() => {}"
-          >
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        </v-row>
+      </v-col>
+      <v-col cols="12" sm="4">
+      </v-col>
     </v-app-bar>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HeaderBar"
+  name: "HeaderBar",
+  data () {
+    return {
+      loading: false,
+      search: null,
+      select: null,
+      items: [
+        {
+          time:"2022-11-25",
+          type:"类型",
+          quoted:"12",
+          title: "Supermodel",
+          authors: ["Foster the People","author1"],
+          abstract:"abstract"
+        },
+        {
+          time:"2022-11-25",
+          type:"类型",
+          quoted:"12",
+          title: "Supermodel",
+          authors: ["Foster the People","author1"],
+          abstract:"abstract"
+        },
+        {
+          time:"2022-11-25",
+          type:"类型",
+          quoted:"12",
+          title: "Supermodel",
+          authors: ["Foster the People","author1"],
+          abstract:"abstract"
+        },
+        {
+          time:"2022-11-25",
+          type:"类型",
+          quoted:"12",
+          title: "Supermodel",
+          authors: ["Foster the People","author1"],
+          abstract:"abstract"
+        },
+        {
+          time:"2022-11-25",
+          type:"类型",
+          quoted:"12",
+          title: "Supermodel",
+          authors: ["Foster the People","author1"],
+          abstract:"abstract"
+        },
+      ],
+    }
+  },
+
 }
 </script>
 

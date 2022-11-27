@@ -9,7 +9,6 @@
     <div style="width: 640px">
       <p id="abstract">{{data1.abstract}}</p>
     </div>
-
   </div>
 </template>
 
