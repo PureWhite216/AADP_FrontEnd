@@ -1,11 +1,17 @@
 <template>
   <div>
     <v-app-bar
-      blue
-      color="blue"
+      color="white"
     >
-<!--      <v-toolbar-title>论文搜索</v-toolbar-title>-->
-      <v-col cols="12" sm="4"></v-col>
+      <v-col cols="12" sm="1">
+        AADP
+      </v-col>
+      <v-col cols="12" sm="3">
+        <v-tabs align-with-title >
+          <v-tab>主页</v-tab>
+          <v-tab>研究</v-tab>
+        </v-tabs>
+      </v-col>
       <v-col cols="12" sm="4">
         <v-row>
           <v-text-field
@@ -27,7 +33,12 @@
           </v-btn>
         </v-row>
       </v-col>
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="3">
+      </v-col>
+      <v-col cols="12" sm="1">
+        <v-avatar color="primary">
+          <v-icon dark>mdi-account-circle</v-icon>
+        </v-avatar>
       </v-col>
     </v-app-bar>
   </div>
