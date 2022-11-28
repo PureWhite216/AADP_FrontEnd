@@ -72,7 +72,7 @@
           <v-spacer></v-spacer>
         </v-app-bar>
         <br>
-
+        <v-container>
         <v-card>
           <br>
           <h3 class="selectNode">时间</h3>
@@ -162,6 +162,7 @@
           </div>
           <br>
         </v-card>
+        </v-container>
       </v-card>
     </div>
   </div>
@@ -259,13 +260,13 @@ export default {
 #SearchResult{
   display: inline-block;
   width: 700px;
-  height: 200px;
   vertical-align: top;
   background-color: #F0F0F0;
 }
 #select{
   width: 400px;
   margin-left: 20px;
+  margin-top: 0;
   background-color: #F0F0F0;
   display: inline-block;
 }
