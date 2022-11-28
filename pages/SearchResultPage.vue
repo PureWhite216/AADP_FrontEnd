@@ -1,32 +1,32 @@
 <template>
   <div>
-    <v-card
-      max-width="700"
-      class="mx-auto"
-    >
-      <v-toolbar
-        blue
-        color="blue"
-      >
-        <v-toolbar-title>论文搜索</v-toolbar-title>
-        <v-text-field
-          v-model="select"
-          :loading="loading"
-          :items="items"
-          :search-input.sync="search"
-          cache-items
-          class="mx-4"
-          flat
-          hide-no-data
-          hide-details
-          label="search something"
-          solo-inverted
-        ></v-text-field>
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </v-toolbar>
-    </v-card>
+<!--    <v-card-->
+<!--      max-width="700"-->
+<!--      class="mx-auto"-->
+<!--    >-->
+<!--      <v-toolbar-->
+<!--        blue-->
+<!--        color="blue"-->
+<!--      >-->
+<!--        <v-toolbar-title>论文搜索</v-toolbar-title>-->
+<!--        <v-text-field-->
+<!--          v-model="select"-->
+<!--          :loading="loading"-->
+<!--          :items="items"-->
+<!--          :search-input.sync="search"-->
+<!--          cache-items-->
+<!--          class="mx-4"-->
+<!--          flat-->
+<!--          hide-no-data-->
+<!--          hide-details-->
+<!--          label="search something"-->
+<!--          solo-inverted-->
+<!--        ></v-text-field>-->
+<!--        <v-btn icon>-->
+<!--          <v-icon>mdi-magnify</v-icon>-->
+<!--        </v-btn>-->
+<!--      </v-toolbar>-->
+<!--    </v-card>-->
     <br>
     <div class="text-center">
       <v-card
@@ -170,7 +170,6 @@
 <script>
 export default {
   name: "SearchResultPage",
-  layout: "login",
   data () {
     return {
       loading: false,

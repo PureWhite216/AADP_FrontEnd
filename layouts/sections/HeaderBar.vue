@@ -28,7 +28,7 @@
             solo-inverted
             width="500px"
           ></v-text-field>
-          <v-btn icon>
+          <v-btn icon @click="goSearch()">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </v-row>
@@ -96,10 +96,21 @@ export default {
       ],
     }
   },
+  methods: {
+    goSearch()
+    {
+      this.$router.push({path:'/searchResultPage'});
+    }
+  },
 
 }
 </script>
 
 <style scoped>
-
+.router-link-active{
+  color: #1dc8cc;
+}
+.a{
+  color: #1dc8cc;
+}
 </style>
