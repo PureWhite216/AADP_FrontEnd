@@ -1,5 +1,5 @@
 <template>
-  <div id="comp">
+  <v-card id="comp">
     <h1 style="text-align: left">{{data1.title}}</h1>
     <div id="div_authors">
       <p v-for="item in data1.authors" class="authors">{{item}};</p>
@@ -9,7 +9,7 @@
     <div style="width: 640px">
       <p id="abstract">{{data1.abstract}}</p>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
 }
 #comp{
   width: 660px;
-  margin: 10px;
+  margin-bottom: 10px;
   background-color: white;
   padding: 10px;
 }
@@ -50,11 +50,12 @@ export default {
   background-color: #CCEEFF;
 }
 #abstract{
-  width: 640px;
+  width: 630px;
   height: 75px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap:break-word;
   color: black;
+
 }
 </style>
