@@ -32,7 +32,7 @@
           fixed-tabs
           background-color="indigo"
           white
-          style="margin-bottom: 10px"
+
         >
           <v-tab @click="display = 1" class ="tab">
             发表的学术成果

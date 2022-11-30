@@ -28,8 +28,8 @@
     </div>
     <div class="text-center">
         <v-card id="display">
-          <div style="background-color: #DCDCDC;height: 48px;margin-bottom: 20px">
-            <p class="col_title">学术成果</p>
+          <div style="background-color: #DCDCDC;height: 48px">
+            <p class="col_title">发表的学术成果</p>
           </div>
           <v-container>
             <v-row dense>
