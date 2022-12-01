@@ -352,7 +352,7 @@ export default {
     },
 
     authen() {
-
+      //认证
     },
 
     showPassword(){
