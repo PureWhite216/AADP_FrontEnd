@@ -1,3 +1,9 @@
+const webpack = require('webpack')
+const path = require('path')
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -33,7 +39,24 @@ export default {
     duration: 3000
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    // {src:'@/plugins/api.js', ssr:false },
+    {src:'@/plugins/nuxt-quill-plugin', ssr:false },
+  ],
+  configureWebpack: {
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+      alias: {
+        '@': resolve('src'),
+      }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
