@@ -1,10 +1,12 @@
 <template>
-  <RichTextEditor
-    id="pdfDom"
-    ref="richTextEditor"
-    v-model="editor"
-    :height="1000"
-  />
+  <v-container>
+    <v-card>
+      <RichTextEditor
+        ref="richTextEditor"
+        :height="1000"
+      />
+    </v-card>
+  </v-container>
 </template>
 
 <script>
