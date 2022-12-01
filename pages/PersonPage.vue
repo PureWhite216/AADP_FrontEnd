@@ -2,7 +2,7 @@
   <div>
     <div class="text-center" id="personPageHead">
       <div class="inline_div" id="div_head_portrait">
-        <v-img :src="imgStc" id="head_portrait" />
+        <v-img :src="imgSrc" id="head_portrait" />
       </div>
       <div class="inline_div" id="div_name">
         <p style="font-size: 40px; margin-bottom: 15px;">{{this.name}}</p>
@@ -32,7 +32,7 @@
           fixed-tabs
           background-color="indigo"
           white
-          style="margin-bottom: 10px"
+
         >
           <v-tab @click="display = 1" class ="tab">
             发表的学术成果
@@ -41,20 +41,37 @@
             发表的研究
           </v-tab>
         </v-tabs>
-        <div v-show="display===1">
-          <div v-for="(item,index) in academic_achievements" :key="index">
-            <academic-achievement :data1="item"></academic-achievement>
-          </div>
-        </div>
-        <div v-show="display===2">
-          <div v-for="(item,index) in researchs" :key="index">
-            <research :data1="item"></research>
-          </div>
-        </div>
+        <v-container v-show="display===1">
+          <v-row dense>
+            <v-col
+              v-for="(item, i) in academic_achievements"
+              :key="i"
+              cols="12"
+            >
+              <academic-achievement :data1="item"></academic-achievement>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container v-show="display===2">
+          <v-row dense>
+            <v-col
+              v-for="(item, i) in researchs"
+              :key="i"
+              cols="12"
+            >
+              <research :data1="item"></research>
+            </v-col>
+          </v-row>
+        </v-container>
+
+
 
       </div>
       <div id="co_workers">
-        <p id="co_workers_title">合作者</p>
+        <div style="background-color: #DCDCDC;height: 48px;margin-bottom: 20px;border-radius: 5px;">
+          <p id="co_workers_title">合作者</p>
+        </div>
+
         <ul>
           <li v-for="item in co_worker_list" style="list-style-type:none">
             <p class="co_worker_name">{{item.name}}</p>
@@ -146,7 +163,7 @@ export default {
     }
   },
   computed:{
-    imgStc(){
+    imgSrc(){
       //
       return require('../assets/images/temp_img/head_portrait.jpg')
     },
@@ -207,6 +224,7 @@ td{
   vertical-align: top;
   background-color: #F0F0F0;
   width: 680px;
+  border-radius: 5px;
 }
 #co_workers{
   background-color: #F0F0F0;
@@ -214,11 +232,12 @@ td{
   width: 300px;
   margin-left: 20px;
   margin-top: 0;
+  border-radius: 5px;
 }
 #co_workers_title{
   font-weight: normal;
-  font-size: xx-large;
-  margin-left: 10px;
+  font-size: large;
+  padding: 10px;
 }
 .co_worker_name{
   font-size: large;
@@ -227,6 +246,8 @@ td{
   margin-bottom: 20px;
 }
 .tab{
-  background-color: #F0F0F0;
+  background-color: #DCDCDC ;
+  color: black;
+  font-size: large;
 }
 </style>
