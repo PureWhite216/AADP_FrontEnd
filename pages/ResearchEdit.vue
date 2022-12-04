@@ -2,20 +2,33 @@
   <v-container>
     <v-app-bar
       color="white"
-      class="AppBar"
+      id="bar"
     >
-      <v-row class="AppBar">
-        <v-btn id="saveBtn" depressed small>保存草稿</v-btn>
-        <v-text-area
-          id="title"
-        >标题</v-text-area>
-<!--      <v-overflow-btn-->
-<!--        id="areaBtn"-->
-<!--        :items="dropdown_font"-->
-<!--        depressed small-->
-<!--      ></v-overflow-btn>-->
-        <v-btn id="subBtn" depressed small>发表草稿</v-btn>
+      <v-row id="row">
+        <div id="save">
+          <v-btn color="#fec500" depressed small>保存草稿</v-btn>
+        </div>
+        <div id="title">
+          <v-text-field
+            class="mx-4"
+            flat
+            solo-inverted
+            dense
+          >标题</v-text-field>
+        </div>
+        <div id="area">
+          <v-overflow-btn
+            dense
+            :items="dropdown_font"
+            depressed small
+            label="area"
+          ></v-overflow-btn>
+        </div>
+        <div id="sub">
+          <v-btn color="#316ce8" depressed small>发表草稿</v-btn>
+        </div>
       </v-row>
+
     </v-app-bar>
     <br>
     <v-card>
@@ -41,35 +54,31 @@ export default {
 </script>
 
 <style scoped>
-#saveBtn{
-  margin-left: 10px;
-  color: black;
-  font-size: 15px;
-  background-color: chocolate;
-  text-align: left;
-}
-#areaBtn{
-  color: black;
-  font-size: 15px;
-  background-color: chocolate;
-  text-align: left;
-}
-#subBtn{
-  color: white;
-  font-size: 15px;
-  background-color: blue;
-  text-align: left;
-  margin-right: 10px;
-}
-.AppBar{
+#bar{
   width: 1200px;
-  height: 40px;
+  height: 20px;
+}
+#row{
+  width: 1200px;
+  height: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+#save{
+  margin-left: 20px;
 }
 #title{
-  color: black;
-  font-size: large;
-  margin: 0 auto;
-  text-align: center;
-  vertical-align: center;
+  width: 400px;
+  margin-left: 200px;
 }
+#area{
+  width: 200px;
+  margin-left: 10px;
+}
+#sub{
+  float: right;
+  margin-left: 20px;
+}
+
 </style>
