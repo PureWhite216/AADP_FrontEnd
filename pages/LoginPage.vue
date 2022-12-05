@@ -26,6 +26,10 @@
           required
         ></v-text-field>
 
+        <div class="forget" @click="gotoForget">
+          忘记密码
+        </div>
+
         <v-btn
           color="success"
           class="loginBtn"
@@ -102,17 +106,21 @@
 
         <div></div>
 
-        <v-btn
-          color="success"
-          class="loginBtn"
-          @click="login"
-        >
-          登录
-        </v-btn>
+        <div @click="login" class="gotoLogin">
+          已注册，前往登录
+        </div>
+<!--        <v-btn-->
+<!--          color="success"-->
+<!--          class="loginBtn"-->
+<!--          @click="login"-->
+<!--        >-->
+<!--          登录-->
+<!--        </v-btn>-->
 
         <v-btn
           color="success"
           class="registerBtn"
+          style="width: 100%"
           @click="register"
         >
           注册
@@ -175,6 +183,11 @@ export default {
     resetValidation () {
       this.$refs.form.resetValidation()
     },
+    gotoForget(){
+      this.$router.push({
+        name: 'ForgetPage'
+      })
+    }
   },
 }
 </script>
@@ -248,6 +261,19 @@ export default {
 .registerBtn {
   width: 40%;
   margin: 20px 0 20px 0;
+}
+
+.forget,.gotoLogin {
+  display: block;
+  text-align: right;
+  text-decoration: none;
+  color: black;
+  margin: 10px 0 0 0;
+}
+
+.forget:hover,.gotoLogin:hover {
+  color: blue;
+  cursor: pointer;
 }
 
 /*
