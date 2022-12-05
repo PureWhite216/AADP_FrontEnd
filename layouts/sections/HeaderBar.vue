@@ -130,15 +130,15 @@ export default {
   methods: {
     goSearch()
     {
-      this.$router.push({path:'/searchResultPage'});
+      this.$router.push({path:'/SearchResultPage'});
     },
     goPersonPage()
     {
-      this.$router.push({path:'/personPage'});
+      this.$router.push({path:'/PersonPage'});
     },
     goPersonCenter()
     {
-      this.$router.push({path:'/personCenter'});
+      this.$router.push({path:'/PersonCenter'});
     },
   },
 

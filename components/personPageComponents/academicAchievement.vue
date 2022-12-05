@@ -16,8 +16,8 @@
 export default {
   name: "academicAchievement",
   props:['data1'],
-  data(){
-  }
+  // data(){
+  // }
 }
 </script>
 
