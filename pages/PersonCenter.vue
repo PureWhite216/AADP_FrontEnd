@@ -1,6 +1,7 @@
 <template>
   <div class="background">
     <div class="main">
+<!--      导航栏-->
       <v-navigation-drawer
         absolute
         fixed
@@ -118,8 +119,8 @@
               </v-list-item-avatar>
             </v-list>
           </div>
-          <div style="border-bottom: 1px black solid;"></div>
 
+          <div style="border-bottom: 1px black solid;"></div>
 <!--          个人信息-->
           <div class="content">
 <!--            查看个人信息-->
