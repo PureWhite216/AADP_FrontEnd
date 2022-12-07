@@ -166,19 +166,17 @@ export default {
           username: this.account,
           password: this.code,
           keep_login: true
+        }).then(res => {
+          this.$message({
+            message: '登陆成功',
+            type: 'success'
+          })
+        }).catch(err => {
+          this.$message({
+            message: err.message,
+            type: 'error'
+          })
         })
-          .then(res => {
-            this.$message({
-              message: '登陆成功',
-              type: 'success'
-            })
-          })
-          .catch(err => {
-            this.$message({
-              message: err.message,
-              type: 'error'
-            })
-          })
       }
       else this.loginFlag = true;
     },

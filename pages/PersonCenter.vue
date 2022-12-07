@@ -18,7 +18,7 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title style="font-size: 16px">{{ user.username }}</v-list-item-title>
+              <v-list-item-title style="font-size: 16px">{{ user.name }}</v-list-item-title>
               <v-list-item-subtitle>{{user.account}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -223,7 +223,7 @@
             </div>
           </div>
 
-          <div style="border-bottom: 1px black solid; margin-bottom: 10px"></div>
+          <div style="border-bottom: 1px black solid;"></div>
 
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">密码</div>
@@ -306,9 +306,10 @@ export default {
         { title: '账户', icon: 'mdi-image' },
       ],
 
+      token: '',
+
       flag: 1,
       user: {
-        username: "wzy",
         avatar: "",
         account: "3123139531",
 
@@ -427,6 +428,88 @@ export default {
 
     confirm(type){
       //调用改动接口
+      switch (type){
+        case 1: {
+          if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/modifyUserInfo', {
+            token: this.token,
+            username: this.user.account,
+            real_name: this.input.name,
+            avatar: this.user.avatar
+          }).then(res => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+        case 2: {
+          if(this.input.verifyCode==="" || this.input.email===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/modifyEmail', {
+            token: this.token,
+            email: this.input.email,
+            verify_code: this.input.verifyCode,
+            password: this.user.password
+          }).then(res => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+        case 3: {
+          if(this.input.oldPassword==="" || this.input.newPassword==="" || this.input.repeatPassword===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/changePassword', {
+            mode: 1,
+            token: this.token,
+            oldPassword: this.input.oldPassword,
+            password1: this.input.newPassword,
+            password2: this.input.repeatPassword,
+            email: this.user.email
+          }).then(res => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+      }
       this.cancel(type)
     },
 
