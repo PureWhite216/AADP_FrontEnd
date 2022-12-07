@@ -47,6 +47,7 @@
         </v-btn>
       </v-form>
     </div>
+
     <div v-else class="registerBox">
       <div class="registerTitle">
         Sign Up
@@ -99,7 +100,7 @@
         <v-btn
           color=#2196F3
           class="verifyBtn"
-          @click=""
+          @click="getVer"
         >
           获取验证码
         </v-btn>
@@ -109,13 +110,6 @@
         <div @click="login" class="gotoLogin">
           已注册，前往登录
         </div>
-<!--        <v-btn-->
-<!--          color="success"-->
-<!--          class="loginBtn"-->
-<!--          @click="login"-->
-<!--        >-->
-<!--          登录-->
-<!--        </v-btn>-->
 
         <v-btn
           color="success"
@@ -141,48 +135,95 @@ export default {
     loginFlag: true,
     valid: true,
     account: '',
+    email: '',
+    code: '',
+    reCode: '',
+    verifyCode: '',
+
     accountRules: [
       v => !!v || '账号必填',
       v => (v && v.length <= 10) || 'Account must be less than 10 characters',
     ],
-    email: '',
     emailRules: [
       v => !!v || '邮箱必填',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
-    code: '',
     codeRules: [
       v => !!v || '密码必填',
-
     ],
-    reCode: '',
     reCodeRules: [
       v => !!v || '重复输入密码必填',
     ],
-    verifyCode: '',
     verifyRules: [
       v => !!v || '验证码必填',
-    ]
+    ],
   }),
 
   methods: {
     login(){
       if(this.loginFlag){
-
+        this.$axios.post('/user/login', {
+          username: this.account,
+          password: this.code,
+          keep_login: true
+        })
+          .then(res => {
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            })
+          })
+          .catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
       }
       else this.loginFlag = true;
-      this.resetValidation();
     },
+
     register(){
       if(!this.loginFlag){
-
+        this.$axios.post('/user/register', {
+          email: this.email,
+          verification_code: this.verifyCode,
+          username: this.account,
+          password1: this.code,
+          password2: this.reCode,
+        }).then(res => {
+          this.$message({
+            message: '注册成功，即将调转到登录界面',
+            type: 'success'
+          })
+          setTimeout(this.login, 2000)
+        }).catch(err => {
+          this.$message({
+            message: err.message,
+            type: 'error'
+          })
+        })
       }
       else this.loginFlag = false;
-      this.resetValidation();
     },
-    resetValidation () {
-      this.$refs.form.resetValidation()
+
+    getVer() {
+      this.$axios.post('/user/sendRegistrationVerificationCode', {
+        email: this.email,
+        modify: false
+      }).then(res => {
+        this.$message({
+          message: '验证码已发送',
+          type: 'success'
+        })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
     },
+
     gotoForget(){
       this.$router.push({
         name: 'ForgetPage'
@@ -268,7 +309,7 @@ export default {
   text-align: right;
   text-decoration: none;
   color: black;
-  margin: 10px 0 0 0;
+  margin: 5px 0 0 0;
 }
 
 .forget:hover,.gotoLogin:hover {

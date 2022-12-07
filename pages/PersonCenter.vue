@@ -80,8 +80,10 @@
         </template>
       </v-navigation-drawer>
       <div class="pageMain">
+<!--        个人信息-->
         <div v-if="flag==1">
           <div class="head1"></div>
+<!--          头像-->
           <div class="content" style="padding-top: 5px">
             <v-list>
               <v-list-item-title style="font-size: 20px; color:black; font-weight: bold">
@@ -117,7 +119,10 @@
             </v-list>
           </div>
           <div style="border-bottom: 1px black solid;"></div>
+
+<!--          个人信息-->
           <div class="content">
+<!--            查看个人信息-->
             <div v-if="!editInfoFlag">
               <div style="font-size: 20px; color:black; font-weight: bold">姓名</div>
               <div style="margin: 10px 0 10px 0">{{user.name}}</div>
@@ -128,6 +133,7 @@
               <v-btn small color="primary" style="float: right; right: 2%"
                      @click="editInfo">编辑</v-btn>
             </div>
+<!--            修改个人信息-->
             <div v-else>
               <div style="font-size: 20px; color:black; font-weight: bold; ">姓名</div>
               <v-text-field
@@ -158,7 +164,9 @@
             </div>
             <div style="height: 45px"></div>
           </div>
+
           <div style="border-bottom: 1px black solid;"></div>
+<!--          认证情况-->
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">认证情况</div>
             <v-btn small color="primary" style="float: right; right: 2%; top: 10px"
@@ -169,31 +177,56 @@
                  v-else>已认证</div>
           </div>
         </div>
+<!--        账户信息-->
         <div v-else>
           <div class="head2"></div>
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">个人邮箱</div>
+<!--            查看邮箱-->
             <div v-if="!editEmailFlag">
               <div style="margin: 10px 0 10px 0">{{user.email}}</div>
               <v-btn small color="primary" style="margin: 10px 0 20px 0"
                      @click="changeEmail">修改邮箱</v-btn>
             </div>
+<!--            修改邮箱-->
             <div v-else>
-              <v-text-field
-                :placeholder="user.email"
-                :rules="emailRules"
-                style="width: 40%; margin: -5px 0 -10px 0"
-                v-model="input.email"
-              ></v-text-field>
+              <div>
+                <v-text-field
+                  dense
+                  label="新邮箱"
+                  :placeholder="user.email"
+                  :rules="emailRules"
+                  style="width: 40%; margin: 15px 0 -10px 0"
+                  v-model="input.email"
+                ></v-text-field>
+                <v-text-field
+                  v-model="input.verifyCode"
+                  :rules="inputRules"
+                  label="验证码"
+                  style="display: inline-block; width: 30%"
+                  required
+                ></v-text-field>
+                <v-btn
+                  color=#2196F3
+                  class="verifyBtn"
+                  @click="getVer"
+                  small
+                >
+                  获取验证码
+                </v-btn>
+              </div>
               <v-btn small color="primary" style="margin: 10px 0 20px 0"
                      @click="confirm(2)">确认</v-btn>
               <v-btn small color="primary" style="margin: 10px 0 20px 20px"
                      @click="cancel(2)">取消</v-btn>
             </div>
           </div>
+
           <div style="border-bottom: 1px black solid; margin-bottom: 10px"></div>
+
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">密码</div>
+<!--            查看密码-->
             <div v-if="!editPasswordFlag">
               <div v-if="passwordFlag" style="font-size: 18px; margin: 10px 0 10px 0">
                 <div>
@@ -210,6 +243,7 @@
                 </div>
               </div>
             </div>
+<!--            修改密码-->
             <div v-else>
               <v-text-field
                 v-model="input.oldPassword"
@@ -295,6 +329,7 @@ export default {
         education: "带专",
 
         email: "3123139531@qq.com",
+        verifyCode: "",
         oldPassword: "",
         newPassword: "",
         repeatPassword: "",
@@ -327,9 +362,6 @@ export default {
 
   init(){
 
-  },
-
-  model(){
   },
 
   methods :{
@@ -397,6 +429,23 @@ export default {
       this.cancel(type)
     },
 
+    getVer() {
+      this.$axios.post('/user/sendRegistrationVerificationCode', {
+        email: this.email,
+        modify: true
+      }).then(res => {
+        this.$message({
+          message: '验证码已发送',
+          type: 'success'
+        })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
+    },
+
     restore(flag){
       this.copyInfo()
       switch (flag){
@@ -419,6 +468,7 @@ export default {
       this.input.institution = this.user.institution
       this.input.education = this.user.education
       this.input.email = this.user.email
+      this.input.verifyCode = ""
       this.input.oldPassword = ""
       this.input.newPassword = ""
       this.input.repeatPassword = ""
@@ -486,5 +536,11 @@ export default {
 
 .content {
   padding: 15px 0 0 15px;
+}
+
+.verifyBtn {
+  display: inline-block;
+  height: 20px;
+  color: white;
 }
 </style>

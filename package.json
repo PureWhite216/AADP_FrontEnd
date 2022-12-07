@@ -11,8 +11,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.15.1",
-    "element-plus": "^2.2.22",
+    "element-plus": "^2.2.26",
+    "element-ui": "^2.15.12",
     "nuxt": "^2.15.8",
     "vuetify": "^2.6.12"
   },

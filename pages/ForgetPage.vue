@@ -44,7 +44,7 @@
         <v-btn
           color=#2196F3
           class="verifyBtn"
-          @click=""
+          @click="getVer"
         >
           获取验证码
         </v-btn>
@@ -59,7 +59,7 @@
           color="success"
           class="forgetBtn"
           style="width: 100%"
-          @click="register"
+          @click="changeCode"
         >
           确认修改
         </v-btn>
@@ -77,7 +77,6 @@ export default {
 
   data: ()=>({
     email: '',
-    authen: '',
     code: '',
     reCode: '',
     verifyCode: '',
@@ -102,7 +101,45 @@ export default {
       this.$router.push({
         name: 'LoginPage'
       })
-    }
+    },
+
+    changeCode(){
+      this.$axios.post('/user/changePassword', {
+        mode: 0,
+        password1: this.code,
+        password2: this.reCode,
+        email: this.email,
+        verify_code: this.verifyCode
+      }).then(res => {
+        this.$message({
+          message: '修改成功，即将跳转到登陆界面',
+          type: 'success'
+        })
+        setTimeout(this.login, 2000)
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
+    },
+
+    getVer() {
+      this.$axios.post('/user/sendRegistrationVerificationCode', {
+        email: this.email,
+        modify: false
+      }).then(res => {
+        this.$message({
+          message: '验证码已发送',
+          type: 'success'
+        })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
+    },
   }
 }
 </script>
@@ -156,7 +193,6 @@ export default {
   text-align: right;
   text-decoration: none;
   color: black;
-  margin: 10px 0 0 0;
 }
 
 .gotoLogin:hover {
