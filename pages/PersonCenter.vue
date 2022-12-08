@@ -93,7 +93,7 @@
               <v-list-item-avatar size="110">
                 <img :src="user.avatar">
               </v-list-item-avatar>
-              <div style="float: right; margin: 80px 10px 0 0">
+              <div style="float: right; margin: 80px 2% 0 0">
                 <el-upload
                   v-model:file-list="file"
                   ref="upload"
@@ -101,9 +101,7 @@
                   :http-request="submitUpload"
                   :show-file-list="false"
                 >
-                  <template #trigger>
-                    <el-button type="primary">上传头像</el-button>
-                  </template>
+                  <v-btn small color="primary">上传头像</v-btn>
                 </el-upload>
               </div>
             </v-list>
