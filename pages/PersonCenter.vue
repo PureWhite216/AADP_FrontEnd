@@ -90,33 +90,22 @@
               <v-list-item-title style="font-size: 20px; color:black; font-weight: bold">
                 头像
               </v-list-item-title>
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="primary"
-                    dark
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                    style="float: right; right: 2%; top: 80px"
-                  >上传头像</v-btn>
-                </template>
-<!--                <span>点击左侧图标选择头像</span>-->
-              </v-tooltip>
-<!--              <v-file-input-->
-<!--                dense-->
-<!--                outlined-->
-<!--                hide-input-->
-<!--                accept="image/png, image/jpeg, image/bmp, image/jpg"-->
-<!--                placeholder="上传头像"-->
-<!--                prepend-icon="mdi-camera"-->
-<!--                v-model="file"-->
-<!--                style="float: right; top: 80px; right: 5px; width: 50px;"-->
-<!--              >-->
-<!--              </v-file-input>-->
-              <v-list-item-avatar size="100">
+              <v-list-item-avatar size="110">
                 <img :src="user.avatar">
               </v-list-item-avatar>
+              <div style="float: right; margin: 80px 10px 0 0">
+                <el-upload
+                  v-model:file-list="file"
+                  ref="upload"
+                  accept="image/png,image/jpg,image/jpeg"
+                  :http-request="submitUpload"
+                  :show-file-list="false"
+                >
+                  <template #trigger>
+                    <el-button type="primary">上传头像</el-button>
+                  </template>
+                </el-upload>
+              </div>
             </v-list>
           </div>
 
@@ -323,7 +312,7 @@ export default {
       },
       passwordFlag: false,
 
-      file: {},
+      file: [],
 
       input: {
         name: "王振阳",
@@ -376,8 +365,26 @@ export default {
 
     },
 
-    uploadAvatar(){
-
+    submitUpload(file) {
+      this.file = file.file
+      console.log(this.file)
+      let formData = new FormData();
+      formData.append('file', this.file);
+      this.$axios.post('', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res=>{
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        })
+      }).catch(err=>{
+        this.$message({
+          message: '修改失败',
+          type: 'error'
+        })
+      })
     },
 
     editInfo(){

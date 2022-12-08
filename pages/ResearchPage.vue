@@ -1,13 +1,253 @@
 <template>
-
+  <div>
+    <div class="text-center">
+      <v-card id="research" class="mt-12">
+        <v-tabs v-model="tab" align-with-title>
+          <v-tab v-for="item in tab_option" :key="item">
+            {{ item.label }}
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="option in tab_option" :key="option">
+            <v-container>
+              <v-row dense>
+                <v-col
+                  v-for="(item, i) in option.researchList"
+                  :key="i"
+                  cols="12"
+                >
+                  <v-card class="mb-5">
+                    <div class="d-flex flex-no-wrap justify-space-between">
+                      <div>
+                        <v-card-title
+                          class="text-h2 card_title"
+                          v-text="item.title"
+                        ></v-card-title>
+                        <v-card-subtitle class="div_authors">
+                          <div
+                            v-for="item1 in item.authors"
+                            :key="item1"
+                            class="text-subtitle-1 authors"
+                          >
+                            {{ item1 }};
+                          </div>
+                        </v-card-subtitle>
+                        <v-card-text
+                          v-text="item.abstract"
+                          class="text-body-1 card_text"
+                        ></v-card-text>
+                        <v-card-actions> </v-card-actions>
+                      </div>
+                    </div>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card>
+      <v-card id="hot_research" class="mt-12">
+        <v-container>
+          <v-btn block elevation="6" color="primary"> 发表新研究 </v-btn>
+          <v-card class="mt-10">
+            <v-card-title class="text-h2 card_title">领域</v-card-title>
+            <v-col cols="6">
+            <v-select
+              :items="filed_option"
+              label="所有领域"
+              dense
+              outlined
+            ></v-select>
+          </v-col>
+          </v-card>
+        </v-container>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "ResearchPage"
-}
+  name: "ResearchPage",
+  data() {
+    return {
+      filed_option:['计算机','dsad','dsa'],
+      tab_option: [
+        {
+          label: "最热",
+          researchList: [
+            {
+              color: "#ffffff",
+              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+              title: "Supermodel",
+              authors: ["Foster the dasdasdsPeople", "666"],
+              abstract: "666666dsad",
+            },
+            {
+              color: "#952175",
+              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+              title: "Halcyon Days",
+              authors: ["adsadsadsadsadsds"],
+              abstract: "666666dsad",
+            },
+            {
+              color: "#1F7087",
+              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+              title: "Supermodel",
+              authors: ["Foster the People", "666"],
+            },
+            {
+              color: "#952175",
+              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+              title: "Halcyon Days",
+              authors: ["Ellie Goulding"],
+            },
+          ],
+        },
+        {
+          label: "最新",
+          researchList: [
+            {
+              color: "#ffffff",
+              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+              title: "Supermodel",
+              authors: ["Foster the dasdasdsPeople", "666"],
+              abstract: "666666dsad",
+            },
+            {
+              color: "#952175",
+              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+              title: "Halcyon Days",
+              authors: ["adsadsadsadsadsds"],
+              abstract: "666666dsad",
+            },
+            {
+              color: "#1F7087",
+              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+              title: "Supermodel",
+              authors: ["Foster the People", "666"],
+            },
+            {
+              color: "#952175",
+              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+              title: "Halcyon Days",
+              authors: ["Ellie Goulding"],
+            },
+          ],
+        },
+      ],
+      tab: null,
+      hotAcademicList: [
+        {
+          color: "#ffffff",
+          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+          title: "Supermodel",
+          authors: ["Foster the dasdasdsPeople", "666"],
+          abstract: "666666dsad",
+        },
+        {
+          color: "#952175",
+          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+          title: "Halcyon Days",
+          authors: ["adsadsadsadsadsds"],
+          abstract: "666666dsad",
+        },
+        {
+          color: "#1F7087",
+          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+          title: "Supermodel",
+          authors: ["Foster the People", "666"],
+        },
+        {
+          color: "#952175",
+          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+          title: "Halcyon Days",
+          authors: ["Ellie Goulding"],
+        },
+      ],
+      hotResearchList: [
+        {
+          color: "#ffffff",
+          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+          title: "Supermodel",
+          authors: ["Foster the dasdasdsPeople", "666"],
+          abstract:
+            "666666dsaddasjdasol\ndjsaiodjioasdjiosajdoasd\ndisahdioashdoiashdaiosdh",
+        },
+        {
+          color: "#952175",
+          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+          title: "Halcyon Days",
+          authors: ["adsadsadsadsadsds"],
+          abstract: "666666dsad",
+        },
+        {
+          color: "#1F7087",
+          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+          title: "Supermodel",
+          authors: ["Foster the People", "666"],
+        },
+        {
+          color: "#952175",
+          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+          title: "Halcyon Days",
+          authors: ["Ellie Goulding"],
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style scoped>
+#MainPageHead {
+  width: 1200px;
+  height: 150px;
+  margin: 20px auto 20px;
+  background-color: #f0f0f0;
+  vertical-align: middle;
+}
+#research {
+  display: inline-block;
+  /* margin-top: 20px; */
+  width: 700px;
+  margin-right: 40px;
+  margin-block-end: 100px;
+  vertical-align: top;
+  background-color: #f0f0f0;
+}
+#hot_research {
+  display: inline-block;
+  width: 460px;
+  vertical-align: top;
+  margin-block-end: 100px;
 
+  background-color: #f0f0f0;
+}
+.main_title {
+  margin-left: 10px;
+  text-align: left;
+  color: rgb(42, 36, 36);
+  font-size: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.card_title {
+  text-align: left;
+  color: black;
+}
+.div_authors {
+  text-align: left;
+}
+.authors {
+  text-align: left;
+  font-size: 20px;
+  color: grey;
+  display: inline-block;
+}
+
+.card_text {
+  text-align: left;
+  color: black;
+}
 </style>

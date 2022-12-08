@@ -1,4 +1,4 @@
-<template>  
+<template>
   <div>
     <div class="text-center" id="whole">
       <div class="inline_div" id="div_name">
@@ -8,7 +8,7 @@
       <div class="inline_div" id="div_link">
         <v-btn large color="primary" height="30px" weight="40px">链接</v-btn>
       </div>
-      <div class="paperinfo"> 
+      <div class="paperinfo">
         <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
           <tr>
             <th>作者:&emsp;{{this.sum_aca_achv}}</th>
@@ -57,7 +57,7 @@ export default {
       keyword:"人工智能",
       abstract:"摘要",
       abstractdetail:"hahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahha",
-      reference:"参考文献",
+      //reference:"参考文献",
       referencedetail:"参考文献",
       sum_aca_achv:10,
       sum_research:5,
@@ -100,7 +100,7 @@ export default {
   },
 
   methods: {
-    
+
   },
 }
 </script>
@@ -121,18 +121,18 @@ export default {
   color: black;
 }
 .abstrct{
-  font-size: 20px; 
-  color: black; 
-  text-align: left; 
-  margin-left: 14%; 
-  width: 700px; 
-  word-break:break-all; 
+  font-size: 20px;
+  color: black;
+  text-align: left;
+  margin-left: 14%;
+  width: 700px;
+  word-break:break-all;
   word-wrap:break-word;
 }
 .div_reference{
   margin-right: 500px;
   margin-bottom: 10px;
-  text-align: left; 
+  text-align: left;
   margin-left: 150px;
 }
 .inline_author{

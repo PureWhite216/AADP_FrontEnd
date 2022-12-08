@@ -26,6 +26,9 @@
 
 <script>
 export default {
+  middleware({ store, route, redirect, params, query, req, res }) {
+    redirect('/MainPage') // 默认跳转页面的路由
+  },
   head() {
     return {
       title: "NuxtJs UI kit | Free UI kit built with Vuetify",

@@ -36,9 +36,40 @@
       <v-col cols="12" sm="3">
       </v-col>
       <v-col cols="12" sm="1">
-        <v-avatar color="primary">
-          <v-icon dark>mdi-account-circle</v-icon>
-        </v-avatar>
+        <div class="text-center">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar
+                color="primary"
+                v-bind="attrs"
+                v-on="on"
+                @click=""
+              >
+                <v-icon dark>mdi-account-circle</v-icon>
+              </v-avatar>
+            </template>
+            <v-list>
+                <v-list-item @click="goPersonPage">
+                  <v-list-item-content>
+                    个人门户
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item @click="goPersonCenter">
+                  <v-list-item-content>
+                    个人中心
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list-item @click="">
+                  <v-list-item-content>
+                    注销
+                  </v-list-item-content>
+                </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
       </v-col>
     </v-app-bar>
   </div>
@@ -99,8 +130,16 @@ export default {
   methods: {
     goSearch()
     {
-      this.$router.push({path:'/searchResultPage'});
-    }
+      this.$router.push({path:'/SearchResultPage'});
+    },
+    goPersonPage()
+    {
+      this.$router.push({path:'/PersonPage'});
+    },
+    goPersonCenter()
+    {
+      this.$router.push({path:'/PersonCenter'});
+    },
   },
 
 }
