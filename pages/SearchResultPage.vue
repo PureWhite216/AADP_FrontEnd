@@ -244,10 +244,15 @@ export default {
       ],
     }
   },
+  created() {
+    this.getSearchResult()
+  },
   watch: {
   },
   methods: {
-
+      getSearchResult(){
+        this.$axios.$get("")
+      }
   },
 }
 </script>
