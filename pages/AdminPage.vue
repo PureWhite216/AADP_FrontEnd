@@ -12,12 +12,16 @@
               nav
             >
               <v-list-item @click="flag = 0">
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
                 <v-list-item-title>用户认证</v-list-item-title>
               </v-list-item>
               <v-list-item @click="flag = 1">
-                <v-list-item-content>
-                  <v-list-item-title>论文认领</v-list-item-title>
-                </v-list-item-content>
+                <v-list-item-icon>
+                  <v-icon>mdi-book</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>学术成果认领</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-navigation-drawer>
@@ -105,7 +109,7 @@ export default {
           value: 'name',
         },
         { text: '机构', value: 'institution' },
-        { text: '论文名称', value: 'paperName' },
+        { text: '学术成果名称', value: 'paperName' },
       ],
       request1: [
         {
