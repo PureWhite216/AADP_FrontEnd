@@ -1,68 +1,108 @@
 <template>
   <div>
-    <v-card
-      class="mx-auto"
-      max-width="70%"
-      style="margin-top: 35px"
-    >
-      <div class="text-left" id="whole">
-        <v-row>
-          <div style="margin-top: 5%">
-            <p style="font-size: 40px; color: black">{{this.Papername}}</p>
-          </div>
-        </v-row>
-
-        <v-row>
-          <div class="paperinfo">
-            <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
-              <tr>
-                <th>作者:&emsp;{{this.sum_aca_achv}}</th>
-              </tr>
-              <tr>
-                <th>关键词:&emsp;{{this.sum_research}}</th>
-              </tr>
-              <tr >
-                <th>被引数:&emsp;{{this.sum_quoted}}</th>
-                <th>发表时间:&emsp;{{this.sum_quoted}}</th>
-                <th>DOI:&emsp;{{this.sum_quoted}}</th>
-              </tr>
-            </table>
-          </div>
-        </v-row>
-
-        <v-row>
-          <v-btn large color="primary" height="40px" weight="40px">链接</v-btn>
-          <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 20px">认领</v-btn>
-        </v-row>
-
-        <v-row>
-          <v-divider light class="divier" style="margin-top: 20px"></v-divider>
-        </v-row>
-
-        <v-row>
-          <div>
-            <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%;">{{this.abstract}}</p>
-            <p class="abstrct">{{this.abstractdetail}}</p>
-          </div>
-        </v-row>
-
-        <v-row>
-          <v-divider light class="divier" style="margin-top: 20px"></v-divider>
-        </v-row>
-
-        <v-row>
-          <div>
-            <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
-            <div v-for="(item,index) in reference" :key="index" class="div_reference">
-              <div>{{item.title}}</div>
-              <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
-              <div>{{item.time}}</div>
+    <v-container fluid>
+      <v-card
+        class="mx-auto"
+        max-width="70%"
+        style="margin-top: 35px"
+      >
+        <div class="text-left" id="whole">
+          <v-row>
+            <div style="margin-top: 5%">
+              <p style="font-size: 40px; color: black">{{this.Papername}}</p>
             </div>
-          </div>
-        </v-row>
+          </v-row>
 
-      </div>
-    </v-card>
+          <v-row>
+            <div class="paperinfo">
+              <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
+                <tr>
+                  <th>作者:&emsp;{{this.sum_aca_achv}}</th>
+                </tr>
+                <tr>
+                  <th>关键词:&emsp;{{this.sum_research}}</th>
+                </tr>
+                <tr >
+                  <th>被引数:&emsp;{{this.sum_quoted}}</th>
+                  <th>发表时间:&emsp;{{this.sum_quoted}}</th>
+                  <th>DOI:&emsp;{{this.sum_quoted}}</th>
+                </tr>
+              </table>
+            </div>
+          </v-row>
+
+          <v-row>
+            <v-btn large color="primary" height="40px" weight="40px">链接</v-btn>
+            <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 20px">认领</v-btn>
+          </v-row>
+
+          <v-row align-content="start" style="margin-top: 20px">
+            <v-col cols="4">
+              <v-tabs
+                fixed-tabs
+                white
+              >
+                <v-tab @click="display = 0" class ="tab">
+                  详情
+                </v-tab>
+                <v-tab @click="display = 1" class = "tab">
+                  评论
+                </v-tab>
+              </v-tabs>
+            </v-col>
+            <v-col cols="8">
+
+            </v-col>
+
+          </v-row>
+        </div>
+      </v-card>
+      <v-card
+        class="mx-auto"
+        max-width="70%"
+        style="margin-top: 35px"
+        min-height="800px"
+        v-show="display===0"
+      >
+        <div class="text-left" id="whole">
+          <v-row>
+            <div>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%;">{{this.abstract}}</p>
+              <p class="abstrct">{{this.abstractdetail}}</p>
+            </div>
+          </v-row>
+
+          <v-row>
+            <v-divider light class="divier" style="margin-top: 20px"></v-divider>
+          </v-row>
+
+          <v-row>
+            <div>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
+              <div v-for="(item,index) in reference" :key="index" class="div_reference">
+                <div>{{item.title}}</div>
+                <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
+                <div>{{item.time}}</div>
+              </div>
+            </div>
+          </v-row>
+
+        </div>
+      </v-card>
+      <v-card
+        class="mx-auto"
+        max-width="70%"
+        style="margin-top: 35px"
+        min-height="800px"
+        v-show="display===1"
+      >
+        <div class="text-left" id="whole">
+
+
+        </div>
+      </v-card>
+    </v-container>
+
   </div>
 </template>
 
@@ -72,6 +112,7 @@ export default {
   components: {  },
   data(){
     return{
+      display:0,
       Papername:"文章标题",
       Paperlink:"所属单位",
       authorname:"张三",
@@ -127,6 +168,11 @@ export default {
 </script>
 
 <style scoped>
+.tab{
+  background-color: #ffffff;
+  color: black;
+  font-size: large;
+}
 .inline_div{
   display: inline-block;
   vertical-align: top;
@@ -171,7 +217,7 @@ export default {
 
 #whole{
   width: 1000px;
-  min-height: 1200px;
+  min-height: 400px;
   background-color: rgb(255, 255, 255);
   vertical-align: middle;
   margin: 20px auto 20px;

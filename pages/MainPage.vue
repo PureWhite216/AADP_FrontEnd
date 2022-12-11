@@ -206,7 +206,7 @@ export default {
   width: 1200px;
   height: 150px;
   margin: 20px auto 20px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   vertical-align: middle;
 }
 #hot_academic {
@@ -215,7 +215,7 @@ export default {
   margin-right: 40px;
   margin-block-end: 100px;
   vertical-align: top;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 #hot_research {
   display: inline-block;
@@ -223,7 +223,7 @@ export default {
   vertical-align: top;
   margin-block-end: 100px;
 
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 .main_title {
   margin-left: 10px;

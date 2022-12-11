@@ -11,10 +11,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - Nuxt js UI Kit",
-    title: "NuxtJs UI kit | Free UI kit built with Vuetifyy",
+    titleTemplate: "%s",
+    title: "ResearchOcean",
     htmlAttrs: {
-      lang: "en"
+      lang: "cn"
     },
     meta: [
       { charset: "utf-8" },

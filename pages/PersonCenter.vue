@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <div class="main">
+    <div class="main" style="margin-top: 10px">
 <!--      导航栏-->
       <v-navigation-drawer
         absolute

@@ -28,7 +28,7 @@
     </div>
     <div class="text-center">
         <v-card id="display">
-          <div style="background-color: #DCDCDC;height: 48px">
+          <div style="background-color: #ffffff;height: 48px">
             <p class="col_title">发表的学术成果</p>
           </div>
           <v-container>
@@ -47,7 +47,7 @@
 
 
       <div id="workers">
-        <div style="background-color: #DCDCDC;height: 48px;margin-bottom: 20px;border-radius: 5px;">
+        <div style="background-color: #ffffff;height: 48px;margin-bottom: 20px;border-radius: 5px;">
           <p class="col_title">机构成员</p>
         </div>
 
@@ -152,7 +152,7 @@ export default {
   width: 1000px;
   height: 200px;
   margin: 20px auto 20px;
-  background-color: #F0F0F0;
+  background-color: #ffffff;
   vertical-align: middle;
 }
 #head_portrait{
@@ -200,11 +200,11 @@ td{
 #display{
   display: inline-block;
   vertical-align: top;
-  background-color: #F0F0F0;
+  background-color: #fafafa;
   width: 680px;
 }
 #workers{
-  background-color: #F0F0F0;
+  background-color: #fafafa;
   display: inline-block;
   width: 300px;
   margin-left: 20px;

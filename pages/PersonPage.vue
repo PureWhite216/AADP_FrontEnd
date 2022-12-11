@@ -67,7 +67,7 @@
 
       </div>
       <div id="co_workers">
-        <div style="background-color: #DCDCDC;height: 48px;margin-bottom: 20px;border-radius: 5px;">
+        <div style="background-color: #ffffff;height: 48px;margin-bottom: 20px;border-radius: 5px;">
           <p id="co_workers_title">合作者</p>
         </div>
 
@@ -198,7 +198,7 @@ export default {
   width: 1000px;
   height: 200px;
   margin: 20px auto 20px;
-  background-color: #F0F0F0;
+  background-color: #ffffff;
   vertical-align: middle;
 }
 #head_portrait{
@@ -244,12 +244,12 @@ td{
 #display{
   display: inline-block;
   vertical-align: top;
-  background-color: #F0F0F0;
+  background-color: #f8f8f8;
   width: 680px;
   border-radius: 5px;
 }
 #co_workers{
-  background-color: #F0F0F0;
+  background-color: #ffffff;
   display: inline-block;
   width: 300px;
   margin-left: 20px;
@@ -274,7 +274,7 @@ td{
   color: #2c73cb;
 }
 .tab{
-  background-color: #DCDCDC ;
+  background-color: #ffffff;
   color: black;
   font-size: large;
 }

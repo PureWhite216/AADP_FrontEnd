@@ -266,13 +266,13 @@ export default {
   display: inline-block;
   width: 700px;
   vertical-align: top;
-  background-color: #F0F0F0;
+  background-color: #ffffff;
 }
 #select{
   width: 400px;
   margin-left: 20px;
   margin-top: 0;
-  background-color: #F0F0F0;
+  background-color: #ffffff;
   display: inline-block;
 }
 .authors{

@@ -2,7 +2,7 @@
   <v-app dark>
     <!--v-if="$route.name!=='login'"-->
     <HeaderBar />
-    <v-main style="background-color: #f2f2f2">
+    <v-main style="background-color: rgb(217,227,234)">
       <nuxt />
     </v-main>
     <Footer />
