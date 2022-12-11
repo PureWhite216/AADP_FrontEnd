@@ -170,7 +170,6 @@
                   v-on="on"
                   style="float: right; right: 2%; top: 10px"
                   v-if="!user.flag"
-                  @click="authen"
                 >
                   身份认证
                 </v-btn>
@@ -472,10 +471,6 @@ export default {
       this.editInfoFlag = true
     },
 
-    authen() {
-      //认证
-    },
-
     showPassword(){
       this.passwordFlag = true
     },
@@ -510,7 +505,6 @@ export default {
           this.editPasswordFlag = false
           break
       }
-      //console.log(this.input)
     },
 
     confirm(type){

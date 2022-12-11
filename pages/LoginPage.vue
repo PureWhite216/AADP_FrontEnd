@@ -272,7 +272,7 @@ export default {
       this.$router.push({
         name: 'MainPage',
         params: {
-          p: token
+          token: token
         }
       })
     }

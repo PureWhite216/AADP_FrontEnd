@@ -1,3 +1,4 @@
+
 const webpack = require('webpack')
 const path = require('path')
 function resolve(dir) {
@@ -75,12 +76,13 @@ export default {
 
   axios: {
     prefix: '/api/',
-    proxy: true
+    proxy: true,
+    withCredentials: true
   },
 
   proxy: {
     "/api": {
-      target: 'http://101.42.171.88:8090',
+      target: 'http://101.42.171.88:8090/',
       pathRewrite: {'^/api/': ''}
     }
   },

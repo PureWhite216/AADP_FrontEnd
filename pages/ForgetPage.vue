@@ -138,7 +138,7 @@ export default {
 
     getVer() {
       let form = {
-        email: this.email,
+        email: this.email
       }
       this.$axios.post('/user/sendForgotPasswordEmail',
         qs.stringify(form)

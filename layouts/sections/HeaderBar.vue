@@ -130,6 +130,7 @@ export default {
   methods: {
     goSearch()
     {
+      localStorage.setItem("selectKey",this.select);
       this.$router.push({path:'/SearchResultPage'});
     },
     goPersonPage()
