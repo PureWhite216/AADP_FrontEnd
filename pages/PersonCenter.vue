@@ -97,6 +97,7 @@
                 <el-upload
                   v-model:file-list="file"
                   ref="upload"
+                  action="#"
                   accept="image/png,image/jpg,image/jpeg"
                   :http-request="submitUpload"
                   :show-file-list="false"
@@ -157,8 +158,52 @@
 <!--          认证情况-->
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">认证情况</div>
-            <v-btn small color="primary" style="float: right; right: 2%; top: 10px"
-                   v-if="!user.flag" @click="authen">身份认证</v-btn>
+            <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  small
+                  v-bind="attrs"
+                  v-on="on"
+                  style="float: right; right: 2%; top: 10px"
+                  v-if="!user.flag"
+                >
+                  身份认证
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title
+                  style=" color: black;
+                          font-size: 24px;
+                          font-weight: bold;
+                          margin: 10px 0 20px 0"
+                  primary-title
+                >
+                  身份认证
+                </v-card-title>
+                <v-card-text>
+                  请将能证明您身份的材料发送至邮箱：
+                </v-card-text>
+                <v-card-text style="font-weight: bold; color: black">
+                  1780645196@qq.com
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="dialog = false"
+                    small
+                  >
+                    确认
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <div style="margin: 10px 0 10px 0"
                  v-if="!user.flag">未认证</div>
             <div style="margin: 10px 0 10px 0"
@@ -238,6 +283,7 @@
                 :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="inputRules"
                 :type="pFlag1 ? 'text' : 'password'"
+                :counter="20"
                 label="旧密码"
                 counter
                 style="width: 40%; margin: 5px 0 -10px 0"
@@ -248,6 +294,7 @@
                 :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="inputRules"
                 :type="pFlag2 ? 'text' : 'password'"
+                :counter="20"
                 label="新密码"
                 counter
                 style="width: 40%; margin: 5px 0 -10px 0"
@@ -259,6 +306,7 @@
                 :append-icon="pFlag3 ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="repeatRules"
                 :type="pFlag3 ? 'text' : 'password'"
+                :counter="20"
                 label="重复新密码"
                 counter
                 style="width: 40%; margin: 5px 0 -10px 0"
@@ -283,6 +331,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
   name: "PersonCenter",
 
@@ -327,10 +376,11 @@ export default {
       editEmailFlag: false,
       editPasswordFlag: false,
 
-      //充值密码时使用
+      //重置密码时使用
       pFlag1: false,
       pFlag2: false,
       pFlag3: false,
+      dialog: false,
 
       emailRules: [
         v => !!v,
@@ -360,7 +410,29 @@ export default {
     },
 
     logout(){
-
+      this.$axios.get('/user/logout/' + this.token
+      ).then(res => {
+        if(res.data.success){
+          this.$message({
+            message: '注销成功',
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'LoginPage'
+          })
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
     },
 
     submitUpload(file) {
@@ -368,18 +440,27 @@ export default {
       console.log(this.file)
       let formData = new FormData();
       formData.append('file', this.file);
-      this.$axios.post('', formData, {
+      this.$axios.post('/user/uploadFile',
+        qs.stringify(formData), {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(res=>{
-        this.$message({
-          message: '修改成功',
-          type: 'success'
-        })
+        if(res.data.success){
+          this.$message({
+            message: '头像上传成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
       }).catch(err=>{
         this.$message({
-          message: '修改失败',
+          message: err.message,
           type: 'error'
         })
       })
@@ -388,10 +469,6 @@ export default {
     editInfo(){
       this.copyInfo()
       this.editInfoFlag = true
-    },
-
-    authen() {
-      //认证
     },
 
     showPassword(){
@@ -428,7 +505,6 @@ export default {
           this.editPasswordFlag = false
           break
       }
-      //console.log(this.input)
     },
 
     confirm(type){
@@ -442,16 +518,28 @@ export default {
             })
             return
           }
-          this.$axios.post('/user/modifyUserInfo', {
+          let form = {
             token: this.token,
             username: this.user.account,
             real_name: this.input.name,
             avatar: this.user.avatar
-          }).then(res => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
+          }
+          this.$axios.post('/user/modifyUserInfo',
+            qs.stringify(form)
+          ).then(res => {
+            if(res.data.success){
+              this.user.name = form.real_name
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
           }).catch(err => {
             this.$message({
               message: err.message,
@@ -468,16 +556,28 @@ export default {
             })
             return
           }
-          this.$axios.post('/user/modifyEmail', {
+          let form = {
             token: this.token,
             email: this.input.email,
             verify_code: this.input.verifyCode,
             password: this.user.password
-          }).then(res => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
+          }
+          this.$axios.post('/user/modifyEmail',
+            qs.stringify(form)
+          ).then(res => {
+            if(res.data.success){
+              this.user.email = form.email
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
           }).catch(err => {
             this.$message({
               message: err.message,
@@ -494,18 +594,30 @@ export default {
             })
             return
           }
-          this.$axios.post('/user/changePassword', {
+          let form = {
             mode: 1,
             token: this.token,
             oldPassword: this.input.oldPassword,
             password1: this.input.newPassword,
             password2: this.input.repeatPassword,
             email: this.user.email
-          }).then(res => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
+          }
+          this.$axios.post('/user/changePassword',
+            qs.stringify(form)
+          ).then(res => {
+            if(res.data.success){
+              this.user.password = form.password1
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
           }).catch(err => {
             this.$message({
               message: err.message,
@@ -519,14 +631,25 @@ export default {
     },
 
     getVer() {
-      this.$axios.post('/user/sendRegistrationVerificationCode', {
+      let form = {
         email: this.email,
         modify: true
-      }).then(res => {
-        this.$message({
-          message: '验证码已发送',
-          type: 'success'
-        })
+      }
+      this.$axios.post('/user/sendRegistrationVerificationCode',
+        qs.stringify(form)
+      ).then(res => {
+        if(res.data.success){
+          this.$message({
+            message: '验证码已发送',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: '验证码发送失败',
+            type: 'error'
+          })
+        }
       }).catch(err => {
         this.$message({
           message: err.message,
@@ -624,7 +747,7 @@ export default {
 }
 
 .content {
-  padding: 15px 0 0 15px;
+  padding: 15px 0 0 30px;
 }
 
 .verifyBtn {
