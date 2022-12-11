@@ -37,6 +37,7 @@
                 v-for="(item, i) in academic_achievements"
                 :key="i"
                 cols="12"
+                @click="toPaperDetailPage()"
               >
                 <academic-achievement :data1="item"></academic-achievement>
               </v-col>
@@ -52,7 +53,7 @@
 
         <ul>
           <li v-for="item in worker_list" style="list-style-type:none">
-            <p class="worker_name">{{item.name}}</p>
+            <p class="worker_name" @click="toPersonPage()">{{item.name}}</p>
           </li>
         </ul>
       </div>
@@ -130,6 +131,18 @@ export default {
       //
       return require('../assets/images/temp_img/Institution_pic.png')
     },
+  },
+  methods:{
+    toPaperDetailPage(){
+      this.$router.push({
+        name: 'PaperDetailPage',
+      })
+    },
+    toPersonPage(){
+      this.$router.push({
+        name: 'PersonPage',
+      })
+    }
   }
 }
 </script>
@@ -201,6 +214,9 @@ td{
 
 .worker_name{
   font-size: large;
+}
+.worker_name:hover{
+  color: #2c73cb;
 }
 .col_title{
   font-weight: normal;

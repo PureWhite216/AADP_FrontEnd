@@ -47,6 +47,7 @@
               v-for="(item, i) in academic_achievements"
               :key="i"
               cols="12"
+              @click="toPaperDetailPage()"
             >
               <academic-achievement :data1="item"></academic-achievement>
             </v-col>
@@ -55,9 +56,10 @@
         <v-container v-show="display===2">
           <v-row dense>
             <v-col
-              v-for="(item, i) in researchs"
+              v-for="(item, i) in researches"
               :key="i"
               cols="12"
+              @click = "toResearchDetailPage()"
             >
               <research :data1="item"></research>
             </v-col>
@@ -74,8 +76,8 @@
 
         <ul>
           <li v-for="item in co_worker_list" style="list-style-type:none">
-            <p class="co_worker_name">{{item.name}}</p>
-            <p class="co_worker_organization">{{item.organization}}</p>
+            <p class="co_worker_name" @click="toPersonPage()">{{item.name}}</p>
+            <p class="co_worker_organization" @click="toInstitutionPage()">{{item.organization}}</p>
           </li>
         </ul>
       </div>
@@ -142,7 +144,7 @@ export default {
           abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
         },
       ],
-      researchs:[
+      researches:[
         {
           title:"研究标题1",
           abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
@@ -161,6 +163,29 @@ export default {
         },
       ]
     }
+  },
+  methods:{
+    toPaperDetailPage(){
+      this.$router.push({
+        name: 'PaperDetailPage',
+      })
+    },
+    toResearchDetailPage(){
+      this.$router.push({
+        name: 'ResearchDetails',
+      })
+    },
+    toInstitutionPage(){
+      this.$router.push({
+        name: 'InstitutionPage',
+      })
+    },
+    toPersonPage(){
+      this.$router.push({
+        name: 'PersonPage',
+      })
+    }
+
   },
   computed:{
     imgSrc(){
@@ -242,8 +267,14 @@ td{
 .co_worker_name{
   font-size: large;
 }
+.co_worker_name:hover{
+  color: #2c73cb;
+}
 .co_worker_organization{
   margin-bottom: 20px;
+}
+.co_worker_organization:hover{
+  color: #2c73cb;
 }
 .tab{
   background-color: #DCDCDC ;
