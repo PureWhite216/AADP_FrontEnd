@@ -12,7 +12,7 @@
       >
         <v-text-field
           v-model="account"
-          :counter="10"
+          :counter="15"
           :rules="accountRules"
           label="账号"
           required
@@ -20,7 +20,7 @@
 
         <v-text-field
           v-model="code"
-          :counter="16"
+          :counter="20"
           :rules="codeRules"
           label="密码"
           required
@@ -60,7 +60,7 @@
       >
         <v-text-field
           v-model="account"
-          :counter="10"
+          :counter="15"
           :rules="accountRules"
           label="账号"
           required
@@ -68,7 +68,7 @@
 
         <v-text-field
           v-model="code"
-          :counter="16"
+          :counter="20"
           :rules="codeRules"
           label="密码"
           required
@@ -76,7 +76,7 @@
 
         <v-text-field
           v-model="reCode"
-          :counter="16"
+          :counter="20"
           :rules="reCodeRules"
           label="确认密码"
           required
@@ -127,6 +127,8 @@
 </template>
 
 <script>
+import qs from 'qs';
+
 export default {
   name: "LoginPage",
   layout: "login",
@@ -142,11 +144,10 @@ export default {
 
     accountRules: [
       v => !!v || '账号必填',
-      v => (v && v.length <= 10) || 'Account must be less than 10 characters',
     ],
     emailRules: [
       v => !!v || '邮箱必填',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      v => /.+@.+\..+/.test(v) || '邮箱无效',
     ],
     codeRules: [
       v => !!v || '密码必填',
@@ -162,15 +163,28 @@ export default {
   methods: {
     login(){
       if(this.loginFlag){
-        this.$axios.post('/user/login', {
+        let form = {
           username: this.account,
           password: this.code,
           keep_login: true
-        }).then(res => {
-          this.$message({
-            message: '登陆成功',
-            type: 'success'
-          })
+        }
+        this.$axios.post('/user/login',
+          qs.stringify(form)
+        ).then(res => {
+          console.log(res)
+          if(res.data.success){
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            })
+            this.gotoMain(res.data.data[0].token)
+          }
+          else {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+          }
         }).catch(err => {
           this.$message({
             message: err.message,
@@ -183,18 +197,30 @@ export default {
 
     register(){
       if(!this.loginFlag){
-        this.$axios.post('/user/register', {
+        let form = {
           email: this.email,
           verification_code: this.verifyCode,
           username: this.account,
           password1: this.code,
-          password2: this.reCode,
-        }).then(res => {
-          this.$message({
-            message: '注册成功，即将调转到登录界面',
-            type: 'success'
-          })
-          setTimeout(this.login, 2000)
+          password2: this.reCode
+        }
+        this.$axios.post('/user/register',
+          qs.stringify(form)
+        ).then(res => {
+          //console.log(res)
+          if(res.data.success){
+            this.$message({
+              message: '注册成功，即将调转到登录界面',
+              type: 'success'
+            })
+            setTimeout(this.login, 2000)
+          }
+          else {
+            this.$message({
+              message: res.data.message,
+              type: 'error'
+            })
+          }
         }).catch(err => {
           this.$message({
             message: err.message,
@@ -206,14 +232,27 @@ export default {
     },
 
     getVer() {
-      this.$axios.post('/user/sendRegistrationVerificationCode', {
+      let form = {
         email: this.email,
         modify: false
-      }).then(res => {
-        this.$message({
-          message: '验证码已发送',
-          type: 'success'
-        })
+      }
+      console.log(JSON.stringify(form))
+      this.$axios.post('/user/sendRegistrationVerificationCode',
+        qs.stringify(form)
+      ).then(res => {
+        //console.log(res)
+        if(res.data.success){
+          this.$message({
+            message: '验证码已发送',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: '验证码发送失败',
+            type: 'error'
+          })
+        }
       }).catch(err => {
         this.$message({
           message: err.message,
@@ -225,6 +264,16 @@ export default {
     gotoForget(){
       this.$router.push({
         name: 'ForgetPage'
+      })
+    },
+
+    gotoMain(token){
+      console.log(token)
+      this.$router.push({
+        name: 'MainPage',
+        params: {
+          p: token
+        }
       })
     }
   },

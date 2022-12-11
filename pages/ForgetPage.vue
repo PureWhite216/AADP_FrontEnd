@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
   name: "ForgetPage",
   layout: "login",
@@ -83,7 +84,7 @@ export default {
 
     emailRules: [
       v => !!v || '邮箱必填',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      v => /.+@.+\..+/.test(v) || '邮箱无效',
     ],
     codeRules: [
       v => !!v || '密码必填',
@@ -104,18 +105,29 @@ export default {
     },
 
     changeCode(){
-      this.$axios.post('/user/changePassword', {
+      let form = {
         mode: 0,
         password1: this.code,
         password2: this.reCode,
         email: this.email,
         verify_code: this.verifyCode
-      }).then(res => {
-        this.$message({
-          message: '修改成功，即将跳转到登陆界面',
-          type: 'success'
-        })
-        setTimeout(this.login, 2000)
+      }
+      this.$axios.post('/user/changePassword',
+        qs.stringify(form)
+      ).then(res => {
+        if(res.data.success){
+          this.$message({
+            message: '修改成功，即将跳转到登陆界面',
+            type: 'success'
+          })
+          setTimeout(this.login, 2000)
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
       }).catch(err => {
         this.$message({
           message: err.message,
@@ -125,14 +137,25 @@ export default {
     },
 
     getVer() {
-      this.$axios.post('/user/sendRegistrationVerificationCode', {
+      let form = {
         email: this.email,
-        modify: false
-      }).then(res => {
-        this.$message({
-          message: '验证码已发送',
-          type: 'success'
-        })
+      }
+      this.$axios.post('/user/sendForgotPasswordEmail',
+        qs.stringify(form)
+      ).then(res => {
+        //console.log(res)
+        if(res.data.success){
+          this.$message({
+            message: '验证码已发送',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: '验证码发送失败',
+            type: 'error'
+          })
+        }
       }).catch(err => {
         this.$message({
           message: err.message,
