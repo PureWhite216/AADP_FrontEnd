@@ -17,10 +17,10 @@
                    :src="user.avatar">
             </v-list-item-avatar>
 
-            <v-list-item-content>
+            <v-list-item-cvontent>
               <v-list-item-title style="font-size: 16px">{{ user.name }}</v-list-item-title>
               <v-list-item-subtitle>{{user.account}}</v-list-item-subtitle>
-            </v-list-item-content>
+            </v-list-item-cvontent>
           </v-list-item>
 
           <v-divider></v-divider>
