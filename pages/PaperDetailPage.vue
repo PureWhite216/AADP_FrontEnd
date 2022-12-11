@@ -1,47 +1,68 @@
 <template>
   <div>
-    <div class="text-center" id="whole">
-      <div class="inline_div" id="div_name">
-        <p style="font-size: 40px; color: black;">{{this.Papername}}</p>
-      </div>
+    <v-card
+      class="mx-auto"
+      max-width="70%"
+      style="margin-top: 35px"
+    >
+      <div class="text-left" id="whole">
+        <v-row>
+          <div style="margin-top: 5%">
+            <p style="font-size: 40px; color: black">{{this.Papername}}</p>
+          </div>
+        </v-row>
 
-      <div class="inline_div" id="div_link">
-        <v-btn large color="primary" height="30px" weight="40px">链接</v-btn>
+        <v-row>
+          <div class="paperinfo">
+            <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
+              <tr>
+                <th>作者:&emsp;{{this.sum_aca_achv}}</th>
+              </tr>
+              <tr>
+                <th>关键词:&emsp;{{this.sum_research}}</th>
+              </tr>
+              <tr >
+                <th>被引数:&emsp;{{this.sum_quoted}}</th>
+                <th>发表时间:&emsp;{{this.sum_quoted}}</th>
+                <th>DOI:&emsp;{{this.sum_quoted}}</th>
+              </tr>
+            </table>
+          </div>
+        </v-row>
+
+        <v-row>
+          <v-btn large color="primary" height="40px" weight="40px">链接</v-btn>
+          <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 20px">认领</v-btn>
+        </v-row>
+
+        <v-row>
+          <v-divider light class="divier" style="margin-top: 20px"></v-divider>
+        </v-row>
+
+        <v-row>
+          <div>
+            <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%;">{{this.abstract}}</p>
+            <p class="abstrct">{{this.abstractdetail}}</p>
+          </div>
+        </v-row>
+
+        <v-row>
+          <v-divider light class="divier" style="margin-top: 20px"></v-divider>
+        </v-row>
+
+        <v-row>
+          <div>
+            <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
+            <div v-for="(item,index) in reference" :key="index" class="div_reference">
+              <div>{{item.title}}</div>
+              <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
+              <div>{{item.time}}</div>
+            </div>
+          </div>
+        </v-row>
+
       </div>
-      <div class="paperinfo">
-        <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
-          <tr>
-            <th>作者:&emsp;{{this.sum_aca_achv}}</th>
-          </tr>
-          <tr>
-            <th>关键词:&emsp;{{this.sum_research}}</th>
-          </tr>
-          <tr >
-            <th>被引数:&emsp;{{this.sum_quoted}}</th>
-            <th>发表时间:&emsp;{{this.sum_quoted}}</th>
-            <th>DOI:&emsp;{{this.sum_quoted}}</th>
-          </tr>
-        </table>
-      </div>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <div id="div_abstrct">
-        <p style="font-size: 30px; color: black; text-align: left; margin-left: 12%; margin-top: 3%;">{{this.abstract}}</p>
-        <p class="abstrct">{{this.abstractdetail}}</p>
-      </div>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <v-divider :inset="inset" light class="divier" ></v-divider>
-      <div>
-        <p style="font-size: 30px; color: black; text-align: left; margin-left: 12%; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
-        <div v-for="(item,index) in reference" :key="index" class="div_reference">
-          <div>{{item.title}}</div>
-          <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
-          <div style="margin-left: 10px">{{item.time}}</div>
-        </div>
-      </div>
-    </div>
+    </v-card>
   </div>
 </template>
 
@@ -110,10 +131,10 @@ export default {
   display: inline-block;
   vertical-align: top;
   margin-top: 30px;
-  margin-left: 10px;
+  margin-left: 0px;
 }
 .paperinfo{
-  margin-left: 120px;
+  margin-left: -100px;
   margin-top: 0px;
 }
 .divier{
@@ -124,7 +145,7 @@ export default {
   font-size: 20px;
   color: black;
   text-align: left;
-  margin-left: 14%;
+  margin-left: 10%;
   width: 700px;
   word-break:break-all;
   word-wrap:break-word;
@@ -151,7 +172,7 @@ export default {
 #whole{
   width: 1000px;
   min-height: 1200px;
-  background-color: rgb(229, 223, 223);
+  background-color: rgb(255, 255, 255);
   vertical-align: middle;
   margin: 20px auto 20px;
 }

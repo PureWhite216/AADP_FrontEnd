@@ -2,7 +2,7 @@
   <v-app dark>
     <!--v-if="$route.name!=='login'"-->
     <HeaderBar />
-    <v-main>
+    <v-main style="background-color: #f2f2f2">
       <nuxt />
     </v-main>
     <Footer />
@@ -13,12 +13,12 @@
 export default {
   head() {
     return {
-      title: "NuxtJs UI kit | Free UI kit built with Vuetify",
+      title: "ResearchOcean",
       meta: [
         {
           hid: "description",
-          name: "NuxtJs UI kit",
-          content: "NuxtJs UI kit is the best way"
+          name: "ResearchOcean",
+          content: "ResearchOcean"
         }
       ]
     };

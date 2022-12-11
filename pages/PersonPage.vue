@@ -32,7 +32,6 @@
           fixed-tabs
           background-color="indigo"
           white
-
         >
           <v-tab @click="display = 1" class ="tab">
             发表的学术成果
@@ -65,8 +64,6 @@
             </v-col>
           </v-row>
         </v-container>
-
-
 
       </div>
       <div id="co_workers">
