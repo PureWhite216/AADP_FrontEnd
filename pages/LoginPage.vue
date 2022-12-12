@@ -1,212 +1,223 @@
 <template>
   <div class="background">
-<!--登录-->
-    <div v-if="loginFlag===1" class="loginBox">
-      <div class="loginTitle">
-        Sign In
+    <div class="mainText">
+      <h1 class="textFont">
+        Welcome to
+      </h1>
+      <h1 class="textFont2">
+        ResearchOcean
+      </h1>
+    </div>
+    <div class="box">
+      <!--登录-->
+      <div v-if="loginFlag===1" class="loginBox">
+        <div class="loginTitle">
+          登录
+        </div>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          class="loginForm"
+        >
+          <v-text-field
+            v-model="account"
+            :counter="15"
+            :rules="accountRules"
+            label="账号"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="code"
+            :counter="20"
+            :rules="codeRules"
+            label="密码"
+            :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="pFlag1 ? 'text' : 'password'"
+            @click:append="pFlag1 = !pFlag1"
+            required
+          ></v-text-field>
+
+          <div class="forget" @click="gotoForget">
+            忘记密码
+          </div>
+
+          <v-btn
+            color="primary"
+            class="loginBtn"
+            @click="login"
+          >
+            登录
+          </v-btn>
+
+          <v-btn
+            color="warning"
+            class="registerBtn"
+            @click="register"
+          >
+            注册
+          </v-btn>
+        </v-form>
+      </div >
+      <!--注册-->
+      <div v-else-if="loginFlag===2" class="registerBox">
+        <div class="registerTitle">
+          注册
+        </div>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          class="registerForm"
+        >
+          <v-text-field
+            v-model="account"
+            :counter="15"
+            :rules="accountRules"
+            label="账号"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="code"
+            :counter="20"
+            :rules="codeRules"
+            label="密码"
+            :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="pFlag1 ? 'text' : 'password'"
+            @click:append="pFlag1 = !pFlag1"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="reCode"
+            :counter="20"
+            :rules="reCodeRules"
+            label="确认密码"
+            :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="pFlag2 ? 'text' : 'password'"
+            @click:append="pFlag2 = !pFlag2"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="邮箱"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="verifyCode"
+            :rules="verifyRules"
+            label="验证码"
+            style="display: inline-block; width: 60%"
+            required
+          ></v-text-field>
+
+          <v-btn
+            color=#2196F3
+            class="verifyBtn"
+            @click="getVer"
+          >
+            获取验证码
+          </v-btn>
+
+          <div></div>
+
+          <div @click="login" class="gotoLogin">
+            已注册，前往登录
+          </div>
+
+          <v-btn
+            color="success"
+            class="registerBtn"
+            style="width: 100%"
+            @click="register"
+          >
+            注册
+          </v-btn>
+
+          <div></div>
+        </v-form>
       </div>
-      <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
-        class="loginForm"
-      >
-        <v-text-field
-          v-model="account"
-          :counter="15"
-          :rules="accountRules"
-          label="账号"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="code"
-          :counter="20"
-          :rules="codeRules"
-          label="密码"
-          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="pFlag1 ? 'text' : 'password'"
-          @click:append="pFlag1 = !pFlag1"
-          required
-        ></v-text-field>
-
-        <div class="forget" @click="gotoForget">
+      <!--忘记密码-->
+      <div v-else class="forgetBox">
+        <div class="forgetTitle">
           忘记密码
         </div>
-
-        <v-btn
-          color="success"
-          class="loginBtn"
-          @click="login"
+        <v-form
+          ref="form"
+          lazy-validation
+          class="forgetForm"
         >
-          登录
-        </v-btn>
 
-        <v-btn
-          color="success"
-          class="registerBtn"
-          @click="register"
-        >
-          注册
-        </v-btn>
-      </v-form>
-    </div>
-<!--注册-->
-    <div v-else-if="loginFlag===2" class="registerBox">
-      <div class="registerTitle">
-        Sign Up
+          <v-text-field
+            v-model="code"
+            :counter="16"
+            :rules="codeRules"
+            label="新密码"
+            :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="pFlag1 ? 'text' : 'password'"
+            @click:append="pFlag1 = !pFlag1"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="reCode"
+            :counter="16"
+            :rules="reCodeRules"
+            label="确认密码"
+            :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="pFlag2 ? 'text' : 'password'"
+            @click:append="pFlag2 = !pFlag2"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="邮箱"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="verifyCode"
+            :rules="verifyRules"
+            label="验证码"
+            style="display: inline-block; width: 60%"
+            required
+          ></v-text-field>
+
+          <v-btn
+            color=#2196F3
+            class="verifyBtn"
+            @click="getForgetVer"
+          >
+            获取验证码
+          </v-btn>
+
+          <div></div>
+
+          <div @click="login" class="gotoLogin">
+            前往登录
+          </div>
+
+          <v-btn
+            color="success"
+            class="forgetBtn"
+            style="width: 100%"
+            @click="changeCode"
+          >
+            确认修改
+          </v-btn>
+
+          <div></div>
+        </v-form>
       </div>
-      <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
-        class="registerForm"
-      >
-        <v-text-field
-          v-model="account"
-          :counter="15"
-          :rules="accountRules"
-          label="账号"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="code"
-          :counter="20"
-          :rules="codeRules"
-          label="密码"
-          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="pFlag1 ? 'text' : 'password'"
-          @click:append="pFlag1 = !pFlag1"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="reCode"
-          :counter="20"
-          :rules="reCodeRules"
-          label="确认密码"
-          :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="pFlag2 ? 'text' : 'password'"
-          @click:append="pFlag2 = !pFlag2"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="邮箱"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="verifyCode"
-          :rules="verifyRules"
-          label="验证码"
-          style="display: inline-block; width: 60%"
-          required
-        ></v-text-field>
-
-        <v-btn
-          color=#2196F3
-          class="verifyBtn"
-          @click="getVer"
-        >
-          获取验证码
-        </v-btn>
-
-        <div></div>
-
-        <div @click="login" class="gotoLogin">
-          已注册，前往登录
-        </div>
-
-        <v-btn
-          color="success"
-          class="registerBtn"
-          style="width: 100%"
-          @click="register"
-        >
-          注册
-        </v-btn>
-
-        <div></div>
-      </v-form>
     </div>
-<!--忘记密码-->
-    <div v-else class="forgetBox">
-      <div class="forgetTitle">
-        忘记密码
-      </div>
-      <v-form
-        ref="form"
-        lazy-validation
-        class="forgetForm"
-      >
 
-        <v-text-field
-          v-model="code"
-          :counter="16"
-          :rules="codeRules"
-          label="新密码"
-          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="pFlag1 ? 'text' : 'password'"
-          @click:append="pFlag1 = !pFlag1"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="reCode"
-          :counter="16"
-          :rules="reCodeRules"
-          label="确认密码"
-          :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="pFlag2 ? 'text' : 'password'"
-          @click:append="pFlag2 = !pFlag2"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="邮箱"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="verifyCode"
-          :rules="verifyRules"
-          label="验证码"
-          style="display: inline-block; width: 60%"
-          required
-        ></v-text-field>
-
-        <v-btn
-          color=#2196F3
-          class="verifyBtn"
-          @click="getForgetVer"
-        >
-          获取验证码
-        </v-btn>
-
-        <div></div>
-
-        <div @click="login" class="gotoLogin">
-          前往登录
-        </div>
-
-        <v-btn
-          color="success"
-          class="forgetBtn"
-          style="width: 100%"
-          @click="changeCode"
-        >
-          确认修改
-        </v-btn>
-
-        <div></div>
-      </v-form>
-    </div>
   </div>
 </template>
 
@@ -215,6 +226,8 @@ import qs from 'qs';
 
 export default {
   name: "LoginPage",
+  components: {},
+
   layout: "login",
 
   data: () => ({
@@ -441,29 +454,54 @@ export default {
 </script>
 
 <style scoped>
+.textFont{
+  font-size: 40px;
+  color: #232323;
+  font-weight: 100;
+  font-family: Georgia;
+}
+.textFont2{
+  font-size: 90px;
+  color: #000000;
+  font-weight: 100;
+  font-family: Georgia;
+}
+.mainText{
+  position: absolute;
+  left: 10%;
+  top: 35%;
+}
+.box{
+  position: absolute;
+  width: 100%;
+  /*height: 100%;*/
+  /*height: 1000px;*/
+  left: 23%;
+  top: 10%;
+}
 .background {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(144, 144, 144, 0.1);
+  background: rgba(144, 144, 144, 0.06);
 }
 
 .loginBox {
-  border: 1px black solid;
+  border: 1px white solid;
   border-radius: 10px;
   margin: 10% auto 0;
-  width: 40%;
-  background: white;
-  box-shadow: 10px 10px 5px grey;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.80);
+  /*box-shadow: 10px 10px 5px grey;*/
 }
 
 .registerBox {
-  border: 1px black solid;
+  border: 1px white solid;
   border-radius: 10px;
   margin: 5% auto 0;
-  width: 40%;
-  background: white;
-  box-shadow: 10px 10px 5px grey;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.80);
+  /*box-shadow: 10px 10px 5px grey;*/
 }
 
 .loginTitle {
@@ -525,12 +563,12 @@ export default {
 }
 
 .forgetBox {
-  border: 1px black solid;
+  border: 1px white solid;
   border-radius: 10px;
   margin: 6% auto 0;
-  width: 40%;
-  background: white;
-  box-shadow: 10px 10px 5px grey;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.80);
+  /*box-shadow: 10px 10px 5px grey;*/
 }
 
 .forgetTitle {
