@@ -396,6 +396,7 @@ export default {
 
     gotoMain(token){
       console.log(token)
+      localStorage.setItem("Token",token);
       this.$router.push({
         name: 'MainPage',
         params: {

@@ -41,26 +41,34 @@
         <v-container>
           <v-row dense>
             <v-col
-              v-for="(item, i) in items"
+              v-for="(item, i) in pageItems"
               :key="i"
               cols="12"
             >
               <v-card
                 color="white"
               >
-                <h1 id="head">{{item.title}}</h1>
+                <h1 id="head">{{item.paperTitle}}</h1>
                 <div id="div_authors">
-                  <p v-for="item1 in item.authors" class="authors">{{item1}};</p>
+                  <p class="authors">{{item.paperAuthor}}</p>
                 </div>
                 <br/>
-                <p id="info">{{item.time}} | {{item.type}} | 被引数：{{item.quoted}} | 期刊：{{item.journal}}</p>
+                <p id="info">{{item.paperDate}} | {{item.paperClassification}} | 被引数：{{item.paperCited}} | 期刊：{{item.paperPeriodical}}</p>
                 <div style="width: 640px">
-                  <p id="abstract">{{item.abstract}}</p>
+                  <p id="abstract">{{item.paperAbstract}}</p>
                 </div>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
+        <v-pagination
+          v-if="Math.ceil(totalPage / limit) > 1"
+          v-model="curPage"
+          :length="Math.ceil(totalPage / limit)"
+          total-visible="7"
+          @input="onPageChange(curPage, limit)"
+        ></v-pagination>
+        <br>
       </v-card>
       <v-card
         id="select"
@@ -109,15 +117,15 @@
                   {{choose_year2}}
                 </v-btn>
               </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in years"
-                  :key="index"
-                  @click="choose_year2 = item.title"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in years"
+                    :key="index"
+                    @click="choose_year2 = item.title"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
             </v-menu>
           </div>
           <br>
@@ -173,6 +181,9 @@ export default {
   name: "SearchResultPage",
   data () {
     return {
+      curPage: 1,
+      totalPage: 0,
+      limit: 10,
       loading: false,
       search: null,
       select: null,
@@ -180,48 +191,8 @@ export default {
       offset: true,
       choose_year1:"起始时间",
       choose_year2:"截止时间",
-      items: [
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People dsahudsiahd dd","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-      ],
+      items: [],
+      pageItems: [],
       years: [
         { title: '2006' },
         { title: '2007' },
@@ -250,8 +221,31 @@ export default {
   watch: {
   },
   methods: {
+      onPageChange(curPage,limit){
+        this.refreshPage(curPage,limit);
+      },
+      refreshPage(curPage = 1,limit = 10){
+        this.pageItems=[];
+          for(let i=(curPage-1)*10;i<(curPage-1)*10+limit;i++){
+            this.pageItems.push(this.items[i]);
+          }
+      },
       getSearchResult(){
-        this.$axios.get("")
+        this.$axios.get("/paper/searchPaperByKeyword",{
+          params: {
+              token: localStorage.getItem("Token"),
+              keyword: localStorage.getItem("selectKey")
+          }
+        })
+        .then(res =>{
+            if(res.data.success){
+              this.totalPage = res.data.data.length;
+              this.items = res.data.data;
+              this.refreshPage(1,10);
+            }else {
+              this.$message.error("Search error!")
+            }
+        })
       }
   },
 }

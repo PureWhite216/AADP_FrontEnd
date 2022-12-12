@@ -62,7 +62,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list-item @click="">
+                <v-list-item @click="Logout">
                   <v-list-item-content>
                     注销
                   </v-list-item-content>
@@ -140,6 +140,10 @@ export default {
     goPersonCenter()
     {
       this.$router.push({path:'/PersonCenter'});
+    },
+    Logout(){
+      localStorage.removeItem("Token");
+      this.$router.push("/LoginPage");
     },
   },
 
