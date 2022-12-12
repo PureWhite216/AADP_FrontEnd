@@ -17,10 +17,10 @@
                    :src="user.avatar">
             </v-list-item-avatar>
 
-            <v-list-item-cvontent>
+            <v-list-item-content>
               <v-list-item-title style="font-size: 16px">{{ user.name }}</v-list-item-title>
               <v-list-item-subtitle>{{user.account}}</v-list-item-subtitle>
-            </v-list-item-cvontent>
+            </v-list-item-content>
           </v-list-item>
 
           <v-divider></v-divider>
@@ -82,7 +82,7 @@
       </v-navigation-drawer>
       <div class="pageMain">
 <!--        个人信息-->
-        <div v-if="flag==1">
+        <div v-if="flag===1">
           <div class="head1"></div>
 <!--          头像-->
           <div class="content" style="padding-top: 5px">
@@ -119,8 +119,54 @@
               <div style="margin: 10px 0 10px 0">{{user.institution}}</div>
               <div style="font-size: 20px; color:black; font-weight: bold">学历</div>
               <div style="margin: 10px 0 10px 0">{{user.education}}</div>
-              <v-btn small color="primary" style="float: right; right: 2%"
-                     @click="editInfo">编辑</v-btn>
+
+              <v-dialog
+                v-model="dialog1"
+                width="500"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                    style="float: right; right: 2%; bottom: 10px"
+                    v-if="!user.flag"
+                    @click="editInfo"
+                  >
+                    编辑
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title
+                    style=" color: black;
+                          font-size: 24px;
+                          font-weight: bold;
+                          margin: 10px 0 20px 0"
+                    primary-title
+                  >
+                    编辑个人信息
+                  </v-card-title>
+                  <v-card-text>
+                    编辑个人信息后需要重新认证，请将能证明您身份的材料发送至邮箱：
+                  </v-card-text>
+                  <v-card-text style="font-weight: bold; color: black">
+                    1780645196@qq.com
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="dialog1 = false"
+                      small
+                    >
+                      确认
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </div>
 <!--            修改个人信息-->
             <div v-else>
@@ -159,7 +205,7 @@
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">认证情况</div>
             <v-dialog
-              v-model="dialog"
+              v-model="dialog2"
               width="500"
             >
               <template v-slot:activator="{ on, attrs }">
@@ -196,7 +242,7 @@
                   <v-btn
                     color="primary"
                     text
-                    @click="dialog = false"
+                    @click="dialog2 = false"
                     small
                   >
                     确认
@@ -332,6 +378,7 @@
 
 <script>
 import qs from 'qs';
+import logo from "@/layouts/sections/Logo";
 export default {
   name: "PersonCenter",
 
@@ -341,8 +388,6 @@ export default {
         { title: '个人信息', icon: 'mdi-view-dashboard' },
         { title: '账户', icon: 'mdi-image' },
       ],
-
-      token: '',
 
       flag: 1,
       user: {
@@ -380,7 +425,8 @@ export default {
       pFlag1: false,
       pFlag2: false,
       pFlag3: false,
-      dialog: false,
+      dialog1: false,
+      dialog2: false,
 
       emailRules: [
         v => !!v,
@@ -399,24 +445,59 @@ export default {
     }
   },
 
-  init(){
-
+  mounted() {
+    this.init();
   },
 
   methods :{
+    init(){
+      let token = localStorage.getItem('Token')
+      this.$axios.get('/user/showInfo' , {
+        params: {
+          token: token
+        }
+      }).then(res => {
+        if(res.data.success){
+          // console.log(res)
+          this.user.avatar = res.data.data[0].avatar
+          this.user.email = res.data.data[0].email
+          this.user.name = res.data.data[0].realName
+          this.user.password = res.data.data[0].password
+          this.user.account = res.data.data[0].username
+          // this.user.flag = res.data.data[0].isCertified
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
+    },
+
     changeFlag(flag){
         this.flag = flag;
         this.restore(flag)
     },
 
     logout(){
-      this.$axios.get('/user/logout/' + this.token
-      ).then(res => {
+      let token = localStorage.getItem('Token')
+      this.$axios.get('/user/logout/' , {
+        params: {
+          token: token
+        }
+      }).then(res => {
         if(res.data.success){
           this.$message({
             message: '注销成功',
             type: 'success'
           })
+          localStorage.removeItem('Token')
           this.$router.push({
             name: 'LoginPage'
           })
@@ -436,17 +517,20 @@ export default {
     },
 
     submitUpload(file) {
-      this.file = file.file
-      console.log(this.file)
-      let formData = new FormData();
-      formData.append('file', this.file);
-      this.$axios.post('/user/uploadFile',
-        qs.stringify(formData), {
+      const fd = new FormData()
+      fd.append('file', file.file)
+      fd.append('token', localStorage.getItem('Token'))
+      this.$axios('/user/uploadFile', {
+        method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        data: fd
       }).then(res=>{
+        //console.log(res)
         if(res.data.success){
+          this.user.avatar = res.data.data[0].url
+          this.confirm(4)
           this.$message({
             message: '头像上传成功',
             type: 'success'
@@ -509,8 +593,10 @@ export default {
 
     confirm(type){
       //调用改动接口
+      let token = localStorage.getItem('Token')
       switch (type){
-        case 1: {
+        case 1:
+        case 4: {
           if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
             this.$message({
               message: '请输入所有必要信息',
@@ -519,8 +605,7 @@ export default {
             return
           }
           let form = {
-            token: this.token,
-            username: this.user.account,
+            token: token,
             real_name: this.input.name,
             avatar: this.user.avatar
           }
@@ -529,10 +614,13 @@ export default {
           ).then(res => {
             if(res.data.success){
               this.user.name = form.real_name
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              })
+              if(type === 1){
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.dialog1 = true
+              }
             }
             else {
               this.$message({
@@ -557,7 +645,7 @@ export default {
             return
           }
           let form = {
-            token: this.token,
+            token: token,
             email: this.input.email,
             verify_code: this.input.verifyCode,
             password: this.user.password
@@ -596,7 +684,7 @@ export default {
           }
           let form = {
             mode: 1,
-            token: this.token,
+            token: token,
             oldPassword: this.input.oldPassword,
             password1: this.input.newPassword,
             password2: this.input.repeatPassword,
@@ -631,8 +719,15 @@ export default {
     },
 
     getVer() {
+      if(this.input.email === this.user.email){
+        this.$message({
+          message: '新邮箱不能与原邮箱相同',
+          type: 'warning'
+        })
+        return
+      }
       let form = {
-        email: this.email,
+        email: this.input.email,
         modify: true
       }
       this.$axios.post('/user/sendRegistrationVerificationCode',
@@ -732,6 +827,7 @@ export default {
   width: 78%;
   height: 90vh;
   background-color: white;
+  margin-top: -10px;
 }
 
 .head1{

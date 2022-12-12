@@ -24,6 +24,9 @@
           :counter="20"
           :rules="codeRules"
           label="密码"
+          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="pFlag1 ? 'text' : 'password'"
+          @click:append="pFlag1 = !pFlag1"
           required
         ></v-text-field>
 
@@ -72,6 +75,9 @@
           :counter="20"
           :rules="codeRules"
           label="密码"
+          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="pFlag1 ? 'text' : 'password'"
+          @click:append="pFlag1 = !pFlag1"
           required
         ></v-text-field>
 
@@ -80,6 +86,9 @@
           :counter="20"
           :rules="reCodeRules"
           label="确认密码"
+          :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="pFlag2 ? 'text' : 'password'"
+          @click:append="pFlag2 = !pFlag2"
           required
         ></v-text-field>
 
@@ -140,6 +149,9 @@
           :counter="16"
           :rules="codeRules"
           label="新密码"
+          :append-icon="pFlag1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="pFlag1 ? 'text' : 'password'"
+          @click:append="pFlag1 = !pFlag1"
           required
         ></v-text-field>
 
@@ -148,6 +160,9 @@
           :counter="16"
           :rules="reCodeRules"
           label="确认密码"
+          :append-icon="pFlag2 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="pFlag2 ? 'text' : 'password'"
+          @click:append="pFlag2 = !pFlag2"
           required
         ></v-text-field>
 
@@ -211,6 +226,9 @@ export default {
     reCode: '',
     verifyCode: '',
 
+    pFlag1: false,
+    pFlag2: false,
+
     accountRules: [
       v => !!v || '账号必填',
     ],
@@ -261,7 +279,10 @@ export default {
           })
         })
       }
-      else this.loginFlag = 1;
+      else {
+        this.loginFlag = 1
+        this.clearInfo()
+      }
     },
 
     register(){
@@ -297,7 +318,10 @@ export default {
           })
         })
       }
-      else this.loginFlag = 2;
+      else {
+        this.loginFlag = 2
+        this.clearInfo()
+      }
     },
 
     getVer() {
@@ -318,7 +342,7 @@ export default {
         }
         else {
           this.$message({
-            message: '验证码发送失败',
+            message: res.data.message,
             type: 'error'
           })
         }
@@ -391,7 +415,8 @@ export default {
     },
 
     gotoForget(){
-      this.loginFlag = 3;
+        this.loginFlag = 3
+        this.clearInfo()
     },
 
     gotoMain(token){
@@ -399,10 +424,17 @@ export default {
       localStorage.setItem("Token",token);
       this.$router.push({
         name: 'MainPage',
-        params: {
-          token: token
-        }
       })
+    },
+
+    clearInfo(){
+      this.account = ""
+      this.code = ""
+      this.reCode = ""
+      this.email = ""
+      this.verifyCode = ""
+      this.pFlag1 = false
+      this.pFlag2 = false
     }
   },
 }
