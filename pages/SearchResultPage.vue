@@ -251,7 +251,7 @@ export default {
   },
   methods: {
       getSearchResult(){
-        this.$axios.$get("")
+        this.$axios.get("")
       }
   },
 }
