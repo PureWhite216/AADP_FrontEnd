@@ -35,8 +35,17 @@
         <v-app-bar
           color="white"
         >
-          <v-toolbar-title >搜索结果</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-col align="left">
+            <v-toolbar-title >搜索结果</v-toolbar-title>
+          </v-col>
+          <v-col align="right">
+            <v-select
+              :items="sortMethod"
+              label="排序方式"
+              style="width: 160px; margin-top: 21px"
+            ></v-select>
+          </v-col>
+
         </v-app-bar>
         <v-container>
           <v-row dense>
@@ -181,6 +190,7 @@ export default {
   name: "SearchResultPage",
   data () {
     return {
+      sortMethod: ['时间降序', '引用降序'],
       curPage: 1,
       totalPage: 0,
       limit: 10,

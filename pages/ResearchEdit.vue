@@ -21,7 +21,7 @@
             dense
             :items="dropdown_font"
             depressed small
-            label="area"
+            label="领域选择"
           ></v-overflow-btn>
         </div>
         <div id="sub">
