@@ -8,8 +8,8 @@
       </v-col>
       <v-col cols="12" sm="3">
         <v-tabs align-with-title >
-          <v-tab>主页</v-tab>
-          <v-tab>研究</v-tab>
+          <v-tab @click="$router.push('MainPage')">主页</v-tab>
+          <v-tab @click="$router.push('ResearchPage')">研究</v-tab>
         </v-tabs>
       </v-col>
       <v-col cols="12" sm="4">
