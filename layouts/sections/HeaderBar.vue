@@ -4,7 +4,7 @@
       color="white"
     >
       <v-col cols="12" sm="1">
-        AADP
+        ResearchOcean
       </v-col>
       <v-col cols="12" sm="3">
         <v-tabs align-with-title >
