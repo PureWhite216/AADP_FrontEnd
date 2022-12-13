@@ -9,7 +9,7 @@
         <div class="text-left" id="whole">
           <v-row>
             <div style="margin-top: 5% ; margin-left: 10%;">
-              <p style="font-size: 40px; color: black">{{this.Papername}}</p>
+              <p style="font-size: 40px; color: black">{{this.paperData.paperTitle}}</p>
             </div>
           </v-row>
 
@@ -17,15 +17,15 @@
             <div class="paperinfo">
               <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
                 <tr>
-                  <th>作者:&emsp;{{this.authorname}}</th>
+                  <th>作者:&emsp;{{this.paperData.paperAuthor}}</th>
                 </tr>
                 <tr>
-                  <th>关键词:&emsp;{{this.keyword}}</th>
+                  <th>关键词:&emsp;{{this.paperData.paperKeyword}}</th>
                 </tr>
                 <tr >
-                  <th>被引数:&emsp;{{this.sum_quoted}}</th>
-                  <th>发表时间:&emsp;{{this.publish_time}}</th>
-                  <th>DOI:&emsp;{{this.DOI}}</th>
+                  <th>被引数:&emsp;{{this.paperData.paperCited}}</th>
+                  <th>发表时间:&emsp;{{this.paperData.paperDate}}</th>
+                  <th>DOI:{{JSON.parse(this.paperData.paperOtherInfo).DOI}}</th>
                 </tr>
               </table>
             </div>
@@ -40,7 +40,7 @@
               <v-card>
                 <v-card-title class="headline">文章链接</v-card-title>
                 <v-card-text>
-                  {{this.Paperlink}}
+                  {{this.paperData.paperLink}}
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -105,7 +105,7 @@
           <v-row>
             <div>
               <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-left: 7%;">{{this.abstract}}</p>
-              <p class="abstrct">{{this.abstractdetail}}</p>
+              <p class="abstrct">{{this.paperData.paperAbstract}}</p>
             </div>
           </v-row>
 
@@ -116,10 +116,10 @@
           <v-row>
             <div>
               <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%; margin-left: 7%;">参考文献</p>
-              <div v-for="(item,index) in reference" :key="index" class="div_reference">
-                <div>{{item.title}}</div>
-                <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
-                <div>{{item.time}}</div>
+              <div v-for="item in JSON.parse(this.paperData.paperReference).refs" class="div_reference">
+                <div>{{item.ref}}</div>
+<!--                <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>-->
+<!--                <div>{{'2022/xx/xx'}}</div>-->
                 <v-divider light class="divier" style="margin-top: 20px"></v-divider>
               </div>
             </div>
@@ -182,6 +182,7 @@ export default {
   components: {  },
   data(){
     return{
+      paperData: [],
       display:0,
       paperid:1,
       Papername:"文章标题",
@@ -248,8 +249,16 @@ export default {
       ],
     }
   },
-
+  mounted() {
+    this.getPaPerInfo();
+    console.log(this.paperData)
+    // console.log(this.paperData.paperOtherInfo.DOI)
+  },
   methods: {
+    getPaPerInfo()
+    {
+      this.paperData = this.$route.query.data;
+    },
     addTask(objectType = "PAPER"){
       let token = localStorage.getItem('Token')
       this.$axios.post('/user/addTask', {

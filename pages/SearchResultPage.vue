@@ -24,7 +24,7 @@
               v-for="(item, i) in pageItems"
               :key="i"
               cols="12"
-              @click="GotoDetailPage()"
+              @click="GotoDetailPage(item)"
             >
             <academic-achievement :data1="item"></academic-achievement>
               <!-- <v-card
@@ -203,8 +203,8 @@ export default {
     },
   },
   methods: {
-    GotoDetailPage() {
-      this.$router.push("/PaperDetailPage");
+    GotoDetailPage(data) {
+      this.$router.push({path:'/PaperDetailPage',query:{data:data}});
     },
     onPageChange(curPage, limit) {
       this.refreshPage(curPage, limit);
