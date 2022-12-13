@@ -2,7 +2,7 @@
   <div>
     <div class="text-center" id="personPageHead">
       <div class="inline_div" id="div_head_portrait">
-        <v-img :src="imgSrc" id="head_portrait" />
+        <v-img :src="avatar" id="head_portrait" />
       </div>
       <div class="inline_div" id="div_name">
         <p style="font-size: 40px; margin-bottom: 15px;">{{this.name}}</p>
@@ -52,6 +52,12 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-pagination v-show="display===1"
+          v-model="curPage"
+          :length="Math.ceil(totalPage / limit)"
+          total-visible="7"
+          @input="onPageChange(curPage, limit)"
+        ></v-pagination>
         <v-container v-show="display===2">
           <v-row dense>
             <v-col
@@ -73,8 +79,8 @@
 
         <ul>
           <li v-for="item in co_worker_list" style="list-style-type:none">
-            <p class="co_worker_name" @click="toPersonPage()">{{item.name}}</p>
-            <p class="co_worker_organization" @click="toInstitutionPage()">{{item.organization}}</p>
+            <p class="co_worker_name" @click="toPersonPage(item)">{{item.cooperator.username}}</p>
+            <p class="co_worker_organization" @click="toInstitutionPage()">{{item.cooperator.institutionName}}</p>
           </li>
         </ul>
       </div>
@@ -93,54 +99,18 @@ export default {
   data(){
     return{
       name:"名字",
-      organization:"所属单位",
+      organization:"------",
+      avatar: "",
+      curPage: 1,
+      limit: 10,
+      totalPage: 10,
       sum_aca_achv:10,
       sum_research:5,
       sum_quoted:233,
-      co_worker_list:[{name:"姓名1",organization:"所属单位1"},
-        {name:"姓名2",organization:"所属单位2"},
-        {name:"姓名3",organization:"所属单位3"},
-        {name:"姓名4",organization:"所属单位4"},
-        {name:"姓名5",organization:"所属单位5"},],
+      co_worker_list:[],
       display:1,
-      academic_achievements:[
-        {
-          paperTitle:"学术成果标题1",
-          paperAuthor:"author1",
-          paperDate:"2022-11-24",
-          paperClassification:"类型",
-          paperCited:230,
-          paperPeriodical:"期刊",
-          paperAbstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
-        },
-        {
-          title:"学术成果标题2",
-          authors:["author1" , "author2"],
-          time:"2022-11-25",
-          type:"类型",
-          quoted:122,
-          journal:"期刊",
-          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
-        },
-        {
-          title:"学术成果标题3",
-          authors:["author1" , "author2" , "author3"],
-          time:"2022-11-24",
-          type:"类型",
-          quoted:230,
-          journal:"期刊",
-          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
-        },
-        {
-          title:"学术成果标题4",
-          authors:["author1" , "author2" , "author3"],
-          time:"2022-11-24",
-          type:"类型",
-          quoted:230,
-          journal:"期刊",
-          abstract:"每个人都是独立的个体，有属于自我发展的空间和方向. 既然如此, 要反思学术成果摘要行为。此时此刻，我对自己的内心进行了很多的思考。 马尔顿曾经提到过 : 坚强的信心，能使平凡的人做出惊人的事业。这句话语虽然很短, 但令我浮想联翩。 学术成果摘要似乎是一种巧合，但如果我们从一个更大的角度看待问题，这似乎是一种不可避免的事实。 我也要通过这次学术成果摘要事件，提高我的思想认识，强化我的观念。 所谓学术成果摘要, 关键是学术成果摘要需要如何写. 经过上述讨论 这条路很长，有时候走着走着，不经意发现自己迷了路。 问题的关键究竟为何? 关于这次学术成果摘要的原因，显然是有主观态度上的行为。反映出我观念不够先进。 生活中, 若学术成果摘要出现了, 我们就不得不考虑它出现了的事实.",
-        },
-      ],
+      academic_achievements:[],
+
       researches:[
         {
           title:"研究标题1",
@@ -177,18 +147,129 @@ export default {
         name: 'InstitutionPage',
       })
     },
-    toPersonPage(){
-      this.$router.push({
-        name: 'PersonPage',
-      })
-    }
+    toPersonPage(item){
+      if(item.cooperator.userId === "-1") this.$message.error("该用户尚未创建个人门户")
+      else{
+        this.$router.push({
+          path:'/PersonPage',
+          query:{
+            userID : item.cooperator.userId
+        }})
+      }
 
-  },
-  computed:{
-    imgSrc(){
-      //
-      return require('../assets/images/temp_img/head_portrait.jpg')
     },
+    getSearch() {
+      this.$axios
+        .get("/research/selectResearchByUserId", {
+          // params: {
+          //   user_id: this.$route.query.userID
+          // },
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          console.log(res.data)
+          // if (res.data.code == 200 && res.data.data.length !== 0) {
+          //   this.pageItems = res.data.data;
+          // } else {
+          //   this.$message.error("No SearchResult!");
+          // }
+        });
+    },
+    onPageChange(curPage, limit) {
+      this.refreshPage(curPage, limit);
+    },
+    refreshPage(curPage = 1, limit = 10) {
+      this.pageItems = [];
+      this.getAcademicAchievement(curPage, limit);
+    },
+    getAcademicAchievement(curPage, limit) {
+      this.$axios
+        .get("/user/queryPapers", {
+          params: {
+            page: curPage,
+            limit: limit,
+          },
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.academic_achievements = res.data.data.papers
+          this.sum_aca_achv = res.data.data.total
+
+          // if (res.data.code == 200 && res.data.data.length !== 0) {
+          //   this.pageItems = res.data.data;
+          // } else {
+          //   this.$message.error("No SearchResult!");
+          // }
+        });
+    },
+    getSumInfo(){
+      this.$axios
+        .get("/user/getAcademicInformation", {
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          this.sum_aca_achv = res.data.data.academicCount
+          this.sum_research = res.data.data.researchCount
+          this.sum_quoted = res.data.data.totalCitations
+        });
+    },
+    getCoWorkers(){
+      this.$axios
+        .get("/user/queryCooperators", {
+          // params: {
+          //   user_id: this.$route.query.userID
+          // },
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          console.log("aaaaa")
+          if (res.data.code == 200) {
+            console.log(res.data)
+            this.co_worker_list = res.data.data
+
+          }
+        });
+    },
+    getUserInfo(){
+      this.$axios
+        .get("/user/selectUserByUserId", {
+          params: {
+            user_id: this.$route.query.userID
+          },
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          console.log("aaaaa")
+          if (res.data.code == 200) {
+            this.avatar = res.data.data[0].avatar
+            this.name = res.data.data[0].realName
+            if(res.data.data[0].institutionId !== "-1") this.organization = res.data.data[0].institutionName
+
+          }
+        });
+    }
+  },
+
+  mounted() {
+    //console.log(localStorage.getItem("userID"))
+    console.log(this.$route.query.userID)
+    this.getUserInfo()
+    this.getAcademicAchievement(this.curPage, this.limit)
+    this.getSumInfo()
+    this.getSearch()
+    this.getCoWorkers()
   }
 }
 </script>
