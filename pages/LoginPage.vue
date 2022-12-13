@@ -271,7 +271,7 @@ export default {
           //console.log(res)
           if(res.data.code == 200){
             this.$message({
-              message: '登陆成功',
+              message: '登录成功',
               type: 'success'
             })
             this.gotoMain(res.data.data[0].token)
@@ -299,11 +299,11 @@ export default {
     register(){
       if(this.loginFlag===2){
         this.$axios.post('/user/register', {
-            email: this.email,
-            verificationCode: this.verifyCode,
-            username: this.account,
-            password1: this.code,
-            password2: this.reCode
+          email: this.email,
+          verificationCode: this.verifyCode,
+          username: this.account,
+          password1: this.code,
+          password2: this.reCode
         }).then(res => {
           //console.log(res)
           if(res.data.code == 200){
@@ -311,7 +311,7 @@ export default {
               message: '注册成功，即将调转到登录界面',
               type: 'success'
             })
-            setTimeout(this.login, 2000)
+            setTimeout(this.login, 1000)
           }
           else {
             this.$message({
@@ -373,7 +373,7 @@ export default {
             message: '修改成功，即将跳转到登陆界面',
             type: 'success'
           })
-          setTimeout(this.login, 2000)
+          setTimeout(this.login, 1000)
         }
         else {
           this.$message({

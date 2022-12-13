@@ -525,9 +525,10 @@ export default {
     },
 
     submitUpload(file) {
+      let token = localStorage.getItem('Token')
       const fd = new FormData()
       fd.append('file', file.file)
-      fd.append('token', this.token)
+      fd.append('token', token)
       // this.$axios('/user/uploadFile', {
       //   method: 'POST',
       //   headers: {
@@ -537,9 +538,9 @@ export default {
       // })
       this.$axios.post('/user/uploadFile', {
         file: file.file,
-        token: localStorage.getItem('Token')
+        token: token
       }).then(res=>{
-        console.log(res)
+        console.log('res', res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
           this.confirm(4)
@@ -566,6 +567,7 @@ export default {
       //调用改动接口
       let token = localStorage.getItem('Token')
       switch (type){
+        //修改个人信息
         case 1: {
           if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
             this.$message({
@@ -579,7 +581,7 @@ export default {
             realName: this.input.name,
             isCertified: false
           }).then(res => {
-            console.log(res)
+            console.log('res', res)
             if(res.data.code == 200){
               if(type === 1){
                 this.$message({
@@ -604,6 +606,7 @@ export default {
           })
           break
         }
+        //修改邮箱
         case 2: {
           if(this.input.verifyCode==="" || this.input.email===""){
             this.$message({
@@ -640,6 +643,7 @@ export default {
           })
           break
         }
+        //修改密码
         case 3: {
           if(this.input.oldPassword==="" || this.input.newPassword==="" || this.input.repeatPassword===""){
             this.$message({
@@ -660,9 +664,10 @@ export default {
             if(res.data.code == 200){
               this.user.password = this.input.newPassword
               this.$message({
-                message: '修改成功',
+                message: '修改成功,请重新登录',
                 type: 'success'
               })
+              setTimeout(this.reLogin, 1000)
             }
             else {
               this.$message({
@@ -678,6 +683,7 @@ export default {
           })
           break
         }
+        //修改头像
         default: {
           this.$axios.post('/user/modifyUserInfo', {
             token: token,
@@ -731,6 +737,12 @@ export default {
           message: err.message,
           type: 'error'
         })
+      })
+    },
+
+    reLogin(){
+      this.$router.push({
+        name: 'LoginPage'
       })
     },
 
