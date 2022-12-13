@@ -17,15 +17,15 @@
             <div class="paperinfo">
               <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
                 <tr>
-                  <th>作者:&emsp;{{this.sum_aca_achv}}</th>
+                  <th>作者:&emsp;{{this.authorname}}</th>
                 </tr>
                 <tr>
-                  <th>关键词:&emsp;{{this.sum_research}}</th>
+                  <th>关键词:&emsp;{{this.keyword}}</th>
                 </tr>
                 <tr >
                   <th>被引数:&emsp;{{this.sum_quoted}}</th>
-                  <th>发表时间:&emsp;{{this.sum_quoted}}</th>
-                  <th>DOI:&emsp;{{this.sum_quoted}}</th>
+                  <th>发表时间:&emsp;{{this.publish_time}}</th>
+                  <th>DOI:&emsp;{{this.DOI}}</th>
                 </tr>
               </table>
             </div>
@@ -121,9 +121,9 @@ export default {
       abstractdetail:"hahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahha",
       //reference:"参考文献",
       referencedetail:"参考文献",
-      sum_aca_achv:10,
-      sum_research:5,
       sum_quoted:233,
+      publish_time:"2022.12.13",
+      DOI:"132",
       reference:[
         {
           title:"学术成果标题1",
