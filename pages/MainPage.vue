@@ -67,6 +67,7 @@
               v-for="(item, i) in hotResearchList"
               :key="i"
               cols="12"
+              @click="toResearchDetailPage(item.id)"
             >
             <research :data1="item"></research>
               <!-- <v-card
@@ -187,6 +188,12 @@ export default {
   methods: {
     GotoDetailPage(){
         this.$router.push("/PaperDetailPage");
+    },
+    toResearchDetailPage(research_id) {
+      localStorage.setItem("research_id",research_id)
+      this.$router.push({
+        name: 'ResearchDetails',
+      })
     },
     getHotResearch() {
       let token = localStorage.getItem('Token')
