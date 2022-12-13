@@ -226,12 +226,12 @@ export default {
           }
         })
         .then(res =>{
-            if(res.data.success){
+            if(res.data.code === 200 && res.data.data.length!==0){
               this.totalPage = res.data.data.length;
               this.items = res.data.data;
               this.refreshPage(1,10);
             }else {
-              this.$message.error("Search error!")
+              this.$message.error("No SearchResult!");
             }
         })
       }

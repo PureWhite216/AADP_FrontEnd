@@ -263,13 +263,16 @@ export default {
   methods: {
     login(){
       if(this.loginFlag===1){
-        this.$axios.post('/user/login', {
+        let form = {
           username: this.account,
           password: this.code,
           keep_login: true
-        }).then(res => {
-          //console.log(res)
-          if(res.data.code == 200){
+        }
+        this.$axios.post('/user/login',
+          qs.stringify(form)
+        ).then(res => {
+          console.log(res)
+          if(res.data.success){
             this.$message({
               message: '登陆成功',
               type: 'success'
@@ -292,21 +295,23 @@ export default {
       else {
         this.loginFlag = 1
         this.clearInfo()
-        this.resetValidation()
       }
     },
 
     register(){
       if(this.loginFlag===2){
-        this.$axios.post('/user/register', {
-            email: this.email,
-            verificationCode: this.verifyCode,
-            username: this.account,
-            password1: this.code,
-            password2: this.reCode
-        }).then(res => {
+        let form = {
+          email: this.email,
+          verification_code: this.verifyCode,
+          username: this.account,
+          password1: this.code,
+          password2: this.reCode
+        }
+        this.$axios.post('/user/register',
+          qs.stringify(form)
+        ).then(res => {
           //console.log(res)
-          if(res.data.code == 200){
+          if(res.data.success){
             this.$message({
               message: '注册成功，即将调转到登录界面',
               type: 'success'
@@ -329,17 +334,20 @@ export default {
       else {
         this.loginFlag = 2
         this.clearInfo()
-        this.resetValidation()
       }
     },
 
     getVer() {
-      this.$axios.post('/user/sendRegistrationVerificationCode',{
-          email: this.email,
-          modify: false
-      }).then(res => {
-        console.log(res)
-        if(res.data.code == 200){
+      let form = {
+        email: this.email,
+        modify: false
+      }
+      console.log(JSON.stringify(form))
+      this.$axios.post('/user/sendRegistrationVerificationCode',
+        qs.stringify(form)
+      ).then(res => {
+        //console.log(res)
+        if(res.data.success){
           this.$message({
             message: '验证码已发送',
             type: 'success'
@@ -360,15 +368,17 @@ export default {
     },
 
     changeCode(){
-      this.$axios.post('/user/changePassword',{
+      let form = {
         mode: 0,
         password1: this.code,
         password2: this.reCode,
         email: this.email,
-        verifyCode: this.verifyCode
-      }).then(res => {
-        //console.log(res)
-        if(res.data.code == 200){
+        verify_code: this.verifyCode
+      }
+      this.$axios.post('/user/changePassword',
+        qs.stringify(form)
+      ).then(res => {
+        if(res.data.success){
           this.$message({
             message: '修改成功，即将跳转到登陆界面',
             type: 'success'
@@ -390,11 +400,14 @@ export default {
     },
 
     getForgetVer() {
-      this.$axios.post('/user/sendForgotPasswordEmail',{
+      let form = {
         email: this.email
-      }).then(res => {
+      }
+      this.$axios.post('/user/sendForgotPasswordEmail',
+        qs.stringify(form)
+      ).then(res => {
         //console.log(res)
-        if(res.data.code == 200){
+        if(res.data.success){
           this.$message({
             message: '验证码已发送',
             type: 'success'
@@ -402,7 +415,7 @@ export default {
         }
         else {
           this.$message({
-            message: res.data.message,
+            message: '验证码发送失败',
             type: 'error'
           })
         }
@@ -415,13 +428,12 @@ export default {
     },
 
     gotoForget(){
-      this.loginFlag = 3
-      this.clearInfo()
-      this.resetValidation()
+        this.loginFlag = 3
+        this.clearInfo()
     },
 
     gotoMain(token){
-      //console.log(token)
+      console.log(token)
       localStorage.setItem("Token",token);
       this.$router.push({
         name: 'MainPage',
@@ -436,10 +448,6 @@ export default {
       this.verifyCode = ""
       this.pFlag1 = false
       this.pFlag2 = false
-    },
-
-    resetValidation () {
-      this.$refs.form.resetValidation()
     }
   },
 }
