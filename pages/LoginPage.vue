@@ -269,6 +269,28 @@ export default {
   },
 
   methods: {
+    initInfo(){
+      let token = localStorage.getItem('Token')
+      //console.log(this.token)
+      this.$axios.get('/user/showInfo/' , {
+        headers: {
+          'token': token
+        }
+      }).then(res => {
+        // console.log(res.data.data[0].avatar)
+        if(res.data.code == 200){
+          localStorage.setItem("avatar",res.data.data[0].avatar)
+          console.log(localStorage.getItem("avatar"))
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
+    },
+
     login(){
       if(this.loginFlag===1){
         this.$axios.post('/user/login', {
@@ -432,6 +454,7 @@ export default {
     gotoMain(token){
       //console.log(token)
       localStorage.setItem("Token",token);
+      this.initInfo()
       this.$router.push({
         name: 'MainPage',
       })

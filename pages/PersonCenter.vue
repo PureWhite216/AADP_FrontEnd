@@ -137,7 +137,6 @@
                     v-bind="attrs"
                     v-on="on"
                     style="float: right; right: 2%; bottom: 10px"
-                    v-if="!user.flag"
                     @click="editInfo"
                   >
                     编辑
@@ -221,7 +220,6 @@
                   v-bind="attrs"
                   v-on="on"
                   style="float: right; right: 2%; top: 10px"
-                  v-if="!user.flag"
                   @click="addTask(1)"
                 >
                   身份认证
@@ -386,6 +384,7 @@
 <script>
 import qs from 'qs';
 import logo from "@/layouts/sections/Logo";
+import HeaderBar from "@/layouts/sections/HeaderBar";
 export default {
   name: "PersonCenter",
 
@@ -567,6 +566,8 @@ export default {
         console.log(res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
+          localStorage.setItem('avatar', res.data.data[0].url)
+          HeaderBar.methods.updateAvatar()
           this.confirm(4)
           this.$message({
             message: '头像上传成功',

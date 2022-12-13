@@ -71,7 +71,7 @@
               </v-card>
             </v-dialog>
           </v-row>
-          
+
 
           <v-row align-content="start" style="margin-top: 20px">
             <v-col cols="4">
@@ -133,7 +133,7 @@
         style="margin-top: 35px"
         min-height="800px"
         v-show="display===1"
-      > 
+      >
         <v-row style="margin-top:3%; margin-left:7%">
           <v-btn color="primary" dark @click.stop="dialog = true" style="margin-top:3%;">
             发表新评论

@@ -46,7 +46,10 @@
                 v-on="on"
                 @click=""
               >
-                <v-icon dark>mdi-account-circle</v-icon>
+                <v-img
+                  :src="avatar"
+                >
+                </v-img>
               </v-avatar>
             </template>
             <v-list>
@@ -84,51 +87,20 @@ export default {
       loading: false,
       search: null,
       select: null,
-      items: [
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-        {
-          time:"2022-11-25",
-          type:"类型",
-          quoted:"12",
-          title: "Supermodel",
-          authors: ["Foster the People","author1"],
-          abstract:"abstract"
-        },
-      ],
+      avatar: "http://123.249.35.3:8090/file/7/2022-12-14_01:21:27.956_avater.jpg",
+      items: [],
     }
   },
+  computed:{
+    imgSrc(){
+      return require('assets/images/avatar1.png')
+    },
+  },
   methods: {
+    updateAvatar()
+    {
+      this.avatar = localStorage.getItem("avatar")
+    },
     goSearch()
     {
       localStorage.setItem("selectKey",this.select);
@@ -152,6 +124,14 @@ export default {
       this.$router.push("/LoginPage");
     },
   },
+
+  mounted() {
+    this.avatar = localStorage.getItem("avatar")
+  },
+
+  updated() {
+    this.avatar = localStorage.getItem("avatar")
+  }
 
 }
 </script>
