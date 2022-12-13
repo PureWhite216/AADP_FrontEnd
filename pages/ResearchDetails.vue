@@ -22,6 +22,9 @@
         <v-divider :inset="inset" light class="divier" ></v-divider>
         <v-divider :inset="inset" light class="divier" ></v-divider>
         <v-divider :inset="inset" light class="divier" ></v-divider>
+        <div id="div_abstrct">
+          <p class="abstrct">{{this.ResearchDetail}}</p>
+        </div>
         
       </div>
     </div>
@@ -38,8 +41,8 @@
         authorname:"张三",
         keyword:"人工智能",
         title:"标题",
-        //reference:"参考文献",
         referencedetail:"参考文献",
+        ResearchDetail:"super 2021 super 2021super 2021super 2021super 2021super 2021super 2021super 2021 super 2021super 2021super 2021super 2021super 2021super 2021super 2021 super 2021super 2021super 2021super 2021super 2021super 2021",
         sum_aca_achv:10,
         sum_research:5,
         sum_quoted:233,
