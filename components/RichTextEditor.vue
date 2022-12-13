@@ -72,7 +72,7 @@ export default {
             ['clean'] // 清除格式
           ]
         },
-        placeholder: '请输入文章内容…',
+        placeholder: '请输入论文内容…',
         theme: 'snow'
       }
       // this.initWebSocket()

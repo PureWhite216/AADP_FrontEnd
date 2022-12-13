@@ -6,7 +6,7 @@
     >
       <v-row id="row">
         <div id="save">
-          <v-btn color="#fec500" depressed small>保存草稿</v-btn>
+          <v-btn color="#fec500" depressed small @click="saveResearch">保存草稿</v-btn>
         </div>
         <div id="title">
           <v-text-field
@@ -14,6 +14,7 @@
             flat
             solo-inverted
             dense
+            v-model="title"
           >标题</v-text-field>
         </div>
         <div id="area">
@@ -22,14 +23,26 @@
             :items="dropdown_font"
             depressed small
             label="领域选择"
+            v-model="field"
           ></v-overflow-btn>
         </div>
         <div id="sub">
-          <v-btn color="#316ce8" depressed small>发表草稿</v-btn>
+          <v-btn color="#316ce8" depressed small @click>发表草稿</v-btn>
         </div>
       </v-row>
 
     </v-app-bar>
+    <br>
+    <v-card>
+      <v-textarea
+        name="input-7-1"
+        filled
+        label="输入摘要"
+        auto-grow
+        v-model="abstract"
+      >
+      </v-textarea>
+    </v-card>
     <br>
     <v-card>
       <RichTextEditor
@@ -48,9 +61,21 @@ export default {
   data() {
     return {
       dropdown_font: ['Arial', 'Calibri', 'Courier', 'Verdana'],
+      abstract: '',
+      title:'',
+      field:'',
+      researchContent:'',
     }
   },
   destroyed() {
+  },
+  methods: {
+    saveResearch(){
+        this.researchContent =this.$refs.richTextEditor.getJsonContent().slice(7, -1);
+        this.$axios.post("/research/createResearch"), {
+
+        }
+    }
   }
 }
 </script>

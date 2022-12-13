@@ -282,6 +282,7 @@ export default {
               message: '登录成功',
               type: 'success'
             })
+            localStorage.setItem("userID",res.data.data[0].user_id)
             this.gotoMain(res.data.data[0].token)
           }
           else {
