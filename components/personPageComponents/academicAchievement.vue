@@ -1,13 +1,14 @@
 <template>
   <v-card id="comp">
-    <h1 style="text-align: left">{{data1.title}}</h1>
+    <h1 style="text-align: left">{{data1.paperTitle}}</h1>
     <div id="div_authors">
-      <p v-for="item in data1.authors" class="authors">{{item}};</p>
+      <p class="authors">{{data1.paperAuthor}}</p>
+      <!-- <p v-for="item in data1.paperAuthor" class="authors">{{item}};</p> -->
     </div>
     <br/>
-    <p id="info">{{data1.time}} | {{data1.type}} | 被引数：{{data1.quoted}} | 期刊：{{data1.journal}}</p>
+    <p id="info">{{data1.paperDate}} | {{data1.paperClassification}} | 被引数：{{data1.paperCited}} | 期刊：{{data1.paperPeriodical}}</p>
     <div style="width: 640px">
-      <p id="abstract">{{data1.abstract}}</p>
+      <p id="abstract">{{data1.paperAbstract}}</p>
     </div>
   </v-card>
 </template>
@@ -50,12 +51,15 @@ export default {
   background-color: #CCEEFF;
 }
 #abstract{
+  text-align: left;
   width: 630px;
   height: 75px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap:break-word;
   color: black;
-
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

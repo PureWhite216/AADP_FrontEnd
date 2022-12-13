@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <div class="main" style="margin-top: 10px">
+    <div class="main" style="margin-top: 12px">
       <!--      导航栏-->
       <v-navigation-drawer
         absolute
@@ -860,10 +860,10 @@ export default {
 
 <style scoped>
 .background {
-  position: absolute;
   width: 100%;
   height: 100%;
   background: rgba(144, 144, 144, 0.1);
+
 }
 
 .main {
@@ -873,19 +873,22 @@ export default {
 
 .navigate {
   width: 256px;
-  margin-top: 1px;
+  margin-top: 12px;
   margin-left: 10%;
+
 }
 
 .navItem {
   margin-top: 20px;
   font-size: 20px;
+
 }
 
 .curNav {
   margin-top: 20px;
   background: rgba(144, 144, 144, 0.3);
   font-size: 20px;
+
 }
 
 .logoutBtn {
@@ -901,7 +904,8 @@ export default {
   width: 78%;
   height: 90vh;
   background-color: white;
-  margin-top: -10px;
+  margin-block-end: 50px;
+  /* margin-top: -10px; */
 }
 
 .head1{

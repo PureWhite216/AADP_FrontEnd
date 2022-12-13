@@ -145,7 +145,7 @@
             <v-card>
               <v-card-title class="headline">发表新评论</v-card-title>
               <v-card-text>
-                <v-text-field label="你的评论" required></v-text-field>
+                <v-textarea label="你的评论" auto-grow outlined row-height="15" rows="10"></v-textarea>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
