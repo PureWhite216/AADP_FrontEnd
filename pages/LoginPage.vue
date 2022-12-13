@@ -305,7 +305,7 @@ export default {
             password1: this.code,
             password2: this.reCode
         }).then(res => {
-          console.log(res)
+          //console.log(res)
           if(res.data.code == 200){
             this.$message({
               message: '注册成功，即将调转到登录界面',
@@ -334,17 +334,10 @@ export default {
     },
 
     getVer() {
-      let form = {
-        email: this.email,
-        modify: false
-      }
-      console.log(JSON.stringify(form))
       this.$axios.post('/user/sendRegistrationVerificationCode',{
           email: this.email,
           modify: false
-        }
-        //qs.stringify(form)
-      ).then(res => {
+      }).then(res => {
         console.log(res)
         if(res.data.code == 200){
           this.$message({
@@ -354,7 +347,7 @@ export default {
         }
         else {
           this.$message({
-            message: '邮件发送失败',
+            message: res.data.message,
             type: 'error'
           })
         }
@@ -367,17 +360,14 @@ export default {
     },
 
     changeCode(){
-      let form = {
+      this.$axios.post('/user/changePassword',{
         mode: 0,
         password1: this.code,
         password2: this.reCode,
         email: this.email,
-        verify_code: this.verifyCode
-      }
-      this.$axios.post('/user/changePassword',
-        qs.stringify(form)
-      ).then(res => {
-        console.log(res)
+        verifyCode: this.verifyCode
+      }).then(res => {
+        //console.log(res)
         if(res.data.code == 200){
           this.$message({
             message: '修改成功，即将跳转到登陆界面',
@@ -400,12 +390,9 @@ export default {
     },
 
     getForgetVer() {
-      let form = {
+      this.$axios.post('/user/sendForgotPasswordEmail',{
         email: this.email
-      }
-      this.$axios.post('/user/sendForgotPasswordEmail',
-        qs.stringify(form)
-      ).then(res => {
+      }).then(res => {
         //console.log(res)
         if(res.data.code == 200){
           this.$message({
@@ -415,7 +402,7 @@ export default {
         }
         else {
           this.$message({
-            message: '验证码发送失败',
+            message: res.data.message,
             type: 'error'
           })
         }

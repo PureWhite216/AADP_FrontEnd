@@ -410,6 +410,7 @@ export default {
       },
       passwordFlag: false,
 
+      token: "",
       file: [],
 
       input: {
@@ -457,15 +458,15 @@ export default {
 
   methods :{
     init(){
-      let token = localStorage.getItem('Token')
-      //console.log(token)
+      this.token = localStorage.getItem('Token')
+      //console.log(this.token)
       this.$axios.get('/user/showInfo/' , {
         params: {
-          token: token
+          token: this.token
         }
       }).then(res => {
-        console.log(res)
-        if(res.data.success){
+        //console.log(res)
+        if(res.data.code == 200){
           this.user.avatar = res.data.data[0].avatar
           this.user.email = res.data.data[0].email
           this.user.name = res.data.data[0].realName
@@ -488,18 +489,18 @@ export default {
     },
 
     changeFlag(flag){
-        this.flag = flag;
-        this.restore(flag)
+      this.flag = flag
+      this.restore(flag)
     },
 
     logout(){
-      let token = localStorage.getItem('Token')
       this.$axios.get('/user/logout/' , {
         params: {
-          token: token
+          token: this.token
         }
       }).then(res => {
-        if(res.data.success){
+        //console.log(res)
+        if(res.data.code == 200){
           this.$message({
             message: '注销成功',
             type: 'success'
@@ -526,16 +527,20 @@ export default {
     submitUpload(file) {
       const fd = new FormData()
       fd.append('file', file.file)
-      fd.append('token', localStorage.getItem('Token'))
-      this.$axios('/user/uploadFile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        data: fd
+      fd.append('token', this.token)
+      // this.$axios('/user/uploadFile', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   },
+      //   data: fd
+      // })
+      this.$axios.post('/user/uploadFile', {
+        file: file.file,
+        token: this.token
       }).then(res=>{
-        //console.log(res)
-        if(res.data.success){
+        console.log(res)
+        if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
           this.confirm(4)
           this.$message({
@@ -545,11 +550,182 @@ export default {
         }
         else {
           this.$message({
-            message: '登陆失败',
+            message: res.data.message,
             type: 'error'
           })
         }
       }).catch(err=>{
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
+      })
+    },
+
+    confirm(type){
+      //调用改动接口
+      switch (type){
+        case 1: {
+          if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/modifyUserInfo', {
+            token: this.token,
+            realName: this.input.name,
+            isCertified: false
+          }).then(res => {
+            console.log(res)
+            if(res.data.code == 200){
+              if(type === 1){
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.user.flag = false
+                this.dialog1 = true
+              }
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+        case 2: {
+          if(this.input.verifyCode==="" || this.input.email===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/modifyEmail', {
+            token: this.token,
+            email: this.input.email,
+            verifyCode: this.input.verifyCode,
+            password: this.user.password
+          }).then(res => {
+            console.log(res)
+            if(res.data.code == 200){
+              this.user.email = this.input.email
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+        case 3: {
+          if(this.input.oldPassword==="" || this.input.newPassword==="" || this.input.repeatPassword===""){
+            this.$message({
+              message: '请输入所有必要信息',
+              type: 'warning'
+            })
+            return
+          }
+          this.$axios.post('/user/changePassword', {
+            mode: 1,
+            token: this.token,
+            oldPassword: this.input.oldPassword,
+            password1: this.input.newPassword,
+            password2: this.input.repeatPassword,
+            email: this.user.email
+          }).then(res => {
+            console.log(res)
+            if(res.data.code == 200){
+              this.user.password = this.input.newPassword
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+            else {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+        default: {
+          this.$axios.post('/user/modifyUserInfo', {
+            token: this.token,
+            avatar: this.user.avatar
+          }).then(res => {
+            console.log(res)
+            if(res.data.code != 200) {
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              })
+            }
+          }).catch(err => {
+            this.$message({
+              message: err.message,
+              type: 'error'
+            })
+          })
+          break
+        }
+      }
+      this.cancel(type)
+    },
+
+    getVer() {
+      if(this.input.email === this.user.email){
+        this.$message({
+          message: '新邮箱不能与原邮箱相同',
+          type: 'warning'
+        })
+        return
+      }
+      this.$axios.post('/user/sendRegistrationVerificationCode', {
+        email: this.input.email,
+        modify: true
+      }).then(res => {
+        if(res.data.code == 200){
+          this.$message({
+            message: '验证码已发送',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: '验证码发送失败',
+            type: 'error'
+          })
+        }
+      }).catch(err => {
         this.$message({
           message: err.message,
           type: 'error'
@@ -596,178 +772,6 @@ export default {
           this.editPasswordFlag = false
           break
       }
-    },
-
-    confirm(type){
-      //调用改动接口
-      let token = localStorage.getItem('Token')
-      switch (type){
-        case 1:
-        case 4: {
-          if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
-            this.$message({
-              message: '请输入所有必要信息',
-              type: 'warning'
-            })
-            return
-          }
-          let form = {}
-          if(type === 1){
-            form = {
-              token: token,
-              real_name: this.input.name,
-              isCertified: false
-            }
-          }
-          else {
-            form = {
-              token: token,
-              avatar: this.user.avatar
-            }
-          }
-          this.$axios.post('/user/modifyUserInfo',
-            qs.stringify(form)
-          ).then(res => {
-            if(res.data.success){
-              this.user.name = form.real_name
-              if(type === 1){
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                })
-                this.user.flag = false
-                this.dialog1 = true
-              }
-            }
-            else {
-              this.$message({
-                message: res.data.message,
-                type: 'error'
-              })
-            }
-          }).catch(err => {
-            this.$message({
-              message: err.message,
-              type: 'error'
-            })
-          })
-          break
-        }
-        case 2: {
-          if(this.input.verifyCode==="" || this.input.email===""){
-            this.$message({
-              message: '请输入所有必要信息',
-              type: 'warning'
-            })
-            return
-          }
-          let form = {
-            token: token,
-            email: this.input.email,
-            verify_code: this.input.verifyCode,
-            password: this.user.password
-          }
-          this.$axios.post('/user/modifyEmail',
-            qs.stringify(form)
-          ).then(res => {
-            if(res.data.success){
-              this.user.email = form.email
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              })
-            }
-            else {
-              this.$message({
-                message: res.data.message,
-                type: 'error'
-              })
-            }
-          }).catch(err => {
-            this.$message({
-              message: err.message,
-              type: 'error'
-            })
-          })
-          break
-        }
-        case 3: {
-          if(this.input.oldPassword==="" || this.input.newPassword==="" || this.input.repeatPassword===""){
-            this.$message({
-              message: '请输入所有必要信息',
-              type: 'warning'
-            })
-            return
-          }
-          let form = {
-            mode: 1,
-            token: token,
-            oldPassword: this.input.oldPassword,
-            password1: this.input.newPassword,
-            password2: this.input.repeatPassword,
-            email: this.user.email
-          }
-          this.$axios.post('/user/changePassword',
-            qs.stringify(form)
-          ).then(res => {
-            if(res.data.success){
-              this.user.password = form.password1
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              })
-            }
-            else {
-              this.$message({
-                message: res.data.message,
-                type: 'error'
-              })
-            }
-          }).catch(err => {
-            this.$message({
-              message: err.message,
-              type: 'error'
-            })
-          })
-          break
-        }
-      }
-      this.cancel(type)
-    },
-
-    getVer() {
-      if(this.input.email === this.user.email){
-        this.$message({
-          message: '新邮箱不能与原邮箱相同',
-          type: 'warning'
-        })
-        return
-      }
-      let form = {
-        email: this.input.email,
-        modify: true
-      }
-      this.$axios.post('/user/sendRegistrationVerificationCode',
-        qs.stringify(form)
-      ).then(res => {
-        if(res.data.success){
-          this.$message({
-            message: '验证码已发送',
-            type: 'success'
-          })
-        }
-        else {
-          this.$message({
-            message: '验证码发送失败',
-            type: 'error'
-          })
-        }
-      }).catch(err => {
-        this.$message({
-          message: err.message,
-          type: 'error'
-        })
-      })
     },
 
     restore(flag){
