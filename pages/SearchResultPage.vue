@@ -46,7 +46,7 @@
         </v-container>
         <v-pagination
           v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
+          :length="Math.ceil( totalPage/ limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
@@ -168,6 +168,7 @@ export default {
       limit: 10,
       loading: false,
       search: null,
+      totalPage:0,
       select: null,
       states: [],
       offset: true,
@@ -214,10 +215,12 @@ export default {
         this.pageItems=[];
         this.$axios.get("/paper/searchPaperByKeyword",{
           params: {
-            token: localStorage.getItem("Token"),
             keyword: localStorage.getItem("selectKey"),
             page: curPage,
             limit: limit,
+          },
+          headers: {
+            'token':localStorage.getItem("Token")
           }
         })
         .then(res=> {
