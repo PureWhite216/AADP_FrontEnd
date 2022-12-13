@@ -465,7 +465,7 @@ export default {
           'token': token
         }
       }).then(res => {
-        //console.log(res)
+        console.log(res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].avatar
           this.user.email = res.data.data[0].email
@@ -473,7 +473,7 @@ export default {
           this.user.password = res.data.data[0].password
           this.user.account = res.data.data[0].username
           this.user.education = res.data.data[0].educationalBackground
-          this.user.institution = res.data.data[0].institutionId
+          this.user.institution = res.data.data[0].institutionName
           this.user.flag = res.data.data[0].isCertified
         }
         else {

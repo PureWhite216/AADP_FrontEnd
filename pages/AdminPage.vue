@@ -42,8 +42,8 @@
             >
               <template v-slot:top>
                 <div style="margin: 10px">
-                  <v-btn tile small color="success">通过</v-btn>
-                  <v-btn tile small color="error">拒绝</v-btn>
+                  <v-btn tile small color="success" @click="batchOperate(true)">通过</v-btn>
+                  <v-btn tile small color="error" @click="batchOperate(false)">拒绝</v-btn>
                 </div>
               </template>
             </v-data-table>
@@ -113,7 +113,54 @@ export default {
             this.$message.error("No Apply!");
           }
         })
+    },
+
+    batchOperate(operation = true){
+      console.log(this.selected);
+      const taskIds = [];
+      for(var item of this.selected)
+      {
+        // console.log(item);
+        taskIds.push(item.taskId);
+      }
+      // console.log(taskIds);
+      let token = localStorage.getItem('Token')
+      this.$axios.post('/user/batchOperation', {
+          operationType: operation,
+          taskIds: taskIds
+        },{
+          operationType: operation,
+          taskIds: taskIds,
+          headers: {
+            'token': token
+          }
+        }
+      ).then(res => {
+        //console.log(res)
+        if(res.data.code == 200){
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+          if(this.flag == 0)
+          {
+            this.getTasks(1, 10, "INSTITUTION");
+          }
+          else
+          {
+            this.getTasks(1, 10, "PAPER");
+          }
+        }
+        else {
+          this.$message({
+            message: '操作失败',
+            type: 'error'
+          })
+        }
+      })
+
     }
+
   },
   data () {
     return {
