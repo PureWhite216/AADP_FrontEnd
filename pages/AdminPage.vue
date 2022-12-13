@@ -97,7 +97,7 @@ export default {
         }
       })
         .then(res=> {
-          if(res.data.code == 200 && res.data.tasks.length!==0){
+          if(res.data.code == "200"){
             this.tasks = res.data.tasks
           }else {
             this.$message.error("No Apply!");
