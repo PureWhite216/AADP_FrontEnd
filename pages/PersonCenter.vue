@@ -460,8 +460,8 @@ export default {
       let token = localStorage.getItem('Token')
       //console.log(this.token)
       this.$axios.get('/user/showInfo/' , {
-        params: {
-          token: token
+        headers: {
+          'token': token
         }
       }).then(res => {
         //console.log(res)
@@ -495,8 +495,8 @@ export default {
     logout(){
       let token = localStorage.getItem('Token')
       this.$axios.get('/user/logout/' , {
-        params: {
-          token: token
+        headers: {
+          'token': token
         }
       }).then(res => {
         //console.log(res)
@@ -529,18 +529,15 @@ export default {
       const fd = new FormData()
       fd.append('file', file.file)
       fd.append('token', token)
-      // this.$axios('/user/uploadFile', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   },
-      //   data: fd
-      // })
       this.$axios.post('/user/uploadFile', {
-        file: file.file,
-        token: token
+        data: {
+          file: file.file,
+        },
+        headers: {
+          'token': token
+        }
       }).then(res=>{
-        console.log('res', res)
+        //console.log('res', res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
           this.confirm(4)
@@ -577,17 +574,25 @@ export default {
             return
           }
           this.$axios.post('/user/modifyUserInfo', {
-            token: token,
-            realName: this.input.name,
-            isCertified: false
+            data: {
+              realName: this.input.name,
+              educationalBackground: this.input.education,
+              isCertified: false
+            },
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log('res', res)
+            //console.log('res', res)
             if(res.data.code == 200){
               if(type === 1){
                 this.$message({
                   message: '修改成功',
                   type: 'success'
                 })
+                this.user.name = this.input.name
+                this.user.institution = this.input.institution
+                this.user.education = this.input.education
                 this.user.flag = false
                 this.dialog1 = true
               }
@@ -616,12 +621,16 @@ export default {
             return
           }
           this.$axios.post('/user/modifyEmail', {
-            token: token,
-            email: this.input.email,
-            verifyCode: this.input.verifyCode,
-            password: this.user.password
+            data: {
+              email: this.input.email,
+              verifyCode: this.input.verifyCode,
+              password: this.user.password
+            },
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code == 200){
               this.user.email = this.input.email
               this.$message({
@@ -653,14 +662,18 @@ export default {
             return
           }
           this.$axios.post('/user/changePassword', {
-            mode: 1,
-            token: token,
-            oldPassword: this.input.oldPassword,
-            password1: this.input.newPassword,
-            password2: this.input.repeatPassword,
-            email: this.user.email
+            data: {
+              mode: 1,
+              oldPassword: this.input.oldPassword,
+              password1: this.input.newPassword,
+              password2: this.input.repeatPassword,
+              email: this.user.email
+            },
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code == 200){
               this.user.password = this.input.newPassword
               this.$message({
@@ -686,8 +699,12 @@ export default {
         //修改头像
         default: {
           this.$axios.post('/user/modifyUserInfo', {
-            token: token,
-            avatar: this.user.avatar
+            data: {
+              avatar: this.user.avatar
+            },
+            headers: {
+              'token': token
+            }
           }).then(res => {
             console.log(res)
             if(res.data.code != 200) {
