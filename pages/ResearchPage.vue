@@ -48,7 +48,7 @@
       </v-card>
       <v-card id="hot_research" class="mt-12">
         <v-container>
-          <v-btn block elevation="6" color="primary"> 发表新研究 </v-btn>
+          <v-btn block elevation="6" color="primary" @click="$router.push('ResearchEdit')"> 发表新研究 </v-btn>
           <v-card class="mt-10">
             <v-card-title class="text-h2 card_title">领域</v-card-title>
             <v-col cols="6">

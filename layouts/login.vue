@@ -221,18 +221,19 @@ export default {
       var height = window.innerHeight; // 画布的高度
 
       // 渲染器
-      var renderer = new THREE.WebGLRenderer({antialias:true});
-      renderer.setSize(width, height);
+      // var mainRenderer = new THREE.WebGLRenderer({antialias:true});
+      this.mainRenderer = new THREE.WebGLRenderer({antialias:true});
+      this.mainRenderer.setSize(width, height);
       // 将canvas添加到指定元素
       var element = document.getElementById('seaBackground');
-      element.appendChild(renderer.domElement);
+      element.appendChild(this.mainRenderer.domElement);
 
       // 场景
-      var scene = new THREE.Scene();
+      this.scene = new THREE.Scene();
       // 摄像机
-      var camera = new THREE.PerspectiveCamera(45, width/height, 1, 2000);
-      camera.position.set(0,0,360);
-      scene.add(camera);
+      this.camera = new THREE.PerspectiveCamera(45, width/height, 1, 2000);
+      this.camera.position.set(0,0,360);
+      this.scene.add(this.camera);
 
       // 传递给着色器的uniform参数
       var uniforms = {
@@ -253,18 +254,40 @@ export default {
       var geom = new THREE.PlaneBufferGeometry(width, height);
       // 网格对象
       var mesh = new THREE.Mesh( geom, material );
-      scene.add(mesh);
+      this.scene.add(mesh);
 
 
       /* 利用requestAnimationFrame实现动画 */
       var clock = new THREE.Clock(); // 时钟
-      (function animate() {
-        requestAnimationFrame( animate );
 
+
+      let animloop=()=> {
         var delta = clock.getDelta(); // 获取本次和上次的时间间隔
         uniforms.iTime.value += delta; // 设置着色器使用的 iTime 参数
-        renderer.render( scene, camera ); // 重新渲染
-      })();
+        this.mainRenderer.render( this.scene, this.camera ); // 重新渲染
+        window.requestAnimationFrame(animloop);
+      }
+
+      animloop();
+
+      // function animate() {
+      //   window.requestAnimationFrame(animate)
+      //
+      //   var delta = clock.getDelta(); // 获取本次和上次的时间间隔
+      //   uniforms.iTime.value += delta; // 设置着色器使用的 iTime 参数
+      //   this.mainRenderer.render( this.scene, this.camera ); // 重新渲染
+      // }
+      // animate();
+
+      // this.mainRenderer.render( this.scene, this.camera ); // 重新渲染
+
+      // (function animate() {
+      //   requestAnimationFrame( animate );
+      //
+      //   var delta = clock.getDelta(); // 获取本次和上次的时间间隔
+      //   uniforms.iTime.value += delta; // 设置着色器使用的 iTime 参数
+      //   this.mainRenderer.render( this.scene, this.camera ); // 重新渲染
+      // })();
 
       /* 监听鼠标移动，并改变着色器使用的 iMouse 参数 */
       // var mouseStartPosition = null; // 鼠标起始位置
@@ -278,6 +301,10 @@ export default {
       // })
     },
   },
+  beforeDestroy()
+  {
+    this.mainRenderer = null
+  }
 }
 </script>
 
