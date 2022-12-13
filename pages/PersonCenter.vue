@@ -536,7 +536,7 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }).then(res=>{
-        //console.log('res', res)
+        console.log(res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
           this.confirm(4)
@@ -576,12 +576,12 @@ export default {
             realName: this.input.name,
             educationalBackground: this.input.education,
             isCertified: false
-          },{
+          }, {
             headers: {
               'token': token
             }
           }).then(res => {
-            console.log('res', res)
+            //console.log('res', res)
             if(res.data.code == 200){
               if(type === 1){
                 this.$message({
@@ -627,7 +627,7 @@ export default {
               'token': token
             }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code == 200){
               this.user.email = this.input.email
               this.$message({
@@ -701,7 +701,7 @@ export default {
               'token': token
             }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code != 200) {
               this.$message({
                 message: res.data.message,
