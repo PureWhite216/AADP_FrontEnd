@@ -82,7 +82,7 @@ export default {
 
   proxy: {
     "/api": {
-      target: 'http://101.42.171.88:8090/',
+      target: 'http://123.249.35.3:8090/',
       pathRewrite: {'^/api/': ''}
     }
   },

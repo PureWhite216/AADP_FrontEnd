@@ -1,32 +1,5 @@
 <template>
   <div>
-<!--    <v-card-->
-<!--      max-width="700"-->
-<!--      class="mx-auto"-->
-<!--    >-->
-<!--      <v-toolbar-->
-<!--        blue-->
-<!--        color="blue"-->
-<!--      >-->
-<!--        <v-toolbar-title>论文搜索</v-toolbar-title>-->
-<!--        <v-text-field-->
-<!--          v-model="select"-->
-<!--          :loading="loading"-->
-<!--          :items="items"-->
-<!--          :search-input.sync="search"-->
-<!--          cache-items-->
-<!--          class="mx-4"-->
-<!--          flat-->
-<!--          hide-no-data-->
-<!--          hide-details-->
-<!--          label="search something"-->
-<!--          solo-inverted-->
-<!--        ></v-text-field>-->
-<!--        <v-btn icon>-->
-<!--          <v-icon>mdi-magnify</v-icon>-->
-<!--        </v-btn>-->
-<!--      </v-toolbar>-->
-<!--    </v-card>-->
     <br>
     <div class="text-center">
       <v-card
@@ -42,10 +15,11 @@
             <v-select
               :items="sortMethod"
               label="排序方式"
+              dense
               style="width: 160px; margin-top: 21px"
+              @input=""
             ></v-select>
           </v-col>
-
         </v-app-bar>
         <v-container>
           <v-row dense>
@@ -229,6 +203,10 @@ export default {
     this.getSearchResult()
   },
   watch: {
+    $route(val, from) {//监听到路由（参数）改变
+      // 拿到目标参数 val.query.typeCode 去再次请求数据接口
+      this.getSearchResult(val.query.t)
+    }
   },
   methods: {
       onPageChange(curPage,limit){
