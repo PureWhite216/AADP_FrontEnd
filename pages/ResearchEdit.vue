@@ -27,7 +27,7 @@
           ></v-overflow-btn>
         </div>
         <div id="sub">
-          <v-btn color="#316ce8" depressed small @click>发表草稿</v-btn>
+          <v-btn color="#316ce8" depressed small @click>发表</v-btn>
         </div>
       </v-row>
 

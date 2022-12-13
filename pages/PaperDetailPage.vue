@@ -25,7 +25,7 @@
                 <tr >
                   <th>被引数:&emsp;{{this.paperData.paperCited}}</th>
                   <th>发表时间:&emsp;{{this.paperData.paperDate}}</th>
-                  <th>DOI:{{JSON.parse(this.paperData.paperOtherInfo).DOI}}</th>
+                  <th>DOI:{{this.paperOther.DOI}}</th>
                 </tr>
               </table>
             </div>
@@ -104,7 +104,7 @@
         <div class="text-left" id="whole">
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-left: 7%;">{{this.abstract}}</p>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-left: 7%;">{{"摘要"}}</p>
               <p class="abstrct">{{this.paperData.paperAbstract}}</p>
             </div>
           </v-row>
@@ -116,7 +116,7 @@
           <v-row>
             <div>
               <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%; margin-left: 7%;">参考文献</p>
-              <div v-for="item in JSON.parse(this.paperData.paperReference).refs" class="div_reference">
+              <div v-for="item in this.paperRefs.refs" class="div_reference">
                 <div>{{item.ref}}</div>
 <!--                <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>-->
 <!--                <div>{{'2022/xx/xx'}}</div>-->
@@ -183,56 +183,13 @@ export default {
   data(){
     return{
       paperData: [],
+      paperOther: [],
+      paperRefs: [],
       display:0,
       paperid:1,
-      Papername:"文章标题",
-      Paperlink:"www.baidu.com",
-      authorname:"张三",
-      keyword:"人工智能",
-      abstract:"摘要",
-      abstractdetail:"hahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahhahahahahahahahahahahhahahahahhahahahahahha",
-      //reference:"参考文献",
-      referencedetail:"参考文献",
-      sum_quoted:233,
-      publish_time:"2022.12.13",
-      DOI:"132",
       dialog: false,
       dialog2: false,
       dialog3: false,
-      reference:[
-        {
-          title:"学术成果标题1",
-          authors:["author1" , "author2" , "author3"],
-          time:"2022-11-24",
-          type:"类型",
-          quoted:230,
-          journal:"期刊",
-        },
-        {
-          title:"学术成果标题2",
-          authors:["author1" , "author2"],
-          time:"2022-11-25",
-          type:"类型",
-          quoted:122,
-          journal:"期刊",
-        },
-        {
-          title:"学术成果标题3",
-          authors:["author1" , "author2" , "author3"],
-          time:"2022-11-24",
-          type:"类型",
-          quoted:230,
-          journal:"期刊",
-        },
-        {
-          title:"学术成果标题4",
-          authors:["author1" , "author2" , "author3"],
-          time:"2022-11-24",
-          type:"类型",
-          quoted:230,
-          journal:"期刊",
-        },
-      ],
       comments:[
         {
           content:"good",
@@ -258,12 +215,15 @@ export default {
     getPaPerInfo()
     {
       this.paperData = this.$route.query.data;
+      this.paperRefs = JSON.parse(this.paperData.paperReference);
+      this.paperOther = JSON.parse(this.paperData.paperOtherInfo);
     },
-    addTask(objectType = "PAPER"){
+    addTask(){
+      console.log(this.paperData.id)
       let token = localStorage.getItem('Token')
       this.$axios.post('/user/addTask', {
-          objectId: this.paperid,
-          objectType: objectType
+          objectId: this.paperData.id,
+          objectType: "PAPER"
         },{
           headers: {
             'token': token

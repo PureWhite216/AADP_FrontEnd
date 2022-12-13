@@ -39,7 +39,7 @@ export default {
           if (res.data.code == 200 && res.data.data.length !== 0) {
             this.author = res.data.data[0].username;
           } else {
-            this.$message.error("No SearchResult!");
+            this.$message.error("No Author!");
           }
         });
     },

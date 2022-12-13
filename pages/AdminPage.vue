@@ -59,8 +59,8 @@
             >
               <template v-slot:top>
                 <div style="margin: 10px">
-                  <v-btn tile small color="success">通过</v-btn>
-                  <v-btn tile small color="error">拒绝</v-btn>
+                  <v-btn tile small color="success" @click="batchOperate(true)">通过</v-btn>
+                  <v-btn tile small color="error" @click="batchOperate(false)">拒绝</v-btn>
                 </div>
               </template>
             </v-data-table>
@@ -77,7 +77,7 @@
 export default {
   name: "AdminPage",
   mounted() {
-    this.paperVerify();
+    this.userVerify();
   },
   methods : {
     changeFlag(flag) {
@@ -93,7 +93,7 @@ export default {
       this.getTasks(1, 10, "PAPER");
       this.changeFlag(1);
     },
-    getTasks(curPage = 1,limit = 10, type = "INSTITUTION"){
+    getTasks(curPage = 1,limit = 10, type){
       this.tasks=[];
       console.log(type);
       this.$axios.get("/user/listAllTask",{
