@@ -8,7 +8,7 @@
       >
         <div class="text-left" id="whole">
           <v-row>
-            <div style="margin-top: 5%">
+            <div style="margin-top: 5% ; margin-left: 10%;">
               <p style="font-size: 40px; color: black">{{this.Papername}}</p>
             </div>
           </v-row>
@@ -32,7 +32,7 @@
           </v-row>
 
           <v-row>
-            <v-btn large color="primary" height="40px" weight="40px">链接</v-btn>
+            <v-btn large color="primary" height="40px" weight="40px" style="margin-left: 100px">链接</v-btn>
             <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 20px">认领</v-btn>
           </v-row>
 
@@ -180,7 +180,7 @@ export default {
   margin-left: 0px;
 }
 .paperinfo{
-  margin-left: -100px;
+  margin-left: 0;
   margin-top: 0px;
 }
 .divier{
