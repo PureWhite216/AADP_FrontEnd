@@ -496,10 +496,16 @@ export default {
     },
 
     addTask(objectId = 0, objectType = "INSTITUTION"){
-      this.$axios.post('/user/login', {
-        objectId: this.objectId,
-        objectType: this.objectType,
-      }).then(res => {
+      let token = localStorage.getItem('Token')
+      this.$axios.post('/user/addTask', {
+          objectId: objectId,
+          objectType: objectType
+        },{
+          headers: {
+            'token': token
+          }
+        }
+      ).then(res => {
         //console.log(res)
         if(res.data.code == 200){
           this.$message({
