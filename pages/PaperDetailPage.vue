@@ -67,7 +67,7 @@
         <div class="text-left" id="whole">
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%;">{{this.abstract}}</p>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-left: 7%;">{{this.abstract}}</p>
               <p class="abstrct">{{this.abstractdetail}}</p>
             </div>
           </v-row>
@@ -78,11 +78,12 @@
 
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%;">参考文献</p>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%; margin-left: 7%;">参考文献</p>
               <div v-for="(item,index) in reference" :key="index" class="div_reference">
                 <div>{{item.title}}</div>
                 <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>
                 <div>{{item.time}}</div>
+                <v-divider light class="divier" style="margin-top: 20px"></v-divider>
               </div>
             </div>
           </v-row>
@@ -95,10 +96,42 @@
         style="margin-top: 35px"
         min-height="800px"
         v-show="display===1"
-      >
+      > 
+        <v-row style="margin-top:3%; margin-left:7%">
+          <v-btn color="primary" dark @click.stop="dialog = true" style="margin-top:3%;">
+            发表新评论
+          </v-btn>
+          <v-dialog
+            v-model="dialog"
+            max-width="600"
+          >
+            <v-card>
+              <v-card-title class="headline">发表新评论</v-card-title>
+              <v-card-text>
+                <v-text-field label="你的评论" required></v-text-field>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false">
+                  提交
+                </v-btn>
+                <v-btn color="green darken-1" text @click="dialog = false">
+                  放弃
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
         <div class="text-left" id="whole">
-
-
+          <v-row>
+            <div>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 7%;">评论</p>
+              <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 5%;">
+                <div>{{index+1}}&nbsp&nbsp{{item.content}}</div>
+                <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px"></v-divider>
+              </div>
+            </div>
+          </v-row>
         </div>
       </v-card>
     </v-container>
@@ -124,6 +157,7 @@ export default {
       sum_quoted:233,
       publish_time:"2022.12.13",
       DOI:"132",
+      dialog: false,
       reference:[
         {
           title:"学术成果标题1",
@@ -156,6 +190,20 @@ export default {
           type:"类型",
           quoted:230,
           journal:"期刊",
+        },
+      ],
+      comments:[
+        {
+          content:"good",
+        },
+        {
+          content:"bad",
+        },
+        {
+          content:"good",
+        },
+        {
+          content:"bad",
         },
       ],
     }
@@ -191,7 +239,7 @@ export default {
   font-size: 20px;
   color: black;
   text-align: left;
-  margin-left: 10%;
+  margin-left: 15%;
   width: 700px;
   word-break:break-all;
   word-wrap:break-word;
@@ -201,6 +249,7 @@ export default {
   margin-bottom: 10px;
   text-align: left;
   margin-left: 150px;
+  min-width: 50%;
 }
 .inline_author{
   display: inline-block;
