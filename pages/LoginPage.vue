@@ -269,7 +269,7 @@ export default {
           keep_login: true
         }).then(res => {
           //console.log(res)
-          if(res.data.code === 200){
+          if(res.data.code == 200){
             this.$message({
               message: '登录成功',
               type: 'success'
@@ -306,7 +306,7 @@ export default {
           password2: this.reCode
         }).then(res => {
           //console.log(res)
-          if(res.data.code === 200){
+          if(res.data.code == 200){
             this.$message({
               message: '注册成功，即将调转到登录界面',
               type: 'success'
@@ -339,7 +339,7 @@ export default {
         modify: false
       }).then(res => {
         console.log(res)
-        if(res.data.code === 200){
+        if(res.data.code == 200){
           this.$message({
             message: '验证码已发送',
             type: 'success'
@@ -368,7 +368,7 @@ export default {
         verifyCode: this.verifyCode
       }).then(res => {
         //console.log(res)
-        if(res.data.code === 200){
+        if(res.data.code == 200){
           this.$message({
             message: '修改成功，即将跳转到登陆界面',
             type: 'success'
@@ -394,7 +394,7 @@ export default {
         email: this.email
       }).then(res => {
         //console.log(res)
-        if(res.data.code === 200){
+        if(res.data.code == 200){
           this.$message({
             message: '验证码已发送',
             type: 'success'
