@@ -30,6 +30,7 @@
             >
               <v-card
                 color="white"
+                @click="GotoDetailPage()"
               >
                 <h1 id="head">{{item.paperTitle}}</h1>
                 <div id="div_authors">
@@ -38,7 +39,9 @@
                 <br/>
                 <p id="info">{{item.paperDate}} | {{item.paperClassification}} | 被引数：{{item.paperCited}} | 期刊：{{item.paperPeriodical}}</p>
                 <div style="width: 640px">
-                  <p id="abstract">{{item.paperAbstract}}</p>
+                  <div
+                    id="abstract"
+                  >{{item.paperAbstract}}</div>
                 </div>
               </v-card>
             </v-col>
@@ -168,7 +171,7 @@ export default {
       limit: 10,
       loading: false,
       search: null,
-      totalPage:0,
+      totalPage:800,
       select: null,
       states: [],
       offset: true,
@@ -208,36 +211,26 @@ export default {
     }
   },
   methods: {
+      GotoDetailPage(){
+        this.$router.push("/PaperDetailPage");
+      },
       onPageChange(curPage,limit){
         this.refreshPage(curPage,limit);
       },
       refreshPage(curPage = 1,limit = 10){
         this.pageItems=[];
-        this.$axios.get("/paper/searchPaperByKeyword",{
-          params: {
-            keyword: localStorage.getItem("selectKey"),
-            page: curPage,
-            limit: limit,
-          },
-          headers: {
-            'token':localStorage.getItem("Token")
-          }
-        })
-        .then(res=> {
-          if(res.data.code == 200 && res.data.data.length!==0){
-            this.pageItems = res.data.data
-          }else {
-            this.$message.error("No SearchResult!");
-          }
-        })
+        this.getSearchResult(curPage,limit);
       },
       getSearchResult(curPage,limit){
         this.$axios.get("/paper/searchPaperByKeyword",{
           params: {
-              token: localStorage.getItem("Token"),
               keyword: localStorage.getItem("selectKey"),
               page: curPage,
               limit: limit,
+              token: localStorage.getItem("Token"),
+          },
+          headers: {
+            'token':localStorage.getItem("Token")
           }
         })
         .then(res =>{
@@ -318,5 +311,8 @@ export default {
   text-overflow: ellipsis;
   word-wrap:break-word;
   color: black;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>
