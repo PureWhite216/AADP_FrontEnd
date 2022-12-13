@@ -181,7 +181,7 @@ export default {
       hotResearchList: [],
     };
   },
-  created() {
+  mounted() {
     this.getHotResearch()
   },
   methods: {
@@ -189,14 +189,15 @@ export default {
         this.$router.push("/PaperDetailPage");
     },
     getHotResearch() {
+      let token = localStorage.getItem('Token')
       this.$axios
-        .post("/research/selectPopResearch", {
-          header: {
-            token: localStorage.getItem("Token"),
+        .post("/research/selectPopResearch", {},
+        {
+          headers: {
+            'token': token
           }
-
-        })
-        .then((res) => {
+        }).then((res) => {
+          console.log(res.data)
           if (res.data.code == 200 && res.data.data.length !== 0) {
             this.hotResearchList = res.data.data;
           } else {
@@ -239,7 +240,7 @@ export default {
   background-color: #ffffff;
 }
 #building{
-  background:url("assets\images\ocean.webp");
+  background:url("../assets/images/ocean.webp");
   width:100%;
   height:100%;
   background-size:100% 100%;
