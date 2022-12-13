@@ -114,7 +114,7 @@ export default {
     }
   },
   methods:{
-    toPaperDetailPage(){
+    toPaperDetailPage(data){
       this.$router.push({path:'/PaperDetailPage',query:{data:data}});
     },
     toResearchDetailPage(){
