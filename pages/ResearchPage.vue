@@ -16,7 +16,8 @@
                   :key="i"
                   cols="12"
                 >
-                  <v-card class="mb-5">
+                <research :data1="item"></research>
+                  <!-- <v-card class="mb-5">
                     <div class="d-flex flex-no-wrap justify-space-between">
                       <div>
                         <v-card-title
@@ -39,7 +40,7 @@
                         <v-card-actions> </v-card-actions>
                       </div>
                     </div>
-                  </v-card>
+                  </v-card> -->
                 </v-col>
               </v-row>
             </v-container>
@@ -69,132 +70,64 @@
 <script>
 export default {
   name: "ResearchPage",
+  components:{
+    Research: () => import("@/components/personPageComponents/research"),
+  },
   data() {
     return {
       filed_option:['计算机','dsad','dsa'],
       tab_option: [
         {
           label: "最热",
-          researchList: [
-            {
-              color: "#ffffff",
-              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-              title: "Supermodel",
-              authors: ["Foster the dasdasdsPeople", "666"],
-              abstract: "666666dsad",
-            },
-            {
-              color: "#952175",
-              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-              title: "Halcyon Days",
-              authors: ["adsadsadsadsadsds"],
-              abstract: "666666dsad",
-            },
-            {
-              color: "#1F7087",
-              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-              title: "Supermodel",
-              authors: ["Foster the People", "666"],
-            },
-            {
-              color: "#952175",
-              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-              title: "Halcyon Days",
-              authors: ["Ellie Goulding"],
-            },
-          ],
+          researchList: [],
         },
         {
           label: "最新",
-          researchList: [
-            {
-              color: "#ffffff",
-              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-              title: "Supermodel",
-              authors: ["Foster the dasdasdsPeople", "666"],
-              abstract: "666666dsad",
-            },
-            {
-              color: "#952175",
-              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-              title: "Halcyon Days",
-              authors: ["adsadsadsadsadsds"],
-              abstract: "666666dsad",
-            },
-            {
-              color: "#1F7087",
-              src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-              title: "Supermodel",
-              authors: ["Foster the People", "666"],
-            },
-            {
-              color: "#952175",
-              src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-              title: "Halcyon Days",
-              authors: ["Ellie Goulding"],
-            },
-          ],
+          researchList: [],
         },
       ],
       tab: null,
-      hotAcademicList: [
-        {
-          color: "#ffffff",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the dasdasdsPeople", "666"],
-          abstract: "666666dsad",
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["adsadsadsadsadsds"],
-          abstract: "666666dsad",
-        },
-        {
-          color: "#1F7087",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the People", "666"],
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["Ellie Goulding"],
-        },
-      ],
-      hotResearchList: [
-        {
-          color: "#ffffff",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the dasdasdsPeople", "666"],
-          abstract:
-            "666666dsaddasjdasol\ndjsaiodjioasdjiosajdoasd\ndisahdioashdoiashdaiosdh",
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["adsadsadsadsadsds"],
-          abstract: "666666dsad",
-        },
-        {
-          color: "#1F7087",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the People", "666"],
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["Ellie Goulding"],
-        },
-      ],
     };
+  },
+  mounted() {
+    this.getHotResearch()
+    this.getNewResearch()
+  },
+  methods: {
+    getHotResearch() {
+      let token = localStorage.getItem('Token')
+      this.$axios
+        .post("/research/selectPopResearch", {},
+        {
+          headers: {
+            'token': token
+          }
+        }).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.tab_option[0].researchList = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
+    getNewResearch() {
+      let token = localStorage.getItem('Token')
+      this.$axios
+        .post("/research/selectLatestResearch", {},
+        {
+          headers: {
+            'token': token
+          }
+        }).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.tab_option[1].researchList = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
   },
 };
 </script>
