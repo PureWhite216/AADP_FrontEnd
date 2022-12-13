@@ -89,7 +89,7 @@
     margin-left: 10px;
   }
   #div_photo{
-    margin-left: 10px;
+    margin-left: 20px;
   }
   #div_abstrct{
     margin-left: 10px;
@@ -101,10 +101,12 @@
     min-height: 1200px;
     vertical-align: middle;
     margin: 20px auto 20px;
+    background-color: rgb(240, 240, 238);
   }
   #div_name{
-    margin-left:10px;
+    margin-left:50px;
     margin-right: 600px;
+    margin-top: 40px;
   }
   table th{
     padding-left: 100px;
