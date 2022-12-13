@@ -15,6 +15,7 @@
                   v-for="(item, i) in option.researchList"
                   :key="i"
                   cols="12"
+                  @click="toResearchDetailPage(item.id)"
                 >
                 <research :data1="item"></research>
                   <!-- <v-card class="mb-5">
@@ -94,6 +95,12 @@ export default {
     this.getNewResearch()
   },
   methods: {
+    toResearchDetailPage(research_id) {
+      localStorage.setItem("research_id",research_id)
+      this.$router.push({
+        name: 'ResearchDetails',
+      })
+    },
     getHotResearch() {
       let token = localStorage.getItem('Token')
       this.$axios

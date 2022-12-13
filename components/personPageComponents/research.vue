@@ -2,7 +2,7 @@
   <v-card id="comp">
     <h1 style="text-align: left">{{data1.researchTitle}}</h1>
     <div id="div_authors">
-      <p class="authors">{{data1.userId}}</p>
+      <p class="authors">{{author}}</p>
     </div>
     <br/>
     <p id="info">{{data1.publishTime}} | {{data1.researchField}} | 被引数：{{data1.refernum}} | 期刊：{{data1.paperPeriodical}}</p>
@@ -15,8 +15,35 @@
 <script>
 export default {
   name: "research",
-  props:['data1'],
-
+  props: ['data1'],
+  data() {
+    return{
+      author: null,
+    }
+  },
+  created() {
+    this.getAuthor()
+  },
+  methods: {
+    getAuthor() {
+      this.$axios
+        .get("/user/selectUserByUserId", {
+          params: {
+            user_id: this.data1.userId,
+          },
+          headers: {
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.author = res.data.data[0].username;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
+  },
 }
 </script>
 
