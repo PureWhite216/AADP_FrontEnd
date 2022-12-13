@@ -77,6 +77,13 @@
 export default {
   name: "AdminPage",
   mounted() {
+    let t = localStorage.getItem("isAdmin")
+    console.log(t)
+    if(!t)
+    {
+      console.log("Not Admin")
+      this.$router.push("/MainPage")
+    }
     this.userVerify();
   },
   methods : {

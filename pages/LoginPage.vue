@@ -280,7 +280,8 @@ export default {
         // console.log(res.data.data[0].avatar)
         if(res.data.code == 200){
           localStorage.setItem("avatar",res.data.data[0].avatar)
-          console.log(localStorage.getItem("avatar"))
+          localStorage.setItem("isAdmin",res.data.data[0].isAdmin)
+          // console.log(localStorage.getItem("avatar"))
         }
         else {
           this.$message({

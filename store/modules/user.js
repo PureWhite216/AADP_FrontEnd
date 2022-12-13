@@ -6,7 +6,8 @@ export const state = {
   real_name: userInfo.real_name || '',
   avatar: userInfo.avatar || '',
   token: userInfo.token || '',
-  unlook_message_count: userInfo.unlook_message_count || ''
+  unlook_message_count: userInfo.unlook_message_count || '',
+  isAdmin: userInfo.isAdmin || false
 }
 
 export const getters = {
@@ -35,6 +36,7 @@ export const getters = {
     state.email = null
     state.real_name = null
     state.token = null
+    state.isAdmin = null
     state.unlook_message_count = null
   }
 }
