@@ -451,7 +451,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.init();
   },
 
@@ -471,6 +471,8 @@ export default {
           this.user.name = res.data.data[0].realName
           this.user.password = res.data.data[0].password
           this.user.account = res.data.data[0].username
+          this.user.education = res.data.data[0].educationalBackground
+          this.user.institution = res.data.data[0].institutionId
           this.user.flag = res.data.data[0].isCertified
         }
         else {
@@ -528,13 +530,10 @@ export default {
       let token = localStorage.getItem('Token')
       const fd = new FormData()
       fd.append('file', file.file)
-      fd.append('token', token)
-      this.$axios.post('/user/uploadFile', {
-        data: {
-          file: file.file,
-        },
+      this.$axios.post('/user/uploadFile', fd, {
         headers: {
-          'token': token
+          'token': token,
+          'Content-Type': 'multipart/form-data'
         }
       }).then(res=>{
         //console.log('res', res)
@@ -574,16 +573,15 @@ export default {
             return
           }
           this.$axios.post('/user/modifyUserInfo', {
-            data: {
-              realName: this.input.name,
-              educationalBackground: this.input.education,
-              isCertified: false
-            },
+            realName: this.input.name,
+            educationalBackground: this.input.education,
+            isCertified: false
+          },{
             headers: {
               'token': token
             }
           }).then(res => {
-            //console.log('res', res)
+            console.log('res', res)
             if(res.data.code == 200){
               if(type === 1){
                 this.$message({
@@ -621,16 +619,15 @@ export default {
             return
           }
           this.$axios.post('/user/modifyEmail', {
-            data: {
-              email: this.input.email,
-              verifyCode: this.input.verifyCode,
-              password: this.user.password
-            },
+            email: this.input.email,
+            verifyCode: this.input.verifyCode,
+            password: this.user.password
+          }, {
             headers: {
               'token': token
             }
           }).then(res => {
-            //console.log(res)
+            console.log(res)
             if(res.data.code == 200){
               this.user.email = this.input.email
               this.$message({
@@ -662,13 +659,12 @@ export default {
             return
           }
           this.$axios.post('/user/changePassword', {
-            data: {
-              mode: 1,
-              oldPassword: this.input.oldPassword,
-              password1: this.input.newPassword,
-              password2: this.input.repeatPassword,
-              email: this.user.email
-            },
+            mode: 1,
+            oldPassword: this.input.oldPassword,
+            password1: this.input.newPassword,
+            password2: this.input.repeatPassword,
+            email: this.user.email
+          }, {
             headers: {
               'token': token
             }
@@ -699,9 +695,8 @@ export default {
         //修改头像
         default: {
           this.$axios.post('/user/modifyUserInfo', {
-            data: {
-              avatar: this.user.avatar
-            },
+            avatar: this.user.avatar
+          }, {
             headers: {
               'token': token
             }
