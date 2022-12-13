@@ -1,5 +1,5 @@
 <template>
-  <v-card id="comp">
+  <v-card id="comp" @click="goToDetail">
     <h1 style="text-align: left">{{data1.researchTitle}}</h1>
     <div id="div_authors">
       <p class="authors">{{author}}</p>
@@ -19,12 +19,16 @@ export default {
   data() {
     return{
       author: null,
+      authorData: []
     }
   },
   created() {
     this.getAuthor()
   },
   methods: {
+    goToDetail(){
+      this.$router.push({path:'/ResearchDetails',query:{data: this.data1, authorData: this.authorData}});
+    },
     getAuthor() {
       this.$axios
         .get("/user/selectUserByUserId", {
@@ -38,8 +42,9 @@ export default {
         .then((res) => {
           if (res.data.code == 200 && res.data.data.length !== 0) {
             this.author = res.data.data[0].username;
+            this.authorData = res.data.data[0]
           } else {
-            this.$message.error("No Author!");
+            // this.$message.error("No Author!");
           }
         });
     },

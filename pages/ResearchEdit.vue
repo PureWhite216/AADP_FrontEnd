@@ -27,7 +27,7 @@
           ></v-overflow-btn>
         </div>
         <div id="sub">
-          <v-btn color="#316ce8" depressed small @click>发表</v-btn>
+          <v-btn color="#316ce8" depressed small @click="pubResearch">发表</v-btn>
         </div>
       </v-row>
 
@@ -72,6 +72,7 @@ export default {
   methods: {
     pubResearch(){
         this.researchContent =this.$refs.richTextEditor.getJsonContent().slice(7, -1);
+        console.log(this.researchContent);
         this.$axios.post("/research/createResearch",{
           researchAbstract:this.abstract,
           researchContent:this.researchContent,
@@ -81,8 +82,9 @@ export default {
         })
         .then(res=> {
           if(res.data.code == 200){
-            this.$message.success("研究创建成功！")
+            this.$message.success("研究发表成功！")
           }else{
+            console.log(res)
             this.$message.error("Research Create Error!")
           }
         })

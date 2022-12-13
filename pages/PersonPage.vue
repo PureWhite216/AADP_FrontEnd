@@ -46,7 +46,7 @@
               v-for="(item, i) in academic_achievements"
               :key="i"
               cols="12"
-              @click="toPaperDetailPage()"
+              @click="toPaperDetailPage(item)"
             >
               <academic-achievement :data1="item"></academic-achievement>
             </v-col>
@@ -64,7 +64,6 @@
               v-for="(item, i) in researches"
               :key="i"
               cols="12"
-              @click = "toResearchDetailPage()"
             >
               <research :data1="item"></research>
             </v-col>
@@ -111,31 +110,12 @@ export default {
       display:1,
       academic_achievements:[],
 
-      researches:[
-        {
-          title:"研究标题1",
-          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
-        },
-        {
-          title:"研究标题2",
-          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
-        },
-        {
-          title:"研究标题3",
-          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
-        },
-        {
-          title:"研究标题4",
-          abstract:"虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 左拉: 生活的道路一旦选定，就要勇敢地走到底，决不回头。这句话看似简单，但其中的阴郁不禁让人深思。 学术研究摘要因何而发生? 查尔斯·史考伯说过一句著名的话 : 一个人几乎可以在任何他怀有无限热忱的事情上成功。 这启发了我。 我的学术研究摘要在一定程度上会影响了周围。 虽然有负面的不好的成长经历，却让我明白了很多做人处事的道理，有些道理，可能在学术研究摘要以后，才能真正的大彻大悟。 生活中, 若学术研究摘要出现了, 我们就不得不考虑它出现了的事实. 学术研究摘要, 发生了会如何, 不发生又会如何. 通过学术研究摘要，我感到这虽然是偶然的，但同时也是长期以来对自己放松要求的必然结果。",
-        },
-      ]
+      researches:[]
     }
   },
   methods:{
     toPaperDetailPage(){
-      this.$router.push({
-        name: 'PaperDetailPage',
-      })
+      this.$router.push({path:'/PaperDetailPage',query:{data:data}});
     },
     toResearchDetailPage(){
       this.$router.push({
@@ -157,6 +137,27 @@ export default {
         }})
       }
 
+    },
+    getResearch(curPage = 1, limit = 10)
+    {
+      this.researches=[];
+      this.$axios.get("/user/queryResearches",{
+        params: {
+          userId: this.$route.query.userID,
+          page: curPage,
+          limit: limit,
+        },
+        headers: {
+          'token':localStorage.getItem("Token")
+        }
+      }).then(res=> {
+        console.log(res.data);
+        if(res.data.code == 200){
+          this.researches = res.data.data.researches;
+        }else {
+          this.$message.error("No Researches!");
+        }
+      })
     },
     getSearch() {
       this.$axios
@@ -268,7 +269,8 @@ export default {
     this.getUserInfo()
     this.getAcademicAchievement(this.curPage, this.limit)
     this.getSumInfo()
-    this.getSearch()
+    // this.getSearch()
+    this.getResearch(this.curPage, this.limit)
     this.getCoWorkers()
   }
 }

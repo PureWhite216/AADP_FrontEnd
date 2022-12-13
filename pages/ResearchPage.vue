@@ -15,7 +15,6 @@
                   v-for="(item, i) in option.researchList"
                   :key="i"
                   cols="12"
-                  @click="toResearchDetailPage(item.id)"
                 >
                 <research :data1="item"></research>
                   <!-- <v-card class="mb-5">
