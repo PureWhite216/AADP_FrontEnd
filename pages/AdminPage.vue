@@ -88,16 +88,17 @@ export default {
       this.tasks=[];
       this.$axios.get("/user/listAllTask",{
         params: {
-          token: localStorage.getItem("Token"),
-          keyword: localStorage.getItem("selectKey"),
+          type: type,
           page: curPage,
           limit: limit,
-          type: type,
+        },
+        headers: {
+          'token':localStorage.getItem("Token")
         }
       })
         .then(res=> {
-          if(res.data.code == 200 && res.data.data.length!==0){
-            this.tasks = res.data.data
+          if(res.data.code == 200 && res.data.tasks.length!==0){
+            this.tasks = res.data.tasks
           }else {
             this.$message.error("No Apply!");
           }

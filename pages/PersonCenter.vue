@@ -222,7 +222,7 @@
                   v-on="on"
                   style="float: right; right: 2%; top: 10px"
                   v-if="!user.flag"
-                  @click="addTask(0)"
+                  @click="addTask(1)"
                 >
                   身份认证
                 </v-btn>
@@ -495,7 +495,7 @@ export default {
       this.restore(flag)
     },
 
-    addTask(objectId = 0, objectType = "INSTITUTION"){
+    addTask(objectId = 1, objectType = "INSTITUTION"){
       let token = localStorage.getItem('Token')
       this.$axios.post('/user/addTask', {
           objectId: objectId,
