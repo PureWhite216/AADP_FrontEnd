@@ -33,7 +33,8 @@ export default {
     this.init()
   },
   destroyed: function () { // 离开页面生命周期函数
-    this.websocketclose();
+    // this.websocketclose();
+    this.quill = null;
   },
   methods: {
     init() {
@@ -74,11 +75,11 @@ export default {
         placeholder: '请输入文章内容…',
         theme: 'snow'
       }
-      this.initWebSocket()
+      // this.initWebSocket()
       this.quill = new Quill(this.$refs.richTextEditor, options)
-      setInterval(() => {
-        this.websock.send("")
-      }, 5000);
+      // setInterval(() => {
+      //   this.websock.send("")
+      // }, 5000);
       this.quill.on('text-change', this.syn_send_doc)
       // JSON.parse(localStorage.getItem('word_content'))
       if (localStorage.getItem('flag') === 'in') {
@@ -96,56 +97,56 @@ export default {
     getJsonContent() {
       return JSON.stringify(this.quill.getContents())
     },
-    syn_send_doc(delta, oldDelta, source) {
-      // console.log(this.getJsonContent().slice(7, -1))
-      if (source == 'api') {
-        console.log("同步中...");
-      } else if (source == 'user') {
-        this.websock.send(JSON.stringify({
-          'type': 'doc',
-          'id': localStorage.getItem('doc_id'),
-          'content': this.getJsonContent().slice(7, -1)
-        }))
-      }
-    },
-    initWebSocket() { // 建立连接
-      // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-      var url = " ws://101.42.171.88:8090/ws"
-      // var url = " ws://localhost:8090/ws"
-      this.websock = new WebSocket(url);
-      this.websock.onopen = this.websocketonopen;
-      // this.websock.send = this.websocketsend;
-      this.websock.onerror = this.websocketonerror;
-      this.websock.onmessage = this.websocketonmessage;
-      this.websock.onclose = this.websocketclose;
-    },
-    // 连接成功后调用
-    websocketonopen() {
-      this.websock.send(JSON.stringify({
-        token: getters.getToken(state),
-        user_id: getters.getUserId(state),
-        type: "doc",
-        id: localStorage.getItem('doc_id')
-      }))
-      console.log("WebSocket连接成功");
-    },
-    // 发生错误时调用
-    websocketonerror() {
-      console.log("WebSocket连接发生错误");
-    },
-    // 给后端发消息时调用
-    websocketsend() {
-      console.log("WebSocket连接发生错误");
-    },
-    // 接收后端消息
-    // vue 客户端根据返回的cmd类型处理不同的业务响应
-    websocketonmessage(e) {
-      this.quill.setContents(JSON.parse(JSON.parse(e.data).content))
-    },
-    // 关闭连接时调用
-    websocketclose(e) {
-      console.log("connection closed (" + e.code + ")");
-    }
+    // syn_send_doc(delta, oldDelta, source) {
+    //   // console.log(this.getJsonContent().slice(7, -1))
+    //   if (source == 'api') {
+    //     console.log("同步中...");
+    //   } else if (source == 'user') {
+    //     this.websock.send(JSON.stringify({
+    //       'type': 'doc',
+    //       'id': localStorage.getItem('doc_id'),
+    //       'content': this.getJsonContent().slice(7, -1)
+    //     }))
+    //   }
+    // },
+    // initWebSocket() { // 建立连接
+    //   // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
+    //   var url = " ws://101.42.171.88:8090/ws"
+    //   // var url = " ws://localhost:8090/ws"
+    //   this.websock = new WebSocket(url);
+    //   this.websock.onopen = this.websocketonopen;
+    //   // this.websock.send = this.websocketsend;
+    //   this.websock.onerror = this.websocketonerror;
+    //   this.websock.onmessage = this.websocketonmessage;
+    //   this.websock.onclose = this.websocketclose;
+    // },
+    // // 连接成功后调用
+    // websocketonopen() {
+    //   this.websock.send(JSON.stringify({
+    //     token: getters.getToken(state),
+    //     user_id: getters.getUserId(state),
+    //     type: "doc",
+    //     id: localStorage.getItem('doc_id')
+    //   }))
+    //   console.log("WebSocket连接成功");
+    // },
+    // // 发生错误时调用
+    // websocketonerror() {
+    //   console.log("WebSocket连接发生错误");
+    // },
+    // // 给后端发消息时调用
+    // websocketsend() {
+    //   console.log("WebSocket连接发生错误");
+    // },
+    // // 接收后端消息
+    // // vue 客户端根据返回的cmd类型处理不同的业务响应
+    // websocketonmessage(e) {
+    //   this.quill.setContents(JSON.parse(JSON.parse(e.data).content))
+    // },
+    // // 关闭连接时调用
+    // websocketclose(e) {
+    //   console.log("connection closed (" + e.code + ")");
+    // }
   }
 }
 

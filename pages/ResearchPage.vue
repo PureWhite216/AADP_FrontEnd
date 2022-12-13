@@ -221,8 +221,7 @@ export default {
   width: 460px;
   vertical-align: top;
   margin-block-end: 100px;
-
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 .main_title {
   margin-left: 10px;

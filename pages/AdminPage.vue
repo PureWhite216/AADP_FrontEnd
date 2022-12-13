@@ -11,13 +11,13 @@
             <v-list
               nav
             >
-              <v-list-item @click="flag = 0">
+              <v-list-item @click="userVerify">
                 <v-list-item-icon>
                   <v-icon>mdi-account</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>用户认证</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="flag = 1">
+              <v-list-item @click="paperVerify">
                 <v-list-item-icon>
                   <v-icon>mdi-book</v-icon>
                 </v-list-item-icon>
@@ -35,7 +35,7 @@
             <v-data-table
               v-model="selected"
               :headers="headers1"
-              :items="request1"
+              :items="tasks"
               item-key="operatorName"
               show-select
               class="elevation-1"
@@ -52,7 +52,7 @@
             <v-data-table
               v-model="selected"
               :headers="headers2"
-              :items="request2"
+              :items="tasks"
               item-key="operatorName"
               show-select
               class="elevation-1"
@@ -76,16 +76,26 @@
 <script>
 export default {
   name: "AdminPage",
-  created() {
-    this.getTasks(1, 10, "INSTITUTION");
+  mounted() {
+    this.paperVerify();
   },
   methods : {
     changeFlag(flag) {
       this.flag = flag;
-      this.restore(flag)
+    },
+    userVerify()
+    {
+      this.getTasks(1, 10, "INSTITUTION");
+      this.changeFlag(0);
+    },
+    paperVerify()
+    {
+      this.getTasks(1, 10, "PAPER");
+      this.changeFlag(1);
     },
     getTasks(curPage = 1,limit = 10, type = "INSTITUTION"){
       this.tasks=[];
+      console.log(type);
       this.$axios.get("/user/listAllTask",{
         params: {
           type: type,
@@ -95,10 +105,10 @@ export default {
         headers: {
           'token':localStorage.getItem("Token")
         }
-      })
-        .then(res=> {
-          if(res.data.code == "200"){
-            this.tasks = res.data.tasks
+      }).then(res=> {
+          console.log(res.data);
+          if(res.data.code == 200){
+            this.tasks = res.data.data.tasks;
           }else {
             this.$message.error("No Apply!");
           }
@@ -138,10 +148,6 @@ export default {
       request1: [
         {
           operatorName: 'Mike',
-          institutionName: 'BUAA'
-        },
-        {
-          operatorName: 'Jack',
           institutionName: 'BUAA'
         },
       ],

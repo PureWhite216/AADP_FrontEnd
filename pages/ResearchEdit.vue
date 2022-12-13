@@ -49,6 +49,8 @@ export default {
     return {
       dropdown_font: ['Arial', 'Calibri', 'Courier', 'Verdana'],
     }
+  },
+  destroyed() {
   }
 }
 </script>
