@@ -64,11 +64,12 @@
         <v-container>
           <v-row dense>
             <v-col
-              v-for="(item, i) in hotAcademicList"
+              v-for="(item, i) in hotResearchList"
               :key="i"
               cols="12"
             >
-              <v-card
+            <research :data1="item"></research>
+              <!-- <v-card
                 color="white"
                 @click="GotoDetailPage()"
               >
@@ -83,7 +84,7 @@
                     id="abstract"
                   >{{item.paperAbstract}}</div>
                 </div>
-              </v-card>
+              </v-card> -->
             </v-col>
           </v-row>
         </v-container>
@@ -177,40 +178,32 @@ export default {
           authors: ["Ellie Goulding"],
         },
       ],
-      hotResearchList: [
-        {
-          color: "#ffffff",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the dasdasdsPeople", "666"],
-          abstract: "666666dsaddasjdasol\ndjsaiodjioasdjiosajdoasd\ndisahdioashdoiashdaiosdh",
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["adsadsadsadsadsds"],
-          abstract: "666666dsad",
-        },
-        {
-          color: "#1F7087",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the People", "666"],
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["Ellie Goulding"],
-        },
-      ],
+      hotResearchList: [],
     };
+  },
+  created() {
+    this.getHotResearch()
   },
   methods: {
     GotoDetailPage(){
         this.$router.push("/PaperDetailPage");
-      },
+    },
+    getHotResearch() {
+      this.$axios
+        .post("/research/selectPopResearch", {
+          header: {
+            token: localStorage.getItem("Token"),
+          }
+
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.hotResearchList = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
   },
 };
 </script>
