@@ -1,15 +1,12 @@
 <template>
   <div>
-    <br>
+    <br />
     <div class="text-center">
-      <v-card
-        id="SearchResult">
-<!--        class = "Search_result"-->
-        <v-app-bar
-          color="white"
-        >
+      <v-card id="SearchResult">
+        <!--        class = "Search_result"-->
+        <v-app-bar color="white">
           <v-col align="left">
-            <v-toolbar-title >搜索结果</v-toolbar-title>
+            <v-toolbar-title>搜索结果</v-toolbar-title>
           </v-col>
           <v-col align="right">
             <v-select
@@ -27,10 +24,12 @@
               v-for="(item, i) in pageItems"
               :key="i"
               cols="12"
+              @click="GotoDetailPage()"
             >
-              <v-card
+            <academic-achievement :data1="item"></academic-achievement>
+              <!-- <v-card
                 color="white"
-                @click="GotoDetailPage()"
+
               >
                 <h1 id="head">{{item.paperTitle}}</h1>
                 <div id="div_authors">
@@ -43,65 +42,53 @@
                     id="abstract"
                   >{{item.paperAbstract}}</div>
                 </div>
-              </v-card>
+              </v-card> -->
             </v-col>
           </v-row>
         </v-container>
         <v-pagination
           v-model="curPage"
-          :length="Math.ceil( totalPage/ limit)"
+          :length="Math.ceil(totalPage / limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
-        <br>
+        <br />
       </v-card>
-      <v-card
-        id="select"
-      >
-        <v-app-bar
-          color="white"
-        >
-          <v-toolbar-title >筛选</v-toolbar-title>
+      <v-card id="select">
+        <v-app-bar color="white">
+          <v-toolbar-title>筛选</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-app-bar>
-        <br>
+        <br />
         <v-container>
-        <v-card>
-          <br>
-          <h3 class="selectNode">时间</h3>
-          <br>
-          <div>
-            <v-menu class="menu1">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{choose_year1}}
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in years"
-                  :key="index"
-                  @click="choose_year1 = item.title"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-            <hr class="line">
-            <v-menu class="menu1">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{choose_year2}}
-                </v-btn>
-              </template>
+          <v-card>
+            <br />
+            <h3 class="selectNode">时间</h3>
+            <br />
+            <div>
+              <v-menu class="menu1">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" v-bind="attrs" v-on="on">
+                    {{ choose_year1 }}
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in years"
+                    :key="index"
+                    @click="choose_year1 = item.title"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+              <hr class="line" />
+              <v-menu class="menu1">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" v-bind="attrs" v-on="on">
+                    {{ choose_year2 }}
+                  </v-btn>
+                </template>
                 <v-list>
                   <v-list-item
                     v-for="(item, index) in years"
@@ -111,50 +98,50 @@
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
-            </v-menu>
-          </div>
-          <br>
-          <div >
-            <v-btn id="btn">确认</v-btn>
-          </div>
-          <br>
-        </v-card>
-        <br>
-        <v-card>
-          <br>
-          <h3 class="selectNode">领域</h3>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <br>
-        </v-card>
-        <br>
-        <v-card>
-          <br>
-          <h3 class="selectNode">类型</h3>
-          <div>
-            <v-checkbox label="论文" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="专利" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <div>
-            <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-          </div>
-          <br>
-        </v-card>
+              </v-menu>
+            </div>
+            <br />
+            <div>
+              <v-btn id="btn">确认</v-btn>
+            </div>
+            <br />
+          </v-card>
+          <br />
+          <v-card>
+            <br />
+            <h3 class="selectNode">领域</h3>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <br />
+          </v-card>
+          <br />
+          <v-card>
+            <br />
+            <h3 class="selectNode">类型</h3>
+            <div>
+              <v-checkbox label="论文" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="专利" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <div>
+              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+            </div>
+            <br />
+          </v-card>
         </v-container>
       </v-card>
     </div>
@@ -164,106 +151,112 @@
 <script>
 export default {
   name: "SearchResultPage",
-  data () {
+  components:{
+    AcademicAchievement: () => import("@/components/personPageComponents/academicAchievement"),
+    Research: () => import("@/components/personPageComponents/research"),
+  },
+  data() {
     return {
-      sortMethod: ['时间降序', '引用降序'],
+      sortMethod: ["时间降序", "引用降序"],
       curPage: 1,
       limit: 10,
       loading: false,
       search: null,
-      totalPage:800,
+      totalPage: 800,
       select: null,
       states: [],
       offset: true,
-      choose_year1:"起始时间",
-      choose_year2:"截止时间",
+      choose_year1: "起始时间",
+      choose_year2: "截止时间",
       items: [],
       pageItems: [],
       years: [
-        { title: '2006' },
-        { title: '2007' },
-        { title: '2008' },
-        { title: '2008' },
-        { title: '2009' },
-        { title: '2010' },
-        { title: '2011' },
-        { title: '2012' },
-        { title: '2013' },
-        { title: '2014' },
-        { title: '2015' },
-        { title: '2016' },
-        { title: '2017' },
-        { title: '2018' },
-        { title: '2019' },
-        { title: '2020' },
-        { title: '2021' },
-        { title: '2022' },
+        { title: "2006" },
+        { title: "2007" },
+        { title: "2008" },
+        { title: "2008" },
+        { title: "2009" },
+        { title: "2010" },
+        { title: "2011" },
+        { title: "2012" },
+        { title: "2013" },
+        { title: "2014" },
+        { title: "2015" },
+        { title: "2016" },
+        { title: "2017" },
+        { title: "2018" },
+        { title: "2019" },
+        { title: "2020" },
+        { title: "2021" },
+        { title: "2022" },
       ],
-    }
+    };
   },
   created() {
-    this.getSearchResult(1,10)
+    this.getSearchResult(1, 10);
   },
   watch: {
-    $route(val, from) {//监听到路由（参数）改变
+    $route(val, from) {
+      //监听到路由（参数）改变
       // 拿到目标参数 val.query.typeCode 去再次请求数据接口
-      this.getSearchResult(1,10,val.query.t)
-    }
+      this.getSearchResult(1, 10, val.query.t);
+    },
   },
   methods: {
-      GotoDetailPage(){
-        this.$router.push("/PaperDetailPage");
-      },
-      onPageChange(curPage,limit){
-        this.refreshPage(curPage,limit);
-      },
-      refreshPage(curPage = 1,limit = 10){
-        this.pageItems=[];
-        this.getSearchResult(curPage,limit);
-      },
-      getSearchResult(curPage,limit){
-        this.$axios.get("/paper/searchPaperByKeyword",{
+    GotoDetailPage() {
+      this.$router.push("/PaperDetailPage");
+    },
+    onPageChange(curPage, limit) {
+      this.refreshPage(curPage, limit);
+    },
+    refreshPage(curPage = 1, limit = 10) {
+      this.pageItems = [];
+      this.getSearchResult(curPage, limit);
+    },
+    getSearchResult(curPage, limit) {
+      this.$axios
+        .get("/paper/searchPaperByKeyword", {
           params: {
-              keyword: localStorage.getItem("selectKey"),
-              page: curPage,
-              limit: limit,
-              token: localStorage.getItem("Token"),
+            keyword: localStorage.getItem("selectKey"),
+            page: curPage,
+            limit: limit,
+            token: localStorage.getItem("Token"),
           },
           headers: {
-            'token':localStorage.getItem("Token")
+            token: localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.pageItems = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
           }
-        })
-        .then(res =>{
-            if(res.data.code == 200 && res.data.data.length!==0){
-              this.pageItems = res.data.data
-            }else {
-              this.$message.error("No SearchResult!");
-            }
-        })
-      }
+        });
+    },
   },
-}
+};
 </script>
 
 <style scoped>
-#btn{
+#btn {
   background-color: #2c73cb;
   height: 40px;
 }
-#SearchResult{
+#SearchResult {
   display: inline-block;
   width: 700px;
   vertical-align: top;
   background-color: #ffffff;
 }
-#select{
+#select {
   width: 400px;
   margin-left: 20px;
   margin-top: 0;
   background-color: #ffffff;
   display: inline-block;
 }
-.authors{
+.authors {
   display: inline-block;
   margin-right: 5px;
   text-align: left;
@@ -272,44 +265,44 @@ export default {
   color: black;
   font-size: 20px;
 }
-#head{
+#head {
   margin-left: 20px;
   text-align: left;
   color: black;
   font-size: 30px;
 }
-#info{
+#info {
   margin-left: 20px;
   text-align: left;
   color: black;
   font-size: 15px;
 }
-#div_authors{
+#div_authors {
   margin-left: 20px;
   height: 20px;
   width: 660px;
 }
-.selectNode{
+.selectNode {
   text-align: left;
   margin-left: 20px;
   height: 20px;
   width: 660px;
 }
-.menu1{
+.menu1 {
   display: inline-block;
   margin-left: 20px;
 }
-.line{
+.line {
   display: inline-block;
 }
-#abstract{
+#abstract {
   text-align: left;
   margin-left: 20px;
   width: 640px;
   height: 75px;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-wrap:break-word;
+  word-wrap: break-word;
   color: black;
   display: -webkit-box;
   -webkit-line-clamp: 3;

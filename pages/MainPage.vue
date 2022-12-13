@@ -14,23 +14,9 @@
               v-for="(item, i) in hotAcademicList"
               :key="i"
               cols="12"
+              @click="GotoDetailPage()"
             >
-              <v-card
-                color="white"
-                @click="GotoDetailPage()"
-              >
-                <h1 id="head">{{item.paperTitle}}</h1>
-                <div id="div_authors">
-                  <p class="authors">{{item.paperAuthor}}</p>
-                </div>
-                <br/>
-                <p id="info">{{item.paperDate}} | {{item.paperClassification}} | 被引数：{{item.paperCited}} | 期刊：{{item.paperPeriodical}}</p>
-                <div style="width: 640px">
-                  <div
-                    id="abstract"
-                  >{{item.paperAbstract}}</div>
-                </div>
-              </v-card>
+            <academic-achievement :data1="item"></academic-achievement>
             </v-col>
           </v-row>
         </v-container>
@@ -147,6 +133,10 @@
 <script>
 export default {
   name: "MainPage",
+  components:{
+    AcademicAchievement: () => import("@/components/personPageComponents/academicAchievement"),
+    Research: () => import("@/components/personPageComponents/research"),
+  },
   data() {
     return {
       hotAcademicList: [
@@ -216,6 +206,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    GotoDetailPage(){
+        this.$router.push("/PaperDetailPage");
+      },
   },
 };
 </script>
