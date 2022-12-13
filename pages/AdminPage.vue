@@ -77,14 +77,14 @@
 export default {
   name: "AdminPage",
   created() {
-
+    this.getTasks(1, 10, "INSTITUTION");
   },
   methods : {
     changeFlag(flag) {
       this.flag = flag;
       this.restore(flag)
     },
-    getTasks(curPage = 1,limit = 10){
+    getTasks(curPage = 1,limit = 10, type = "INSTITUTION"){
       this.tasks=[];
       this.$axios.get("/user/listAllTask",{
         params: {
@@ -92,6 +92,7 @@ export default {
           keyword: localStorage.getItem("selectKey"),
           page: curPage,
           limit: limit,
+          type: type,
         }
       })
         .then(res=> {
