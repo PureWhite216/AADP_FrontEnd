@@ -27,6 +27,7 @@
             label="search something"
             solo-inverted
             width="500px"
+            @keydown.enter.native="goSearch()"
           ></v-text-field>
           <v-btn icon @click="goSearch()">
             <v-icon>mdi-magnify</v-icon>

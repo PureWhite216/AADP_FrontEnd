@@ -1,7 +1,7 @@
 <template>
   <div class="background">
     <div class="main" style="margin-top: 10px">
-<!--      导航栏-->
+      <!--      导航栏-->
       <v-navigation-drawer
         absolute
         fixed
@@ -81,10 +81,10 @@
         </template>
       </v-navigation-drawer>
       <div class="pageMain">
-<!--        个人信息-->
+        <!--        个人信息-->
         <div v-if="flag===1">
           <div class="head1"></div>
-<!--          头像-->
+          <!--          头像-->
           <div class="content" style="padding-top: 5px">
             <v-list>
               <v-list-item-title style="font-size: 20px; color:black; font-weight: bold">
@@ -109,9 +109,9 @@
           </div>
 
           <div style="border-bottom: 1px black solid;"></div>
-<!--          个人信息-->
+          <!--          个人信息-->
           <div class="content">
-<!--            查看个人信息-->
+            <!--            查看个人信息-->
             <div v-if="!editInfoFlag">
               <div style="font-size: 20px; color:black; font-weight: bold">姓名</div>
               <div style="margin: 10px 0 10px 0">
@@ -174,7 +174,7 @@
                 </v-card>
               </v-dialog>
             </div>
-<!--            修改个人信息-->
+            <!--            修改个人信息-->
             <div v-else>
               <div style="font-size: 20px; color:black; font-weight: bold; ">姓名</div>
               <v-text-field
@@ -207,7 +207,7 @@
           </div>
 
           <div style="border-bottom: 1px black solid;"></div>
-<!--          认证情况-->
+          <!--          认证情况-->
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">认证情况</div>
             <v-dialog
@@ -222,6 +222,7 @@
                   v-on="on"
                   style="float: right; right: 2%; top: 10px"
                   v-if="!user.flag"
+                  @click="addTask(1)"
                 >
                   身份认证
                 </v-btn>
@@ -262,18 +263,18 @@
                  v-else>已认证</div>
           </div>
         </div>
-<!--        账户信息-->
+        <!--        账户信息-->
         <div v-else>
           <div class="head2"></div>
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">个人邮箱</div>
-<!--            查看邮箱-->
+            <!--            查看邮箱-->
             <div v-if="!editEmailFlag">
               <div style="margin: 10px 0 10px 0">{{user.email}}</div>
               <v-btn small color="primary" style="margin: 10px 0 20px 0"
                      @click="changeEmail">修改邮箱</v-btn>
             </div>
-<!--            修改邮箱-->
+            <!--            修改邮箱-->
             <div v-else>
               <div>
                 <v-text-field
@@ -311,7 +312,7 @@
 
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">密码</div>
-<!--            查看密码-->
+            <!--            查看密码-->
             <div v-if="!editPasswordFlag">
               <div v-if="passwordFlag" style="font-size: 18px; margin: 10px 0 10px 0">
                 <div>
@@ -328,7 +329,7 @@
                 </div>
               </div>
             </div>
-<!--            修改密码-->
+            <!--            修改密码-->
             <div v-else>
               <v-text-field
                 v-model="input.oldPassword"
@@ -451,7 +452,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.init();
   },
 
@@ -460,8 +461,8 @@ export default {
       let token = localStorage.getItem('Token')
       //console.log(this.token)
       this.$axios.get('/user/showInfo/' , {
-        params: {
-          token: token
+        headers: {
+          'token': token
         }
       }).then(res => {
         //console.log(res)
@@ -471,6 +472,8 @@ export default {
           this.user.name = res.data.data[0].realName
           this.user.password = res.data.data[0].password
           this.user.account = res.data.data[0].username
+          this.user.education = res.data.data[0].educationalBackground
+          this.user.institution = res.data.data[0].institutionId
           this.user.flag = res.data.data[0].isCertified
         }
         else {
@@ -492,11 +495,38 @@ export default {
       this.restore(flag)
     },
 
+    addTask(objectId = 1, objectType = "INSTITUTION"){
+      let token = localStorage.getItem('Token')
+      this.$axios.post('/user/addTask', {
+          objectId: objectId,
+          objectType: objectType
+        },{
+          headers: {
+            'token': token
+          }
+        }
+      ).then(res => {
+        //console.log(res)
+        if(res.data.code == 200){
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
+    },
+
     logout(){
       let token = localStorage.getItem('Token')
       this.$axios.get('/user/logout/' , {
-        params: {
-          token: token
+        headers: {
+          'token': token
         }
       }).then(res => {
         //console.log(res)
@@ -528,19 +558,13 @@ export default {
       let token = localStorage.getItem('Token')
       const fd = new FormData()
       fd.append('file', file.file)
-      fd.append('token', token)
-      // this.$axios('/user/uploadFile', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   },
-      //   data: fd
-      // })
-      this.$axios.post('/user/uploadFile', {
-        file: file.file,
-        token: token
+      this.$axios.post('/user/uploadFile', fd, {
+        headers: {
+          'token': token,
+          'Content-Type': 'multipart/form-data'
+        }
       }).then(res=>{
-        console.log('res', res)
+        console.log(res)
         if(res.data.code == 200){
           this.user.avatar = res.data.data[0].url
           this.confirm(4)
@@ -577,17 +601,24 @@ export default {
             return
           }
           this.$axios.post('/user/modifyUserInfo', {
-            token: token,
             realName: this.input.name,
+            educationalBackground: this.input.education,
             isCertified: false
+          }, {
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log('res', res)
+            //console.log('res', res)
             if(res.data.code == 200){
               if(type === 1){
                 this.$message({
                   message: '修改成功',
                   type: 'success'
                 })
+                this.user.name = this.input.name
+                this.user.institution = this.input.institution
+                this.user.education = this.input.education
                 this.user.flag = false
                 this.dialog1 = true
               }
@@ -616,12 +647,15 @@ export default {
             return
           }
           this.$axios.post('/user/modifyEmail', {
-            token: token,
             email: this.input.email,
             verifyCode: this.input.verifyCode,
             password: this.user.password
+          }, {
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code == 200){
               this.user.email = this.input.email
               this.$message({
@@ -654,13 +688,16 @@ export default {
           }
           this.$axios.post('/user/changePassword', {
             mode: 1,
-            token: token,
             oldPassword: this.input.oldPassword,
             password1: this.input.newPassword,
             password2: this.input.repeatPassword,
             email: this.user.email
+          }, {
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code == 200){
               this.user.password = this.input.newPassword
               this.$message({
@@ -686,10 +723,13 @@ export default {
         //修改头像
         default: {
           this.$axios.post('/user/modifyUserInfo', {
-            token: token,
             avatar: this.user.avatar
+          }, {
+            headers: {
+              'token': token
+            }
           }).then(res => {
-            console.log(res)
+            //console.log(res)
             if(res.data.code != 200) {
               this.$message({
                 message: res.data.message,

@@ -260,6 +260,14 @@ export default {
     ],
   }),
 
+  mounted () {
+    window.addEventListener('keydown', this.keyDown)
+  },
+
+  destroyed () {
+    window.removeEventListener('keydown', this.keyDown, false)
+  },
+
   methods: {
     login(){
       if(this.loginFlag===1){
@@ -335,8 +343,8 @@ export default {
 
     getVer() {
       this.$axios.post('/user/sendRegistrationVerificationCode',{
-          email: this.email,
-          modify: false
+        email: this.email,
+        modify: false
       }).then(res => {
         console.log(res)
         if(res.data.code == 200){
@@ -440,6 +448,12 @@ export default {
 
     resetValidation () {
       this.$refs.form.resetValidation()
+    },
+
+    keyDown (e){
+      if (e.keyCode===13 && this.loginFlag===1) {
+        this.login()
+      }
     }
   },
 }

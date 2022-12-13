@@ -5,7 +5,7 @@
     <v-main style="background-color: rgb(217,227,234)">
       <nuxt />
     </v-main>
-    <Footer />
+<!--    <FooterBar />-->
   </v-app>
 </template>
 
@@ -25,7 +25,7 @@ export default {
   },
   components: {
     HeaderBar: () => import("@/layouts/sections/HeaderBar"),
-    Footer: () => import("@/layouts/sections/FooterBar")
+    FooterBar: () => import("@/layouts/sections/FooterBar")
   },
   methods: {}
 };

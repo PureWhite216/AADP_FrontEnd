@@ -45,9 +45,8 @@
           </v-row>
         </v-container>
         <v-pagination
-          v-if="Math.ceil(totalPage / limit) > 1"
           v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
+          :length="Math.ceil( totalPage/ limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
@@ -166,10 +165,10 @@ export default {
     return {
       sortMethod: ['时间降序', '引用降序'],
       curPage: 1,
-      totalPage: 0,
       limit: 10,
       loading: false,
       search: null,
+      totalPage:0,
       select: null,
       states: [],
       offset: true,
@@ -200,12 +199,12 @@ export default {
     }
   },
   created() {
-    this.getSearchResult()
+    this.getSearchResult(1,10)
   },
   watch: {
     $route(val, from) {//监听到路由（参数）改变
       // 拿到目标参数 val.query.typeCode 去再次请求数据接口
-      this.getSearchResult(val.query.t)
+      this.getSearchResult(1,10,val.query.t)
     }
   },
   methods: {
@@ -214,24 +213,38 @@ export default {
       },
       refreshPage(curPage = 1,limit = 10){
         this.pageItems=[];
-          for(let i=(curPage-1)*10;i<(curPage-1)*10+limit;i++){
-            this.pageItems.push(this.items[i]);
+        this.$axios.get("/paper/searchPaperByKeyword",{
+          params: {
+            keyword: localStorage.getItem("selectKey"),
+            page: curPage,
+            limit: limit,
+          },
+          headers: {
+            'token':localStorage.getItem("Token")
           }
+        })
+        .then(res=> {
+          if(res.data.code == 200 && res.data.data.length!==0){
+            this.pageItems = res.data.data
+          }else {
+            this.$message.error("No SearchResult!");
+          }
+        })
       },
-      getSearchResult(){
+      getSearchResult(curPage,limit){
         this.$axios.get("/paper/searchPaperByKeyword",{
           params: {
               token: localStorage.getItem("Token"),
-              keyword: localStorage.getItem("selectKey")
+              keyword: localStorage.getItem("selectKey"),
+              page: curPage,
+              limit: limit,
           }
         })
         .then(res =>{
-            if(res.data.success){
-              this.totalPage = res.data.data.length;
-              this.items = res.data.data;
-              this.refreshPage(1,10);
+            if(res.data.code == 200 && res.data.data.length!==0){
+              this.pageItems = res.data.data
             }else {
-              this.$message.error("Search error!")
+              this.$message.error("No SearchResult!");
             }
         })
       }

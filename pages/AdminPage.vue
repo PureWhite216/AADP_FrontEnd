@@ -36,7 +36,7 @@
               v-model="selected"
               :headers="headers1"
               :items="request1"
-              item-key="name"
+              item-key="operatorName"
               show-select
               class="elevation-1"
             >
@@ -53,7 +53,7 @@
               v-model="selected"
               :headers="headers2"
               :items="request2"
-              item-key="name"
+              item-key="operatorName"
               show-select
               class="elevation-1"
             >
@@ -76,15 +76,39 @@
 <script>
 export default {
   name: "AdminPage",
+  created() {
+    this.getTasks(1, 10, "INSTITUTION");
+  },
   methods : {
     changeFlag(flag) {
       this.flag = flag;
       this.restore(flag)
     },
+    getTasks(curPage = 1,limit = 10, type = "INSTITUTION"){
+      this.tasks=[];
+      this.$axios.get("/user/listAllTask",{
+        params: {
+          type: type,
+          page: curPage,
+          limit: limit,
+        },
+        headers: {
+          'token':localStorage.getItem("Token")
+        }
+      })
+        .then(res=> {
+          if(res.data.code == "200"){
+            this.tasks = res.data.tasks
+          }else {
+            this.$message.error("No Apply!");
+          }
+        })
+    }
   },
   data () {
     return {
       flag: 0,
+      tasks: [],
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard' },
         { title: 'Photos', icon: 'mdi-image' },
@@ -97,35 +121,35 @@ export default {
           text: '姓名',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'operatorName',
         },
-        { text: '机构', value: 'institution' },
+        { text: '机构', value: 'institutionName' },
       ],
       headers2: [
         {
           text: '姓名',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'operatorName',
         },
-        { text: '机构', value: 'institution' },
-        { text: '学术成果名称', value: 'paperName' },
+        { text: '机构', value: 'institutionName' },
+        { text: '学术成果名称', value: 'paperTitle' },
       ],
       request1: [
         {
-          name: 'Mike',
-          institution: 'BUAA'
+          operatorName: 'Mike',
+          institutionName: 'BUAA'
         },
         {
-          name: 'Jack',
-          institution: 'BUAA'
+          operatorName: 'Jack',
+          institutionName: 'BUAA'
         },
       ],
       request2: [
         {
-          name: 'Mike',
-          institution: 'BUAA',
-          paperName: 'AAAAAAAAAA'
+          operatorName: 'Mike',
+          institutionName: 'BUAA',
+          paperTitle: 'AAAAAAAAAA'
         },
       ],
     }
