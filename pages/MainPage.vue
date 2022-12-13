@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="building">
     <div id="MainPageHead">
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
@@ -225,6 +225,13 @@ export default {
 
   background-color: #ffffff;
 }
+#building{
+  background:url("assets\images\ocean.webp");
+  width:100%;
+  height:100%;
+  background-size:100% 100%;
+}
+
 .main_title {
   margin-left: 10px;
   text-align: left;
