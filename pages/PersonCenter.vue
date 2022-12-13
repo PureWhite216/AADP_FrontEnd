@@ -1,7 +1,7 @@
 <template>
   <div class="background">
     <div class="main" style="margin-top: 10px">
-<!--      导航栏-->
+      <!--      导航栏-->
       <v-navigation-drawer
         absolute
         fixed
@@ -81,10 +81,10 @@
         </template>
       </v-navigation-drawer>
       <div class="pageMain">
-<!--        个人信息-->
+        <!--        个人信息-->
         <div v-if="flag===1">
           <div class="head1"></div>
-<!--          头像-->
+          <!--          头像-->
           <div class="content" style="padding-top: 5px">
             <v-list>
               <v-list-item-title style="font-size: 20px; color:black; font-weight: bold">
@@ -109,9 +109,9 @@
           </div>
 
           <div style="border-bottom: 1px black solid;"></div>
-<!--          个人信息-->
+          <!--          个人信息-->
           <div class="content">
-<!--            查看个人信息-->
+            <!--            查看个人信息-->
             <div v-if="!editInfoFlag">
               <div style="font-size: 20px; color:black; font-weight: bold">姓名</div>
               <div style="margin: 10px 0 10px 0">
@@ -174,7 +174,7 @@
                 </v-card>
               </v-dialog>
             </div>
-<!--            修改个人信息-->
+            <!--            修改个人信息-->
             <div v-else>
               <div style="font-size: 20px; color:black; font-weight: bold; ">姓名</div>
               <v-text-field
@@ -207,7 +207,7 @@
           </div>
 
           <div style="border-bottom: 1px black solid;"></div>
-<!--          认证情况-->
+          <!--          认证情况-->
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">认证情况</div>
             <v-dialog
@@ -262,18 +262,18 @@
                  v-else>已认证</div>
           </div>
         </div>
-<!--        账户信息-->
+        <!--        账户信息-->
         <div v-else>
           <div class="head2"></div>
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">个人邮箱</div>
-<!--            查看邮箱-->
+            <!--            查看邮箱-->
             <div v-if="!editEmailFlag">
               <div style="margin: 10px 0 10px 0">{{user.email}}</div>
               <v-btn small color="primary" style="margin: 10px 0 20px 0"
                      @click="changeEmail">修改邮箱</v-btn>
             </div>
-<!--            修改邮箱-->
+            <!--            修改邮箱-->
             <div v-else>
               <div>
                 <v-text-field
@@ -311,7 +311,7 @@
 
           <div class="content">
             <div style="font-size: 20px; color:black; font-weight: bold">密码</div>
-<!--            查看密码-->
+            <!--            查看密码-->
             <div v-if="!editPasswordFlag">
               <div v-if="passwordFlag" style="font-size: 18px; margin: 10px 0 10px 0">
                 <div>
@@ -328,7 +328,7 @@
                 </div>
               </div>
             </div>
-<!--            修改密码-->
+            <!--            修改密码-->
             <div v-else>
               <v-text-field
                 v-model="input.oldPassword"

@@ -263,16 +263,13 @@ export default {
   methods: {
     login(){
       if(this.loginFlag===1){
-        let form = {
+        this.$axios.post('/user/login', {
           username: this.account,
           password: this.code,
           keep_login: true
-        }
-        this.$axios.post('/user/login',
-          qs.stringify(form)
-        ).then(res => {
-          console.log(res)
-          if(res.data.success){
+        }).then(res => {
+          //console.log(res)
+          if(res.data.code === 200){
             this.$message({
               message: '登陆成功',
               type: 'success'
@@ -295,23 +292,21 @@ export default {
       else {
         this.loginFlag = 1
         this.clearInfo()
+        this.resetValidation()
       }
     },
 
     register(){
       if(this.loginFlag===2){
-        let form = {
+        this.$axios.post('/user/register', {
           email: this.email,
-          verification_code: this.verifyCode,
+          verificationCode: this.verifyCode,
           username: this.account,
           password1: this.code,
           password2: this.reCode
-        }
-        this.$axios.post('/user/register',
-          qs.stringify(form)
-        ).then(res => {
+        }).then(res => {
           //console.log(res)
-          if(res.data.success){
+          if(res.data.code === 200){
             this.$message({
               message: '注册成功，即将调转到登录界面',
               type: 'success'
@@ -334,20 +329,17 @@ export default {
       else {
         this.loginFlag = 2
         this.clearInfo()
+        this.resetValidation()
       }
     },
 
     getVer() {
-      let form = {
+      this.$axios.post('/user/sendRegistrationVerificationCode',{
         email: this.email,
         modify: false
-      }
-      console.log(JSON.stringify(form))
-      this.$axios.post('/user/sendRegistrationVerificationCode',
-        qs.stringify(form)
-      ).then(res => {
-        //console.log(res)
-        if(res.data.success){
+      }).then(res => {
+        console.log(res)
+        if(res.data.code === 200){
           this.$message({
             message: '验证码已发送',
             type: 'success'
@@ -368,17 +360,15 @@ export default {
     },
 
     changeCode(){
-      let form = {
+      this.$axios.post('/user/changePassword',{
         mode: 0,
         password1: this.code,
         password2: this.reCode,
         email: this.email,
-        verify_code: this.verifyCode
-      }
-      this.$axios.post('/user/changePassword',
-        qs.stringify(form)
-      ).then(res => {
-        if(res.data.success){
+        verifyCode: this.verifyCode
+      }).then(res => {
+        //console.log(res)
+        if(res.data.code === 200){
           this.$message({
             message: '修改成功，即将跳转到登陆界面',
             type: 'success'
@@ -400,14 +390,11 @@ export default {
     },
 
     getForgetVer() {
-      let form = {
+      this.$axios.post('/user/sendForgotPasswordEmail',{
         email: this.email
-      }
-      this.$axios.post('/user/sendForgotPasswordEmail',
-        qs.stringify(form)
-      ).then(res => {
+      }).then(res => {
         //console.log(res)
-        if(res.data.success){
+        if(res.data.code === 200){
           this.$message({
             message: '验证码已发送',
             type: 'success'
@@ -415,7 +402,7 @@ export default {
         }
         else {
           this.$message({
-            message: '验证码发送失败',
+            message: res.data.message,
             type: 'error'
           })
         }
@@ -428,12 +415,13 @@ export default {
     },
 
     gotoForget(){
-        this.loginFlag = 3
-        this.clearInfo()
+      this.loginFlag = 3
+      this.clearInfo()
+      this.resetValidation()
     },
 
     gotoMain(token){
-      console.log(token)
+      //console.log(token)
       localStorage.setItem("Token",token);
       this.$router.push({
         name: 'MainPage',
@@ -448,6 +436,10 @@ export default {
       this.verifyCode = ""
       this.pFlag1 = false
       this.pFlag2 = false
+    },
+
+    resetValidation () {
+      this.$refs.form.resetValidation()
     }
   },
 }
