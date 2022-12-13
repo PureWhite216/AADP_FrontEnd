@@ -335,8 +335,8 @@ export default {
 
     getVer() {
       this.$axios.post('/user/sendRegistrationVerificationCode',{
-          email: this.email,
-          modify: false
+        email: this.email,
+        modify: false
       }).then(res => {
         console.log(res)
         if(res.data.code == 200){
