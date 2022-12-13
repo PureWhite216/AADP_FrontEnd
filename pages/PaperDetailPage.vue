@@ -32,9 +32,46 @@
           </v-row>
 
           <v-row>
-            <v-btn large color="primary" height="40px" weight="40px" style="margin-left: 100px">链接</v-btn>
-            <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 20px">认领</v-btn>
+            <v-btn large color="primary" height="40px" weight="40px" style="margin-left: 100px" @click.stop="dialog3 = true">链接</v-btn>
+            <v-dialog
+              v-model="dialog3"
+              max-width="600"
+            >
+              <v-card>
+                <v-card-title class="headline">文章链接</v-card-title>
+                <v-card-text>
+                  {{this.Paperlink}}
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog3 = false">
+                    结束
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-btn large color="warning" height="40px" weight="40px" style="margin-left: 30px"  @click="addTask()" @click.stop="dialog2 = true">
+              认领
+            </v-btn>
+            <v-dialog
+              v-model="dialog2"
+              max-width="600"
+            >
+              <v-card>
+                <v-card-title class="headline">认领文章</v-card-title>
+                <v-card-text>
+                  请将能证明您身份的材料发送至邮箱:1780645196@qq.com
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog2 = false">
+                    已知晓
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-row>
+          
 
           <v-row align-content="start" style="margin-top: 20px">
             <v-col cols="4">
@@ -146,8 +183,9 @@ export default {
   data(){
     return{
       display:0,
+      paperid:1,
       Papername:"文章标题",
-      Paperlink:"所属单位",
+      Paperlink:"www.baidu.com",
       authorname:"张三",
       keyword:"人工智能",
       abstract:"摘要",
@@ -158,6 +196,8 @@ export default {
       publish_time:"2022.12.13",
       DOI:"132",
       dialog: false,
+      dialog2: false,
+      dialog3: false,
       reference:[
         {
           title:"学术成果标题1",
@@ -210,7 +250,32 @@ export default {
   },
 
   methods: {
-
+    addTask(objectType = "PAPER"){
+      let token = localStorage.getItem('Token')
+      this.$axios.post('/user/addTask', {
+          objectId: this.paperid,
+          objectType: objectType
+        },{
+          headers: {
+            'token': token
+          }
+        }
+      ).then(res => {
+        //console.log(res)
+        if(res.data.code == 200){
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
+    },
   },
 }
 </script>
