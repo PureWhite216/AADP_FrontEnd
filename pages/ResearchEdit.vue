@@ -6,7 +6,7 @@
     >
       <v-row id="row">
         <div id="save">
-          <v-btn color="#fec500" depressed small @click="saveResearch">保存草稿</v-btn>
+          <v-btn color="#fec500" depressed small @click="pubResearch">保存草稿</v-btn>
         </div>
         <div id="title">
           <v-text-field
@@ -70,11 +70,22 @@ export default {
   destroyed() {
   },
   methods: {
-    saveResearch(){
+    pubResearch(){
         this.researchContent =this.$refs.richTextEditor.getJsonContent().slice(7, -1);
-        this.$axios.post("/research/createResearch"), {
-
-        }
+        this.$axios.post("/research/createResearch",{
+          researchAbstract:this.abstract,
+          researchContent:this.researchContent,
+          researchField:this.field,
+          researchTitle:this.title,
+          researchUserId:localStorage.getItem("userID"),
+        })
+        .then(res=> {
+          if(res.data.code == 200){
+            this.$message.success("研究创建成功！")
+          }else{
+            this.$message.error("Research Create Error!")
+          }
+        })
     }
   }
 }
