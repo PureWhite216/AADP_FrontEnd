@@ -1,8 +1,13 @@
 <template>
   <v-card id="comp">
-    <h1 style="text-align: left">{{data1.title}}</h1>
+    <h1 style="text-align: left">{{data1.researchTitle}}</h1>
+    <div id="div_authors">
+      <p class="authors">{{data1.userId}}</p>
+    </div>
+    <br/>
+    <p id="info">{{data1.publishTime}} | {{data1.researchField}} | 被引数：{{data1.refernum}} | 期刊：{{data1.paperPeriodical}}</p>
     <div style="width: 640px">
-      <p id="abstract">{{data1.abstract}}</p>
+      <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
   </v-card>
 </template>
@@ -16,6 +21,24 @@ export default {
 </script>
 
 <style scoped>
+.authors{
+  display: inline-block;
+  margin-right: 5px;
+  text-align: left;
+  horiz-align: left;
+  float: left;
+  color: black;
+  font-size: 20px;
+}
+#info{
+  text-align: left;
+  color: black;
+  font-size: 15px;
+}
+#div_authors{
+  height: 20px;
+  width: 660px;
+}
 #comp{
   width: 660px;
   margin-bottom: 10px;
