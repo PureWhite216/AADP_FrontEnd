@@ -141,7 +141,13 @@ export default {
     },
     goPersonPage()
     {
-      this.$router.push({path:'/PersonPage'});
+      //console.log(localStorage.getItem('userID'))
+      //console.log("bbbbbb")
+      this.$router.push({
+        path:'/PersonPage',
+        query:{
+          userID : localStorage.getItem('userID')
+        }})
     },
     goPersonCenter()
     {
