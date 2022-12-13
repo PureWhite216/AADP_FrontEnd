@@ -131,7 +131,12 @@ export default {
     goSearch()
     {
       localStorage.setItem("selectKey",this.select);
-      this.$router.push({path:'/SearchResultPage'});
+      this.$router.push({
+        path:'/SearchResultPage',
+        query:{
+          t: Date.now()
+        }
+      });
     },
     goPersonPage()
     {
