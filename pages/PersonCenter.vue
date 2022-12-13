@@ -410,7 +410,6 @@ export default {
       },
       passwordFlag: false,
 
-      token: "",
       file: [],
 
       input: {
@@ -458,11 +457,11 @@ export default {
 
   methods :{
     init(){
-      this.token = localStorage.getItem('Token')
+      let token = localStorage.getItem('Token')
       //console.log(this.token)
       this.$axios.get('/user/showInfo/' , {
         params: {
-          token: this.token
+          token: token
         }
       }).then(res => {
         //console.log(res)
@@ -494,9 +493,10 @@ export default {
     },
 
     logout(){
+      let token = localStorage.getItem('Token')
       this.$axios.get('/user/logout/' , {
         params: {
-          token: this.token
+          token: token
         }
       }).then(res => {
         //console.log(res)
@@ -537,7 +537,7 @@ export default {
       // })
       this.$axios.post('/user/uploadFile', {
         file: file.file,
-        token: this.token
+        token: localStorage.getItem('Token')
       }).then(res=>{
         console.log(res)
         if(res.data.code == 200){
@@ -564,6 +564,7 @@ export default {
 
     confirm(type){
       //调用改动接口
+      let token = localStorage.getItem('Token')
       switch (type){
         case 1: {
           if(this.input.name==="" || this.input.education==="" || this.input.institution===""){
@@ -574,7 +575,7 @@ export default {
             return
           }
           this.$axios.post('/user/modifyUserInfo', {
-            token: this.token,
+            token: token,
             realName: this.input.name,
             isCertified: false
           }).then(res => {
@@ -612,7 +613,7 @@ export default {
             return
           }
           this.$axios.post('/user/modifyEmail', {
-            token: this.token,
+            token: token,
             email: this.input.email,
             verifyCode: this.input.verifyCode,
             password: this.user.password
@@ -649,7 +650,7 @@ export default {
           }
           this.$axios.post('/user/changePassword', {
             mode: 1,
-            token: this.token,
+            token: token,
             oldPassword: this.input.oldPassword,
             password1: this.input.newPassword,
             password2: this.input.repeatPassword,
@@ -679,7 +680,7 @@ export default {
         }
         default: {
           this.$axios.post('/user/modifyUserInfo', {
-            token: this.token,
+            token: token,
             avatar: this.user.avatar
           }).then(res => {
             console.log(res)
