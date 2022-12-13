@@ -114,11 +114,17 @@
 <!--            查看个人信息-->
             <div v-if="!editInfoFlag">
               <div style="font-size: 20px; color:black; font-weight: bold">姓名</div>
-              <div style="margin: 10px 0 10px 0">{{user.name}}</div>
+              <div style="margin: 10px 0 10px 0">
+                {{(user.name==="")?"未认证":user.name}}
+              </div>
               <div style="font-size: 20px; color:black; font-weight: bold">机构</div>
-              <div style="margin: 10px 0 10px 0">{{user.institution}}</div>
+              <div style="margin: 10px 0 10px 0">
+                {{(user.institution==="")?"未认证":user.institution}}
+              </div>
               <div style="font-size: 20px; color:black; font-weight: bold">学历</div>
-              <div style="margin: 10px 0 10px 0">{{user.education}}</div>
+              <div style="margin: 10px 0 10px 0">
+                {{(user.education==="")?"未认证":user.education}}
+              </div>
 
               <v-dialog
                 v-model="dialog1"
@@ -392,26 +398,26 @@ export default {
       flag: 1,
       user: {
         avatar: "",
-        account: "3123139531",
+        account: "",
 
         flag: false,
-        name: "王振阳",
-        institution: "buaa",
-        education: "带专",
+        name: "",
+        institution: "",
+        education: "",
 
-        email: "3123139531@qq.com",
-        password: "3123139531",
+        email: "",
+        password: "",
       },
       passwordFlag: false,
 
       file: [],
 
       input: {
-        name: "王振阳",
-        institution: "buaa",
-        education: "带专",
+        name: "",
+        institution: "",
+        education: "",
 
-        email: "3123139531@qq.com",
+        email: "",
         verifyCode: "",
         oldPassword: "",
         newPassword: "",
@@ -452,19 +458,20 @@ export default {
   methods :{
     init(){
       let token = localStorage.getItem('Token')
-      this.$axios.get('/user/showInfo' , {
+      //console.log(token)
+      this.$axios.get('/user/showInfo/' , {
         params: {
           token: token
         }
       }).then(res => {
+        console.log(res)
         if(res.data.success){
-          // console.log(res)
           this.user.avatar = res.data.data[0].avatar
           this.user.email = res.data.data[0].email
           this.user.name = res.data.data[0].realName
           this.user.password = res.data.data[0].password
           this.user.account = res.data.data[0].username
-          // this.user.flag = res.data.data[0].isCertified
+          this.user.flag = res.data.data[0].isCertified
         }
         else {
           this.$message({
@@ -538,7 +545,7 @@ export default {
         }
         else {
           this.$message({
-            message: res.data.message,
+            message: '登陆失败',
             type: 'error'
           })
         }
@@ -604,10 +611,19 @@ export default {
             })
             return
           }
-          let form = {
-            token: token,
-            real_name: this.input.name,
-            avatar: this.user.avatar
+          let form = {}
+          if(type === 1){
+            form = {
+              token: token,
+              real_name: this.input.name,
+              isCertified: false
+            }
+          }
+          else {
+            form = {
+              token: token,
+              avatar: this.user.avatar
+            }
           }
           this.$axios.post('/user/modifyUserInfo',
             qs.stringify(form)
@@ -619,6 +635,7 @@ export default {
                   message: '修改成功',
                   type: 'success'
                 })
+                this.user.flag = false
                 this.dialog1 = true
               }
             }
