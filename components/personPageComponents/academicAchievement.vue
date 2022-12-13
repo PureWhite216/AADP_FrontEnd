@@ -56,6 +56,8 @@ export default {
   text-overflow: ellipsis;
   word-wrap:break-word;
   color: black;
-
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

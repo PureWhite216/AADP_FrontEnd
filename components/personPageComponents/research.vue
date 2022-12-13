@@ -33,5 +33,8 @@ export default {
   word-wrap:break-word;
   color: black;
   text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>
