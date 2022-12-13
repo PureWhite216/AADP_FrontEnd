@@ -222,6 +222,7 @@
                   v-on="on"
                   style="float: right; right: 2%; top: 10px"
                   v-if="!user.flag"
+                  @click="addTask(0)"
                 >
                   身份认证
                 </v-btn>
@@ -490,6 +491,27 @@ export default {
     changeFlag(flag){
       this.flag = flag
       this.restore(flag)
+    },
+
+    addTask(objectId = 0, objectType = "INSTITUTION"){
+      this.$axios.post('/user/login', {
+        objectId: this.objectId,
+        objectType: this.objectType,
+      }).then(res => {
+        //console.log(res)
+        if(res.data.code == 200){
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
     },
 
     logout(){
