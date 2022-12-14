@@ -1,5 +1,6 @@
 <template>
   <div id="building">
+    <div> 6</div>
     <div id="MainPageHead">
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
@@ -108,7 +109,7 @@ export default {
   width: 660px;
 }
 #MainPageHead {
-  width: 1200px;
+  width: 1440px;
   height: 150px;
   margin: 20px auto 20px;
   margin-top: 10px;
@@ -117,7 +118,7 @@ export default {
 }
 #hot_academic {
   display: inline-block;
-  width: 580px;
+  width: 700px;
   margin-right: 40px;
   margin-block-end: 100px;
   vertical-align: top;
@@ -125,7 +126,7 @@ export default {
 }
 #hot_research {
   display: inline-block;
-  width: 580px;
+  width: 700px;
   vertical-align: top;
   margin-block-end: 100px;
 

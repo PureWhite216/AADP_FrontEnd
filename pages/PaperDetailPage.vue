@@ -15,16 +15,16 @@
 
           <v-row>
             <div class="paperinfo">
-              <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left;">
+              <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left; width: 100%; table-layout:fixed; white-space:nowrap;">
                 <tr>
                   <th>作者:&emsp;{{this.paperData.paperAuthor}}</th>
                 </tr>
-                <tr>
+                <tr style="width:100%">
                   <th>关键词:&emsp;{{this.paperData.paperKeyword}}</th>
                 </tr>
-                <tr >
-                  <th>被引数:&emsp;{{this.paperData.paperCited}}</th>
-                  <th>发表时间:&emsp;{{this.paperData.paperDate}}</th>
+                <tr>
+                  <th>被引数:{{this.paperData.paperCited}}</th>
+                  <th>发表时间:{{this.paperData.paperDate}}</th>
                   <th>DOI:{{this.paperOther.DOI}}</th>
                 </tr>
               </table>
@@ -115,7 +115,7 @@
 
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%; margin-left: 7%;">参考文献</p>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 2%; margin-left: 50px; min-width: 500%;">参考文献</p>
               <div v-for="item in this.paperRefs.refs" class="div_reference">
                 <div>{{item.ref}}</div>
 <!--                <div v-for="(value,index) in item.authors" :key="index" class="inline_author">{{value}}</div>-->
@@ -145,11 +145,11 @@
             <v-card>
               <v-card-title class="headline">发表新评论</v-card-title>
               <v-card-text>
-                <v-textarea label="你的评论" auto-grow outlined row-height="15" rows="10"></v-textarea>
+                <v-textarea v-model="your_comment" label="your_comment" auto-grow outlined row-height="15" rows="10"></v-textarea>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="dialog = false">
+                <v-btn color="green darken-1" text @click="dialog = false; addcomment()">
                   提交
                 </v-btn>
                 <v-btn color="green darken-1" text @click="dialog = false">
@@ -162,9 +162,9 @@
         <div class="text-left" id="whole">
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 7%;">评论</p>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 50px; white-space:nowrap;">评论</p>
               <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 5%;">
-                <div>{{index+1}}&nbsp&nbsp{{item.content}}</div>
+                <div>{{index+1}}&nbsp&nbsp{{item.comment.content}}</div>
                 <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px"></v-divider>
               </div>
             </div>
@@ -190,24 +190,15 @@ export default {
       dialog: false,
       dialog2: false,
       dialog3: false,
+      your_comment:"",
       comments:[
-        {
-          content:"good",
-        },
-        {
-          content:"bad",
-        },
-        {
-          content:"good",
-        },
-        {
-          content:"bad",
-        },
+        
       ],
     }
   },
   mounted() {
     this.getPaPerInfo();
+    this.getComments();
     console.log(this.paperData)
     // console.log(this.paperData.paperOtherInfo.DOI)
   },
@@ -245,6 +236,65 @@ export default {
         }
       })
     },
+    addcomment(){
+      console.log(this.your_comment)
+      let token = localStorage.getItem('Token')
+      this.$axios.post('/comment/save', {
+        authorId: localStorage.getItem('userID'),
+        content: this.your_comment,
+        createTime: Date,
+        modifyTime: Date,
+        paperId: this.paperData.id,
+        },{
+          headers: {
+            'token': token
+          }
+        }
+      ).then(res => {
+        if(res.data.code == 200){
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+          this.getComments();
+          this.$forceUpdate();
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
+      this.getComments();
+      this.$forceUpdate();
+    },
+    getComments(){
+      let token = localStorage.getItem('Token')
+      this.$axios.get('/comment/queryByPaperId', {
+        params: {
+          paperId: this.paperData.id,
+          page:1,
+          limit:5,
+          token: localStorage.getItem("Token"),
+        },
+        headers: {
+          token: localStorage.getItem("Token"),
+        },
+        }
+      ).then(res => {
+        if(res.data.code == 200){
+          this.comments=res.data.data.comments;
+          console.log(this.comments);
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          })
+        }
+      })
+    },
   },
 }
 </script>
@@ -262,8 +312,9 @@ export default {
   margin-left: 0px;
 }
 .paperinfo{
-  margin-left: 0;
+  margin-left: 0%;
   margin-top: 0px;
+  margin-right: 0%;
 }
 .divier{
   text-decoration-thickness: 10px;
