@@ -68,11 +68,11 @@ export default {
   methods: {
     likeResearch() {
       let token = localStorage.getItem('Token')
-      this.refernum = this.refernum + 1
       this.$axios
         .post("/research/adjustRefernum", {
           num: 1,
           researchId: this.data1.id,
+          id: localStorage.getItem("userID"),
         },
         {
           headers: {
@@ -81,9 +81,9 @@ export default {
         }).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
-
+            this.refernum = this.refernum + 1
           } else {
-            this.$message.error("No SearchResult!");
+            this.$message.error("此研究已点赞");
           }
         });
     },
