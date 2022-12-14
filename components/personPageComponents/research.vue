@@ -5,7 +5,7 @@
       <p class="authors">{{author}}</p>
     </div>
     <br/>
-    <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{data1.refernum}}</p>
+    <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{referNum}}</p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
@@ -13,7 +13,7 @@
               <v-spacer></v-spacer>
 
               <v-btn icon>
-                <v-icon @click.capture.stop @click="likeResearch()">mdi-heart</v-icon>
+                <v-icon @click.stop="likeResearch">mdi-heart</v-icon>
               </v-btn>
 
               <v-btn icon>
@@ -34,7 +34,8 @@ export default {
   data() {
     return{
       author: null,
-      authorData: []
+      authorData: [],
+      refernum: Number(this.data1.refernum),
     }
   },
   created() {
@@ -48,11 +49,32 @@ export default {
     field: function () {
       // `this` 指向 vm 实例
       return this.data1.researchField === "" ? "-" : this.data1.researchField
-    }
+    },
+    referNum() {
+      return this.refernum
+    },
   },
   methods: {
     likeResearch() {
+      let token = localStorage.getItem('Token')
+      this.refernum = this.refernum + 1
+      this.$axios
+        .post("/research/adjustRefernum", {
+          num: this.refernum,
+          researchId: this.data1.id,
+        },
+        {
+          headers: {
+            'token': token
+          }
+        }).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
 
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
     },
     goToDetail(){
       this.$router.push({path:'/ResearchDetails',query:{data: this.data1, authorData: this.authorData}});
