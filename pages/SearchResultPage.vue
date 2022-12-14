@@ -9,13 +9,13 @@
             <v-toolbar-title>搜索结果</v-toolbar-title>
           </v-col>
           <v-col align="right">
-            <v-select
-              :items="sortMethod"
-              label="排序方式"
-              dense
-              style="width: 160px; margin-top: 21px"
-              @input=""
-            ></v-select>
+<!--            <v-select-->
+<!--              :items="sortMethod"-->
+<!--              label="排序方式"-->
+<!--              dense-->
+<!--              style="width: 160px; margin-top: 21px"-->
+<!--              @input=""-->
+<!--            ></v-select>-->
           </v-col>
         </v-app-bar>
         <v-container>
@@ -62,51 +62,51 @@
         </v-app-bar>
         <br />
         <v-container>
-          <v-card>
-            <br />
-            <h3 class="selectNode">时间</h3>
-            <br />
-            <div>
-              <v-menu class="menu1">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" v-bind="attrs" v-on="on">
-                    {{ choose_year1 }}
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(item, index) in years"
-                    :key="index"
-                    @click="choose_year1 = item.title"
-                  >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-              <hr class="line" />
-              <v-menu class="menu1">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" v-bind="attrs" v-on="on">
-                    {{ choose_year2 }}
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(item, index) in years"
-                    :key="index"
-                    @click="choose_year2 = item.title"
-                  >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
-            <br />
-            <div>
-              <v-btn id="btn">确认</v-btn>
-            </div>
-            <br />
-          </v-card>
+<!--          <v-card>-->
+<!--            <br />-->
+<!--            <h3 class="selectNode">时间</h3>-->
+<!--            <br />-->
+<!--            <div>-->
+<!--              <v-menu class="menu1">-->
+<!--                <template v-slot:activator="{ on, attrs }">-->
+<!--                  <v-btn color="primary" v-bind="attrs" v-on="on">-->
+<!--                    {{ choose_year1 }}-->
+<!--                  </v-btn>-->
+<!--                </template>-->
+<!--                <v-list>-->
+<!--                  <v-list-item-->
+<!--                    v-for="(item, index) in years"-->
+<!--                    :key="index"-->
+<!--                    @click="choose_year1 = item.title"-->
+<!--                  >-->
+<!--                    <v-list-item-title>{{ item.title }}</v-list-item-title>-->
+<!--                  </v-list-item>-->
+<!--                </v-list>-->
+<!--              </v-menu>-->
+<!--              <hr class="line" />-->
+<!--              <v-menu class="menu1">-->
+<!--                <template v-slot:activator="{ on, attrs }">-->
+<!--                  <v-btn color="primary" v-bind="attrs" v-on="on">-->
+<!--                    {{ choose_year2 }}-->
+<!--                  </v-btn>-->
+<!--                </template>-->
+<!--                <v-list>-->
+<!--                  <v-list-item-->
+<!--                    v-for="(item, index) in years"-->
+<!--                    :key="index"-->
+<!--                    @click="choose_year2 = item.title"-->
+<!--                  >-->
+<!--                    <v-list-item-title>{{ item.title }}</v-list-item-title>-->
+<!--                  </v-list-item>-->
+<!--                </v-list>-->
+<!--              </v-menu>-->
+<!--            </div>-->
+<!--            <br />-->
+<!--            <div>-->
+<!--              <v-btn id="btn">确认</v-btn>-->
+<!--            </div>-->
+<!--            <br />-->
+<!--          </v-card>-->
           <br />
           <v-card
             >
