@@ -4,12 +4,6 @@
     <div id="MainPageHead">
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
-    <div class="text-center">
-  <div id="building">
-    <div></div>
-<!--    <div id="MainPageHead">-->
-<!--      &lt;!&ndash; <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> &ndash;&gt;-->
-<!--    </div>-->
     <div class="text-center" style="margin-top: 25px">
       <v-card id="hot_academic">
         <v-card-title class="font-weight-black main_title">
