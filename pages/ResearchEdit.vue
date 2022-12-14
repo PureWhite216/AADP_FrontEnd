@@ -15,6 +15,7 @@
             solo-inverted
             dense
             v-model="title"
+            placeholder="请输入标题"
           >标题</v-text-field>
         </div>
         <div id="area">
