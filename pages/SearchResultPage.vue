@@ -9,13 +9,14 @@
             <v-toolbar-title>搜索结果</v-toolbar-title>
           </v-col>
           <v-col align="right">
-<!--            <v-select-->
-<!--              :items="sortMethod"-->
-<!--              label="排序方式"-->
-<!--              dense-->
-<!--              style="width: 160px; margin-top: 21px"-->
-<!--              @input=""-->
-<!--            ></v-select>-->
+            <v-select
+              :items="sortMethod"
+              label="排序方式"
+              dense
+              v-model="sort"
+              style="width: 160px; margin-top: 21px"
+              @input="CitedSort(curPage,limit)"
+            ></v-select>
           </v-col>
         </v-app-bar>
         <v-container>
@@ -62,51 +63,34 @@
         </v-app-bar>
         <br />
         <v-container>
-<!--          <v-card>-->
-<!--            <br />-->
-<!--            <h3 class="selectNode">时间</h3>-->
-<!--            <br />-->
-<!--            <div>-->
-<!--              <v-menu class="menu1">-->
-<!--                <template v-slot:activator="{ on, attrs }">-->
-<!--                  <v-btn color="primary" v-bind="attrs" v-on="on">-->
-<!--                    {{ choose_year1 }}-->
-<!--                  </v-btn>-->
-<!--                </template>-->
-<!--                <v-list>-->
-<!--                  <v-list-item-->
-<!--                    v-for="(item, index) in years"-->
-<!--                    :key="index"-->
-<!--                    @click="choose_year1 = item.title"-->
-<!--                  >-->
-<!--                    <v-list-item-title>{{ item.title }}</v-list-item-title>-->
-<!--                  </v-list-item>-->
-<!--                </v-list>-->
-<!--              </v-menu>-->
-<!--              <hr class="line" />-->
-<!--              <v-menu class="menu1">-->
-<!--                <template v-slot:activator="{ on, attrs }">-->
-<!--                  <v-btn color="primary" v-bind="attrs" v-on="on">-->
-<!--                    {{ choose_year2 }}-->
-<!--                  </v-btn>-->
-<!--                </template>-->
-<!--                <v-list>-->
-<!--                  <v-list-item-->
-<!--                    v-for="(item, index) in years"-->
-<!--                    :key="index"-->
-<!--                    @click="choose_year2 = item.title"-->
-<!--                  >-->
-<!--                    <v-list-item-title>{{ item.title }}</v-list-item-title>-->
-<!--                  </v-list-item>-->
-<!--                </v-list>-->
-<!--              </v-menu>-->
-<!--            </div>-->
-<!--            <br />-->
-<!--            <div>-->
-<!--              <v-btn id="btn">确认</v-btn>-->
-<!--            </div>-->
-<!--            <br />-->
-<!--          </v-card>-->
+          <v-card>
+            <br />
+            <h3 class="selectNode">时间</h3>
+            <br />
+            <div>
+              <v-menu class="menu1">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" v-bind="attrs" v-on="on">
+                    {{ choose_year1 }}
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in years"
+                    :key="index"
+                    @click="choose_year1 = item.title"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <br />
+            <div>
+              <v-btn id="btn" @click="refreshPage3(curPage,limit)">确认</v-btn>
+            </div>
+            <br />
+          </v-card>
           <br />
           <v-card
             >
@@ -139,7 +123,7 @@ export default {
   },
   data() {
     return {
-      sortMethod: ["时间降序", "引用降序"],
+      sortMethod: ["引用降序","时间降序"],
       curPage: 1,
       limit: 10,
       loading: false,
@@ -148,31 +132,32 @@ export default {
       select: null,
       check:false,
       states: [],
+      sort:"",
       offset: true,
       subject:[],
-      choose_year1: "起始时间",
-      choose_year2: "截止时间",
+      choose_year1: "筛选时间",
       items: [],
       pageItems: [],
       years: [
-        { title: "2006" },
-        { title: "2007" },
-        { title: "2008" },
-        { title: "2008" },
-        { title: "2009" },
-        { title: "2010" },
-        { title: "2011" },
-        { title: "2012" },
-        { title: "2013" },
-        { title: "2014" },
-        { title: "2015" },
-        { title: "2016" },
-        { title: "2017" },
-        { title: "2018" },
-        { title: "2019" },
-        { title: "2020" },
-        { title: "2021" },
+        { title:"筛选时间"},
         { title: "2022" },
+        { title: "2021" },
+        { title: "2020" },
+        { title: "2019" },
+        { title: "2018" },
+        { title: "2017" },
+        { title: "2016" },
+        { title: "2015" },
+        { title: "2014" },
+        { title: "2013" },
+        { title: "2011" },
+        { title: "2010" },
+        { title: "2009" },
+        { title: "2008" },
+        { title: "2007" },
+        { title: "2006" },
+        { title: "2005" },
+        { title: "2004" },
       ],
     };
   },
@@ -188,6 +173,13 @@ export default {
     },
   },
   methods: {
+    CitedSort(curPage,limit){
+      if(this.sort == "引用降序"){
+        this.getSearchResult4(curPage,limit)
+      }else{
+        this.getSearchResult(curPage,limit)
+      }
+    },
     GotoDetailPage(data) {
       this.$router.push({path:'/PaperDetailPage',query:{data:data}});
     },
@@ -205,6 +197,52 @@ export default {
       else{
         this.getSearchResult(curPage,limit);
       }
+    },
+    refreshPage3(curPage = 1, limit = 10){
+      this.pageItems = [];
+      if(this.choose_year1!="筛选时间")
+        this.getSearchResult3(curPage,limit,this.choose_year1);
+      else{
+        this.getSearchResult(curPage,limit);
+      }
+    },
+    getTotal4(){
+      this.$axios.get("/paper/searchPaperResultInfoByKeyword",{
+        params: {
+          keyword: localStorage.getItem("selectKey"),
+          citedSort: true
+        },
+        headers: {
+          'token':localStorage.getItem("Token"),
+        }
+      })
+        .then(res=>{
+          if(res.data.code == 200){
+            this.totalPage = res.data.data.total
+            this.subject = paperSubject
+          }else {
+            this.$message.error("getInfo Error!");
+          }
+        })
+    },
+    getTotal3(){
+      this.$axios.get("/paper/searchPaperResultInfoByKeyword",{
+        params: {
+          keyword: localStorage.getItem("selectKey"),
+          year: this.choose_year1
+        },
+        headers: {
+          'token':localStorage.getItem("Token"),
+        }
+      })
+        .then(res=>{
+          if(res.data.code == 200){
+            this.totalPage = res.data.data.total
+            this.subject = paperSubject
+          }else {
+            this.$message.error("getInfo Error!");
+          }
+        })
     },
     getTotal2(item){
       this.$axios.get("/paper/searchPaperResultInfoByKeyword",{
@@ -273,6 +311,50 @@ export default {
             page: curPage,
             limit: limit,
             subject: item,
+          },
+          headers: {
+            'token': localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.pageItems = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
+    getSearchResult3(curPage, limit){
+      this.getTotal3();
+      this.$axios
+        .get("/paper/searchPaperByKeyword", {
+          params: {
+            keyword: localStorage.getItem("selectKey"),
+            page: curPage,
+            limit: limit,
+            year: this.choose_year1,
+          },
+          headers: {
+            'token': localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.pageItems = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
+    getSearchResult4(curPage, limit) {
+      this.getTotal4();
+      this.$axios
+        .get("/paper/searchPaperByKeyword", {
+          params: {
+            keyword: localStorage.getItem("selectKey"),
+            page: curPage,
+            limit: limit,
+            citedSort: true,
           },
           headers: {
             'token': localStorage.getItem("Token"),
