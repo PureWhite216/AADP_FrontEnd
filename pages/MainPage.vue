@@ -148,7 +148,7 @@ export default {
   background-color: #ffffff;
 }
 .backgroundImg {
-  /* background: url("../assets/images/ocean.webp"); */
+  background: url("../assets/images/ocean5.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
