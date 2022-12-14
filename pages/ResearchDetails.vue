@@ -7,7 +7,7 @@
         </div>
 
         <div class="inline_div" id="div_name">
-tiao            <p style="font-size: 30px; color: black;" @click="toPersonPage">{{this.authorData.username}}</p>
+            <p style="font-size: 30px; color: black;" @click="toPersonPage">{{this.authorData.username}}</p>
             <p style="font-size: 20px; color: black;">{{this.authorData.institutionName}}</p>
         </div>
 
