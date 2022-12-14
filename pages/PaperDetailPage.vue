@@ -24,7 +24,11 @@
                 </tr>
                 <tr>
                   <th>被引数:{{this.paperData.paperCited}}</th>
+                </tr>
+                <tr>
                   <th>发表时间:{{this.paperData.paperDate}}</th>
+                </tr>
+                <tr>
                   <th>DOI:{{this.paperOther.DOI}}</th>
                 </tr>
               </table>
@@ -169,6 +173,12 @@
               </div>
             </div>
           </v-row>
+          <v-pagination
+            v-model="curPage"
+            :length="Math.ceil(this.totalpage/this.limit)"
+            total-visible="7"
+            @input="onPageChange(curPage)"
+          ></v-pagination>
         </div>
       </v-card>
     </v-container>
@@ -191,6 +201,9 @@ export default {
       dialog2: false,
       dialog3: false,
       your_comment:"",
+      curPage:1,
+      limit:7,
+      totalpage:7,
       comments:[
         
       ],
@@ -198,7 +211,7 @@ export default {
   },
   mounted() {
     this.getPaPerInfo();
-    this.getComments();
+    this.getComments(this.curPage);
     console.log(this.paperData)
     // console.log(this.paperData.paperOtherInfo.DOI)
   },
@@ -256,8 +269,8 @@ export default {
             message: '提交成功',
             type: 'success'
           })
-          this.getComments();
-          this.$forceUpdate();
+          this.getComments(this.curPage);
+          this.refreshPage();
         }
         else {
           this.$message({
@@ -266,16 +279,14 @@ export default {
           })
         }
       })
-      this.getComments();
-      this.$forceUpdate();
     },
-    getComments(){
+    getComments(curPage){
       let token = localStorage.getItem('Token')
       this.$axios.get('/comment/queryByPaperId', {
         params: {
           paperId: this.paperData.id,
-          page:1,
-          limit:5,
+          page:curPage,
+          limit:this.limit,
           token: localStorage.getItem("Token"),
         },
         headers: {
@@ -285,7 +296,7 @@ export default {
       ).then(res => {
         if(res.data.code == 200){
           this.comments=res.data.data.comments;
-          console.log(this.comments);
+          this.totalpage=parseInt(res.data.data.total);
         }
         else {
           this.$message({
@@ -294,6 +305,12 @@ export default {
           })
         }
       })
+    },
+    onPageChange(curPage) {
+      this.refreshPage(curPage);
+    },
+    refreshPage(curPage) {
+      this.getComments(curPage);
     },
   },
 }
