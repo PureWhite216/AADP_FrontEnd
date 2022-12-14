@@ -15,7 +15,6 @@
               v-for="(item, i) in hotAcademicList"
               :key="i"
               cols="12"
-              @click="GotoDetailPage()"
             >
             <academic-achievement :data1="item"></academic-achievement>
             </v-col>
@@ -28,35 +27,6 @@
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
         <br>
-        <!-- <v-container>
-          <v-row dense>
-            <v-col v-for="(item, i) in hotAcademicList" :key="i" cols="12">
-              <v-card class="mb-5">
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <div>
-                    <v-card-title
-                      class="text-h2 card_title"
-                      v-text="item.title"
-                    ></v-card-title>
-                    <v-card-subtitle class="div_authors">
-                      <div
-                        v-for="item1 in item.authors"
-                        :key="item1"
-                        class="text-subtitle-1 authors"
-                      >
-                        {{ item1 }};
-                      </div>
-                    </v-card-subtitle>
-                    <v-card-text
-                      v-text="item.abstract"
-                      class="text-body-1 card_text"
-                    ></v-card-text>
-                  </div>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container> -->
       </v-card>
       <v-card id="hot_research">
         <v-card-title class="font-weight-black main_title">
@@ -70,22 +40,6 @@
               cols="12"
             >
             <research :data1="item"></research>
-              <!-- <v-card
-                color="white"
-                @click="GotoDetailPage()"
-              >
-                <h1 id="head">{{item.paperTitle}}</h1>
-                <div id="div_authors">
-                  <p class="authors">{{item.paperAuthor}}</p>
-                </div>
-                <br/>
-                <p id="info">{{item.paperDate}} | {{item.paperClassification}} | 被引数：{{item.paperCited}} | 期刊：{{item.paperPeriodical}}</p>
-                <div style="width: 640px">
-                  <div
-                    id="abstract"
-                  >{{item.paperAbstract}}</div>
-                </div>
-              </v-card> -->
             </v-col>
           </v-row>
         </v-container>
@@ -96,37 +50,6 @@
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
         <br>
-        <!-- <v-container>
-          <v-row dense>
-            <v-col v-for="(item, i) in hotResearchList" :key="i" cols="12">
-              <v-card class="mb-5">
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <div>
-                    <v-card-title
-                      class="text-h2 card_title"
-                      v-text="item.title"
-                    ></v-card-title>
-                    <v-card-subtitle class="div_authors">
-                      <div
-                        v-for="item1 in item.authors"
-                        :key="item1"
-                        class="text-subtitle-1 authors"
-                      >
-                        {{ item1 }};
-                      </div>
-                    </v-card-subtitle>
-                    <v-card-text
-                      v-text="item.abstract"
-                      class="text-body-1 card_text"
-                    ></v-card-text>
-                    <v-card-actions>
-                    </v-card-actions>
-                  </div>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container> -->
       </v-card>
     </div>
   </div>
@@ -141,44 +64,7 @@ export default {
   },
   data() {
     return {
-      hotAcademicList: [
-        {
-          color: "#ffffff",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          paperTitle: "联邦学习模型安全与隐私研究进展",
-          paperAuthor: "顾育豪",
-          paperDate: "666",
-          paperCited: "666",
-          paperPeriodical:"666",
-          paperAbstract: "dadsadsa",
-          paperClassification: "666",
-
-         },
-         {
-          color: "#ffffff",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          paperTitle: "联邦学习模型安全与隐私研究进展",
-          paperAuthor: "顾育豪",
-          paperDate: "666",
-          paperCited: "666",
-          paperPeriodical:"666",
-          paperAbstract: "dadsadsa",
-          paperClassification: "666",
-
-         },
-        {
-          color: "#1F7087",
-          src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-          title: "Supermodel",
-          authors: ["Foster the People", "666"],
-        },
-        {
-          color: "#952175",
-          src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-          title: "Halcyon Days",
-          authors: ["Ellie Goulding"],
-        },
-      ],
+      hotAcademicList: [],
       hotResearchList: [],
     };
   },
