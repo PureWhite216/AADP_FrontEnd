@@ -60,7 +60,7 @@ export default {
   components: { RichTextEditor },
   data() {
     return {
-      dropdown_font: ['Arial', 'Calibri', 'Courier', 'Verdana'],
+      dropdown_font: ['文学', '理学', '工学', '农学', '商学', '医学', '艺术'],
       abstract: '',
       title:'',
       field:'',
