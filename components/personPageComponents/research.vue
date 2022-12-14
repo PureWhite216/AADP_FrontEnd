@@ -60,7 +60,7 @@ export default {
       this.refernum = this.refernum + 1
       this.$axios
         .post("/research/adjustRefernum", {
-          num: this.refernum,
+          num: 1,
           researchId: this.data1.id,
         },
         {

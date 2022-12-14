@@ -1,5 +1,5 @@
 <template>
-  <v-card id="comp">
+  <v-card id="comp" @click="goToDetail">
     <h1 style="text-align: left">{{data1.paperTitle}}</h1>
     <div id="div_authors">
       <p class="authors">{{data1.paperAuthor}}</p>
@@ -19,6 +19,11 @@ export default {
   props:['data1'],
   // data(){
   // }
+  methods: {
+    goToDetail(){
+      this.$router.push({path:'/PaperDetailPage',query:{data: this.data1}});
+    },
+  }
 }
 </script>
 
