@@ -5,6 +5,12 @@
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
     <div class="text-center">
+  <div id="building">
+    <div></div>
+<!--    <div id="MainPageHead">-->
+<!--      &lt;!&ndash; <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> &ndash;&gt;-->
+<!--    </div>-->
+    <div class="text-center" style="margin-top: 25px">
       <v-card id="hot_academic">
         <v-card-title class="font-weight-black main_title">
           热门学术成果
@@ -16,12 +22,12 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-pagination
-          v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
-          total-visible="7"
-          @input="onPageChange(curPage, limit)"
-        ></v-pagination>
+<!--        <v-pagination-->
+<!--          v-model="curPage"-->
+<!--          :length="Math.ceil(totalPage / limit)"-->
+<!--          total-visible="7"-->
+<!--          @input="onPageChange(curPage, limit)"-->
+<!--        ></v-pagination>-->
         <br />
       </v-card>
       <v-card id="hot_research">
@@ -35,12 +41,12 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-pagination
-          v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
-          total-visible="7"
-          @input="onPageChange(curPage, limit)"
-        ></v-pagination>
+<!--        <v-pagination-->
+<!--          v-model="curPage"-->
+<!--          :length="Math.ceil(totalPage / limit)"-->
+<!--          total-visible="7"-->
+<!--          @input="onPageChange(curPage, limit)"-->
+<!--        ></v-pagination>-->
         <br />
       </v-card>
     </div>
@@ -127,7 +133,7 @@ export default {
   width: 1440px;
   height: 150px;
   margin: 20px auto 20px;
-  margin-top: 10px;
+  margin-top: 30px;
   background-color: #ffffff;
   vertical-align: middle;
 }

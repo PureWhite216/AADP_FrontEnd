@@ -3,13 +3,13 @@
     <v-app-bar
       color="white"
     >
-      <v-col cols="12" sm="1">
+      <v-col cols="12" sm="1" style="font-size: large; font-family: Georgia;">
         ResearchOcean
       </v-col>
       <v-col cols="12" sm="3">
         <v-tabs align-with-title >
-          <v-tab @click="$router.push('MainPage')">主页</v-tab>
-          <v-tab @click="$router.push('ResearchPage')">研究</v-tab>
+          <v-tab @click="$router.push('MainPage')" style="font-size: large">主页</v-tab>
+          <v-tab @click="$router.push('ResearchPage')" style="font-size: large">研究</v-tab>
         </v-tabs>
       </v-col>
       <v-col cols="12" sm="4">
@@ -67,7 +67,7 @@
                 <v-divider></v-divider>
 
                 <v-list-item @click="Logout">
-                  <v-list-item-content>
+                  <v-list-item-content style="color: #ff2a2a">
                     注销
                   </v-list-item-content>
                 </v-list-item>
