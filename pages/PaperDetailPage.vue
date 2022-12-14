@@ -164,13 +164,40 @@
           </v-dialog>
         </v-row>
         <div class="text-left" id="whole">
+<!--          <v-row>-->
+<!--            <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 50px;">评论:</p>-->
+<!--          </v-row>-->
           <v-row>
-            <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 50px;">评论</p>
-              <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 5%; word-break:break-all;word-wrap:break-word;">
-                <div style=""><p style="color:blue;display: inline-block;font-size: 28px;">{{index+1}}</p>&nbsp&nbsp{{item.comment.content}}</div>
-                <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px;"></v-divider>
-              </div>
+            <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 0%; word-break:break-all;word-wrap:break-word;">
+              <v-card class="mx-auto" min-height="200" min-width="700" style="margin: 5px">
+                <v-row style="margin: auto">
+                  <v-list-item three-line>
+                    <v-list-item-avatar
+                      tile
+                      size="80"
+                      color="grey"
+                    >
+                      <v-img
+                        :src="item.author.avatar"
+                      >
+                      </v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <div class="overline mb-4">{{ item.comment.createTime }}</div>
+                      <v-list-item-title class="headline mb-1">{{item.author.realName}}</v-list-item-title>
+                      <v-list-item-subtitle>{{item.author.institutionName}}</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                  </v-list-item>
+                </v-row>
+                <v-row style="margin: auto">
+                  <div style="margin-left: 20px">
+                    <p>{{item.comment.content}}</p>
+                  </div>
+                </v-row>
+              </v-card>
+<!--              <div style=""><p style="color:blue;display: inline-block;font-size: 28px;">{{index+1}}</p>&nbsp&nbsp{{item.comment.content}}</div>-->
+<!--              <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px;"></v-divider>-->
             </div>
           </v-row>
           <v-pagination
@@ -205,7 +232,7 @@ export default {
       limit:7,
       totalpage:7,
       comments:[
-        
+
       ],
     }
   },
