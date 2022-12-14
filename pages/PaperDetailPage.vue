@@ -4,18 +4,18 @@
       <v-card
         class="mx-auto"
         max-width="70%"
-        style="margin-top: 35px"
+        style="margin-top: 35px "
       >
         <div class="text-left" id="whole">
           <v-row>
-            <div style="margin-top: 5% ; margin-left: 10%;">
+            <div style="margin-top: 5% ; margin-left: 10%; margin-right: 10%;">
               <p style="font-size: 40px; color: black">{{this.paperData.paperTitle}}</p>
             </div>
           </v-row>
 
           <v-row>
             <div class="paperinfo">
-              <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left; width: 100%; table-layout:fixed; white-space:nowrap;">
+              <table style="font-size: 20px; color: gray; border-collapse:separate; border-spacing:0px 20px; text-align: left; width: 100%; table-layout:fixed;">
                 <tr>
                   <th>作者:&emsp;{{this.paperData.paperAuthor}}</th>
                 </tr>
@@ -101,7 +101,7 @@
       <v-card
         class="mx-auto"
         max-width="70%"
-        style="margin-top: 35px"
+        style="margin-top: 35px;margin-bottom: 30px;"
         min-height="800px"
         v-show="display===0"
       >
@@ -138,7 +138,7 @@
         min-height="800px"
         v-show="display===1"
       >
-        <v-row style="margin-top:3%; margin-left:7%">
+        <v-row style="margin-top:3%; margin-left:7%;">
           <v-btn color="primary" dark @click.stop="dialog = true" style="margin-top:3%;">
             发表新评论
           </v-btn>
@@ -166,10 +166,10 @@
         <div class="text-left" id="whole">
           <v-row>
             <div>
-              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 50px; white-space:nowrap;">评论</p>
-              <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 5%;">
-                <div>{{index+1}}&nbsp&nbsp{{item.comment.content}}</div>
-                <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px"></v-divider>
+              <p style="font-size: 30px; color: black; text-align: left; margin-top: 3%; margin-bottom: 5%; margin-left: 50px;">评论</p>
+              <div v-for="(item,index) in comments" :key="index" class="div_reference" style="font-size: 20px; color: black; margin-top: 5%; word-break:break-all;word-wrap:break-word;">
+                <div style=""><p style="color:blue;display: inline-block;font-size: 28px;">{{index+1}}</p>&nbsp&nbsp{{item.comment.content}}</div>
+                <v-divider light class="divier" style="margin-bottom: 20px; margin-top: 5px;"></v-divider>
               </div>
             </div>
           </v-row>
@@ -270,13 +270,15 @@ export default {
             type: 'success'
           })
           this.getComments(this.curPage);
-          this.refreshPage();
+          this.refreshPage(this.curPage);
+          this.your_comment="";
         }
         else {
           this.$message({
             message: res.data.message,
             type: 'error'
           })
+          this.your_comment="";
         }
       })
     },
