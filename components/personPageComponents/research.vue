@@ -139,7 +139,7 @@ export default {
   background-color: #CCEEFF;
 }
 #abstract{
-  width: 630px;
+  width: 620px;
   height: 70px;
   overflow: hidden;
   text-overflow: ellipsis;
