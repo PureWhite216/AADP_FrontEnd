@@ -83,6 +83,7 @@ export default {
   proxy: {
     "/api": {
       target: 'http://123.249.35.3:8090/',
+      changeOrigin: false,
       pathRewrite: {'^/api/': ''}
     }
   },
