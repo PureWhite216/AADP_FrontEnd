@@ -47,6 +47,7 @@
           </v-row>
         </v-container>
         <v-pagination
+          v-if="totalPage/limit > 1"
           v-model="curPage"
           :length="Math.ceil(totalPage / limit)"
           total-visible="7"
@@ -107,41 +108,22 @@
             <br />
           </v-card>
           <br />
-          <v-card>
+          <v-card
+            >
             <br />
             <h3 class="selectNode">领域</h3>
             <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
+              <v-checkbox
+                v-for="(item, index) in subject"
+                :key="index" class="selectNode"
+                :label="item"
+                v-model="check"
+                @change="refreshPage2(curPage,limit,item,check)">
+              </v-checkbox>
             </div>
             <br />
           </v-card>
           <br />
-          <v-card>
-            <br />
-            <h3 class="selectNode">类型</h3>
-            <div>
-              <v-checkbox label="论文" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="专利" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-            </div>
-            <div>
-              <v-checkbox label="计算机" class="selectNode"></v-checkbox>
-            </div>
-            <br />
-          </v-card>
         </v-container>
       </v-card>
     </div>
@@ -162,10 +144,12 @@ export default {
       limit: 10,
       loading: false,
       search: null,
-      totalPage: 800,
+      totalPage: 0,
       select: null,
+      check:false,
       states: [],
       offset: true,
+      subject:[],
       choose_year1: "起始时间",
       choose_year2: "截止时间",
       items: [],
@@ -200,6 +184,7 @@ export default {
       //监听到路由（参数）改变
       // 拿到目标参数 val.query.typeCode 去再次请求数据接口
       this.getSearchResult(1, 10, val.query.t);
+      this.getTotal(val.query.t);
     },
   },
   methods: {
@@ -213,17 +198,84 @@ export default {
       this.pageItems = [];
       this.getSearchResult(curPage, limit);
     },
+    refreshPage2(curPage = 1, limit = 10,item,check){
+      this.pageItems = [];
+      if(check)
+      this.getSearchResult2(curPage,limit,item);
+      else{
+        this.getSearchResult(curPage,limit);
+      }
+    },
+    getTotal2(item){
+      this.$axios.get("/paper/searchPaperResultInfoByKeyword",{
+        params: {
+          keyword: localStorage.getItem("selectKey"),
+          subject: item,
+        },
+        headers: {
+          'token':localStorage.getItem("Token"),
+        }
+      })
+      .then(res=>{
+        if(res.data.code == 200){
+          this.totalPage = res.data.data.total
+          this.subject = [item]
+        }else {
+          this.$message.error("getInfo Error!");
+        }
+      })
+    },
+    getTotal(){
+      this.$axios.get("/paper/searchPaperResultInfoByKeyword",{
+        params: {
+          keyword: localStorage.getItem("selectKey"),
+        },
+        headers: {
+          'token':localStorage.getItem("Token"),
+        }
+      })
+        .then(res=>{
+          if(res.data.code == 200){
+            this.totalPage = res.data.data.total
+            this.subject = res.data.data.paperSubject
+          }else {
+            this.$message.error("getInfo Error!");
+          }
+        })
+    },
     getSearchResult(curPage, limit) {
+      this.getTotal();
       this.$axios
         .get("/paper/searchPaperByKeyword", {
           params: {
             keyword: localStorage.getItem("selectKey"),
             page: curPage,
             limit: limit,
-            token: localStorage.getItem("Token"),
           },
           headers: {
-            token: localStorage.getItem("Token"),
+            'token': localStorage.getItem("Token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.pageItems = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
+    },
+    getSearchResult2(curPage, limit, item){
+      this.getTotal2(item);
+      this.$axios
+        .get("/paper/searchPaperByKeyword", {
+          params: {
+            keyword: localStorage.getItem("selectKey"),
+            page: curPage,
+            limit: limit,
+            subject: item,
+          },
+          headers: {
+            'token': localStorage.getItem("Token"),
           },
         })
         .then((res) => {

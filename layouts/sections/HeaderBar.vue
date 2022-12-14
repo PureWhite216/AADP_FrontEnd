@@ -118,7 +118,7 @@ export default {
       this.$router.push({
         path:'/PersonPage',
         query:{
-          userID : localStorage.getItem('userID')
+          userID : localStorage.getItem('userID'),
         }})
     },
     goPersonCenter()
