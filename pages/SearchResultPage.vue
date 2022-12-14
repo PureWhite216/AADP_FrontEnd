@@ -15,7 +15,7 @@
               dense
               v-model="sort"
               style="width: 160px; margin-top: 21px"
-              @input="CitedSort(curPage,limit)"
+              @input="CitedSort(curPage,limit )"
             ></v-select>
           </v-col>
         </v-app-bar>
