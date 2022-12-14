@@ -238,7 +238,7 @@ export default {
   },
   mounted() {
     this.getPaPerInfo();
-    this.getComments(this.curPage);
+    // this.getComments(this.curPage);
     console.log(this.paperData)
     // console.log(this.paperData.paperOtherInfo.DOI)
   },
@@ -284,7 +284,10 @@ export default {
         content: this.your_comment,
         createTime: Date,
         modifyTime: Date,
-        paperId: this.paperData.id,
+        objectType: "PAPER",
+        likeCount: 0,
+        isDeleted: false,
+        objectId: this.paperData.id,
         },{
           headers: {
             'token': token
@@ -313,10 +316,11 @@ export default {
       let token = localStorage.getItem('Token')
       this.$axios.get('/comment/queryByPaperId', {
         params: {
-          paperId: this.paperData.id,
+          objectId: this.paperData.id,
           page:curPage,
           limit:this.limit,
-          token: localStorage.getItem("Token"),
+          objectType: "PAPER",
+          // token: localStorage.getItem("Token"),
         },
         headers: {
           token: localStorage.getItem("Token"),
