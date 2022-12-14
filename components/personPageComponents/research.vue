@@ -14,23 +14,27 @@
           >
           </v-img>
         </v-list-item-avatar>
-        <v-list-item-content dense>
+        <v-list-item-content dense >
           <v-list-item-title class="text-h4" style="font-weight: bold">{{authorData.realName}}</v-list-item-title>
           <v-list-item-subtitle class="text-h5">{{authorData.institutionName}}</v-list-item-subtitle>
         </v-list-item-content>
+
       </v-list-item>
+    </div>
+    <div  id="tempdiv">
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon @click.stop="likeResearch" style="padding: 0;margin: 0">mdi-heart</v-icon>
+        </v-btn>
+      </v-card-actions>
     </div>
     <br/>
     <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{referNum}}</p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
-    <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon @click.stop="likeResearch">mdi-heart</v-icon>
-              </v-btn>
-            </v-card-actions>
+
   </v-card>
 </template>
 
@@ -128,6 +132,16 @@ export default {
 #div_authors{
   height: 60px;
   width: 200px;
+  display: inline-block;
+
+  vertical-align:top;
+}
+#tempdiv{
+  display: inline-block;
+  width: 400px;
+
+  padding-top: 0px;
+  vertical-align: top;
 }
 #comp{
   width: 660px;
