@@ -14,23 +14,27 @@
           >
           </v-img>
         </v-list-item-avatar>
-        <v-list-item-content dense>
+        <v-list-item-content dense >
           <v-list-item-title class="text-h4" style="font-weight: bold">{{authorData.realName}}</v-list-item-title>
           <v-list-item-subtitle class="text-h5">{{authorData.institutionName}}</v-list-item-subtitle>
         </v-list-item-content>
+
       </v-list-item>
+    </div>
+    <div  id="tempdiv">
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon @click.stop="likeResearch" style="padding: 0;margin: 0">mdi-heart</v-icon>
+        </v-btn>
+      </v-card-actions>
     </div>
     <br/>
     <p id="info">{{time}} |  点赞量：{{referNum}}</p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
-    <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon @click.stop="likeResearch">mdi-heart</v-icon>
-              </v-btn>
-            </v-card-actions>
+
   </v-card>
 </template>
 
@@ -64,11 +68,11 @@ export default {
   methods: {
     likeResearch() {
       let token = localStorage.getItem('Token')
-      this.refernum = this.refernum + 1
       this.$axios
         .post("/research/adjustRefernum", {
           num: 1,
           researchId: this.data1.id,
+          id: localStorage.getItem("userID"),
         },
         {
           headers: {
@@ -77,9 +81,10 @@ export default {
         }).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
-
+            this.refernum = this.refernum + 1
+            this.$message.success("点赞成功");
           } else {
-            this.$message.error("No SearchResult!");
+            this.$message.error("此研究已点赞");
           }
         });
     },
@@ -128,6 +133,16 @@ export default {
 #div_authors{
   height: 60px;
   width: 200px;
+  display: inline-block;
+
+  vertical-align:top;
+}
+#tempdiv{
+  display: inline-block;
+  width: 400px;
+
+  padding-top: 0px;
+  vertical-align: top;
 }
 #comp{
   width: 660px;
