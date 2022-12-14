@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="backgroundImg">
     <br />
     <div class="text-center">
       <v-card id="SearchResult">
@@ -359,5 +359,12 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.backgroundImg {
+  background: url("../assets/images/ocean1.jpeg");
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-attachment:fixed;
 }
 </style>
