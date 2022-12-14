@@ -1,8 +1,24 @@
 <template>
   <v-card id="comp" @click="goToDetail">
-    <h1 style="text-align: left">{{data1.researchTitle}}</h1>
+    <h1 style="text-align: left; margin-left: 10px;">{{data1.researchTitle}}</h1>
+
     <div id="div_authors">
-      <p class="authors">{{author}}</p>
+      <v-list-item three-line>
+        <v-list-item-avatar
+          tile
+          size="60"
+          color="grey"
+        >
+          <v-img
+            :src="authorData.avatar"
+          >
+          </v-img>
+        </v-list-item-avatar>
+        <v-list-item-content dense>
+          <v-list-item-title class="text-h4" style="font-weight: bold">{{authorData.realName}}</v-list-item-title>
+          <v-list-item-subtitle class="text-h5">{{authorData.institutionName}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
     </div>
     <br/>
     <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{referNum}}</p>
@@ -11,17 +27,8 @@
     </div>
     <v-card-actions>
               <v-spacer></v-spacer>
-
               <v-btn icon>
                 <v-icon @click.stop="likeResearch">mdi-heart</v-icon>
-              </v-btn>
-
-              <v-btn icon>
-                <v-icon>mdi-bookmark</v-icon>
-              </v-btn>
-
-              <v-btn icon>
-                <v-icon>mdi-share-variant</v-icon>
               </v-btn>
             </v-card-actions>
   </v-card>
@@ -116,10 +123,11 @@ export default {
   text-align: left;
   color: black;
   font-size: 15px;
+  margin-left: 10px;
 }
 #div_authors{
-  height: 20px;
-  width: 660px;
+  height: 60px;
+  width: 200px;
 }
 #comp{
   width: 660px;
@@ -132,7 +140,7 @@ export default {
 }
 #abstract{
   width: 630px;
-  height: 75px;
+  height: 70px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap:break-word;
@@ -141,5 +149,6 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  margin-left: 10px;
 }
 </style>
