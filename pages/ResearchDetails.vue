@@ -17,6 +17,7 @@
         <v-divider :inset="inset" light class="divier" ></v-divider>
         <div id="div_abstrct">
           <p style="font-size: 30px; color: black; text-align: left; margin-left: 45%; margin-top: 3%;">{{this.researchData.researchTitle}}</p>
+          <p v-if="this.researchData.researchAbstract" class="abstrct_declare">摘要:</p>
           <p class="abstrct">{{this.researchData.researchAbstract}}</p>
         </div>
 
@@ -94,6 +95,15 @@
   .divier{
     text-decoration-thickness: 10px;
     color: black;
+  }
+  .abstrct_declare{
+    font-size: 20px;
+    color: rgb(206, 102, 4);
+    text-align: left;
+    margin-left: 7%;
+    width: 700px;
+    word-break:break-all;
+    word-wrap:break-word;
   }
   .abstrct{
     font-size: 20px;
