@@ -1,9 +1,9 @@
 <template>
   <div class="backgroundImg">
     <div>&nbsp</div>
-    <div id="MainPageHead">
-      <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
-    </div>
+<!--    <div id="MainPageHead">-->
+<!--      &lt;!&ndash; <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> &ndash;&gt;-->
+<!--    </div>-->
     <div class="text-center" style="margin-top: 25px">
       <v-card id="hot_academic">
         <v-card-title class="font-weight-black main_title">
@@ -148,7 +148,7 @@ export default {
   background-color: #ffffff;
 }
 .backgroundImg {
-  background: url("../assets/images/ocean1.jpeg");
+  /*background: url("../assets/images/ocean1.jpeg");*/
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

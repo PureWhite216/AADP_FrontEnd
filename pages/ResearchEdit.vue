@@ -6,7 +6,7 @@
     >
       <v-row id="row">
         <div id="save">
-          <v-btn color="#fec500" depressed small @click="pubResearch">保存草稿</v-btn>
+<!--          <v-btn color="#fec500" depressed small @click="pubResearch">保存草稿</v-btn>-->
         </div>
         <div id="title">
           <v-text-field
@@ -18,16 +18,16 @@
           >标题</v-text-field>
         </div>
         <div id="area">
-          <v-overflow-btn
-            dense
-            :items="dropdown_font"
-            depressed small
-            label="领域选择"
-            v-model="field"
-          ></v-overflow-btn>
+<!--          <v-overflow-btn-->
+<!--            dense-->
+<!--            :items="dropdown_font"-->
+<!--            depressed small-->
+<!--            label="领域选择"-->
+<!--            v-model="field"-->
+<!--          ></v-overflow-btn>-->
         </div>
         <div id="sub">
-          <v-btn color="#316ce8" depressed small @click="pubResearch">发表</v-btn>
+          <v-btn color='primary' @click="pubResearch">发表</v-btn>
         </div>
       </v-row>
 
@@ -63,7 +63,7 @@ export default {
       dropdown_font: ['文学', '理学', '工学', '农学', '商学', '医学', '艺术'],
       abstract: '',
       title:'',
-      field:'',
+      field:'理学',
       researchContent:'',
     }
   },
@@ -110,7 +110,7 @@ export default {
 }
 #title{
   width: 400px;
-  margin-left: 200px;
+  margin-left: 300px;
 }
 #area{
   width: 200px;
@@ -118,7 +118,8 @@ export default {
 }
 #sub{
   float: right;
-  margin-left: 20px;
+  margin-left: 0px;
+  margin-bottom: 0px;
 }
 
 </style>

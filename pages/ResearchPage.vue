@@ -50,17 +50,17 @@
       <v-card id="hot_research" class="mt-12">
         <v-container>
           <v-btn block elevation="6" color="primary" @click="$router.push('ResearchEdit')"> 发表新研究 </v-btn>
-          <v-card class="mt-10">
-            <v-card-title class="text-h2 card_title">领域</v-card-title>
-            <v-col cols="6">
-            <v-select
-              :items="filed_option"
-              label="所有领域"
-              dense
-              outlined
-            ></v-select>
-          </v-col>
-          </v-card>
+<!--          <v-card class="mt-10">-->
+<!--            <v-card-title class="text-h2 card_title">领域</v-card-title>-->
+<!--            <v-col cols="6">-->
+<!--            <v-select-->
+<!--              :items="filed_option"-->
+<!--              label="所有领域"-->
+<!--              dense-->
+<!--              outlined-->
+<!--            ></v-select>-->
+<!--          </v-col>-->
+<!--          </v-card>-->
         </v-container>
       </v-card>
     </div>
@@ -189,7 +189,6 @@ export default {
   color: black;
 }
 .backgroundImg {
-  background: url("../assets/images/ocean1.jpeg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

@@ -862,7 +862,6 @@ export default {
 
 <style scoped>
 .backgroundImg {
-  background: url("../assets/images/ocean1.jpeg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;

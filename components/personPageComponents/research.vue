@@ -21,7 +21,7 @@
       </v-list-item>
     </div>
     <br/>
-    <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{referNum}}</p>
+    <p id="info">{{time}} |  点赞量：{{referNum}}</p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
