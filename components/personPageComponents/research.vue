@@ -91,7 +91,7 @@ export default {
         })
         .then((res) => {
           if (res.data.code == 200 && res.data.data.length !== 0) {
-            this.author = res.data.data[0].username;
+            this.author = res.data.data[0].realName;
             this.authorData = res.data.data[0]
           } else {
             // this.$message.error("No Author!");
