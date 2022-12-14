@@ -82,6 +82,7 @@ export default {
           console.log(res.data)
           if (res.data.code == 200) {
             this.refernum = this.refernum + 1
+            this.$message.success("点赞成功");
           } else {
             this.$message.error("此研究已点赞");
           }
