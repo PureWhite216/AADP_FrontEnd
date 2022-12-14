@@ -5,10 +5,25 @@
       <p class="authors">{{author}}</p>
     </div>
     <br/>
-    <p id="info">{{data1.publishTime}} | {{data1.researchField}} | 被引数：{{data1.refernum}} | 期刊：{{data1.paperPeriodical}}</p>
+    <p id="info">{{data1.publishTime}} | {{data1.researchField}} | 点赞数：{{data1.refernum}} </p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
+    <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn icon>
+                <v-icon @click.capture.stop @click="likeResearch()">mdi-heart</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-bookmark</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-share-variant</v-icon>
+              </v-btn>
+            </v-card-actions>
   </v-card>
 </template>
 
@@ -26,6 +41,9 @@ export default {
     this.getAuthor()
   },
   methods: {
+    likeResearch() {
+
+    },
     goToDetail(){
       this.$router.push({path:'/ResearchDetails',query:{data: this.data1, authorData: this.authorData}});
     },

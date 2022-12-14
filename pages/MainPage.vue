@@ -1,6 +1,6 @@
 <template>
   <div id="building">
-    <div> 6</div>
+    <div>6</div>
     <div id="MainPageHead">
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
@@ -11,22 +11,18 @@
         </v-card-title>
         <v-container>
           <v-row dense>
-            <v-col
-              v-for="(item, i) in hotAcademicList"
-              :key="i"
-              cols="12"
-            >
-            <academic-achievement :data1="item"></academic-achievement>
+            <v-col v-for="(item, i) in hotAcademicList" :key="i" cols="12">
+              <academic-achievement :data1="item"></academic-achievement>
             </v-col>
           </v-row>
         </v-container>
         <v-pagination
           v-model="curPage"
-          :length="Math.ceil( totalPage/ limit)"
+          :length="Math.ceil(totalPage / limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
-        <br>
+        <br />
       </v-card>
       <v-card id="hot_research">
         <v-card-title class="font-weight-black main_title">
@@ -34,22 +30,18 @@
         </v-card-title>
         <v-container>
           <v-row dense>
-            <v-col
-              v-for="(item, i) in hotResearchList"
-              :key="i"
-              cols="12"
-            >
-            <research :data1="item"></research>
+            <v-col v-for="(item, i) in hotResearchList" :key="i" cols="12">
+              <research :data1="item"></research>
             </v-col>
           </v-row>
         </v-container>
         <v-pagination
           v-model="curPage"
-          :length="Math.ceil( totalPage/ limit)"
+          :length="Math.ceil(totalPage / limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
-        <br>
+        <br />
       </v-card>
     </div>
   </div>
@@ -58,8 +50,9 @@
 <script>
 export default {
   name: "MainPage",
-  components:{
-    AcademicAchievement: () => import("@/components/personPageComponents/academicAchievement"),
+  components: {
+    AcademicAchievement: () =>
+      import("@/components/personPageComponents/academicAchievement"),
     Research: () => import("@/components/personPageComponents/research"),
   },
   data() {
@@ -69,28 +62,50 @@ export default {
     };
   },
   mounted() {
-    this.getHotResearch()
+    this.getHotAcademic();
+    this.getHotResearch();
   },
   methods: {
-    GotoDetailPage(){
-        this.$router.push("/PaperDetailPage");
+    GotoDetailPage() {
+      this.$router.push("/PaperDetailPage");
     },
     toResearchDetailPage(research_id) {
-      localStorage.setItem("research_id",research_id)
+      localStorage.setItem("research_id", research_id);
       this.$router.push({
-        name: 'ResearchDetails',
-      })
+        name: "ResearchDetails",
+      });
+    },
+    getHotAcademic() {
+      let token = localStorage.getItem("Token");
+      this.$axios
+        .get("/paper/getTop10PaperByClick", {
+          headers: {
+            token: token,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code == 200 && res.data.data.length !== 0) {
+            this.hotAcademicList = res.data.data;
+          } else {
+            this.$message.error("No SearchResult!");
+          }
+        });
     },
     getHotResearch() {
-      let token = localStorage.getItem('Token')
+      let token = localStorage.getItem("Token");
       this.$axios
-        .post("/research/selectPopResearch", {},
-        {
-          headers: {
-            'token': token
+        .post(
+          "/research/selectPopResearch",
+          {},
+          {
+            headers: {
+              token: token,
+            },
           }
-        }).then((res) => {
-          console.log(res.data)
+        )
+        .then((res) => {
+          console.log(res.data);
           if (res.data.code == 200 && res.data.data.length !== 0) {
             this.hotResearchList = res.data.data;
           } else {
@@ -103,7 +118,7 @@ export default {
 </script>
 
 <style scoped>
-#div_authors{
+#div_authors {
   margin-left: 20px;
   height: 20px;
   width: 660px;
@@ -132,26 +147,26 @@ export default {
 
   background-color: #ffffff;
 }
-#building{
-  background:url("../assets/images/ocean.webp");
-  width:100%;
-  height:100%;
-  background-size:100% 100%;
+#building {
+  background: url("../assets/images/ocean.webp");
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
 }
-#abstract{
+#abstract {
   text-align: left;
   margin-left: 20px;
   width: 640px;
   height: 75px;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-wrap:break-word;
+  word-wrap: break-word;
   color: black;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
-.authors{
+.authors {
   display: inline-block;
   margin-right: 5px;
   text-align: left;
@@ -172,7 +187,7 @@ export default {
   text-align: left;
   color: black;
 }
-.div_authors{
+.div_authors {
   text-align: left;
 }
 .authors {
@@ -187,19 +202,19 @@ export default {
   color: black;
 }
 
-#head{
+#head {
   margin-left: 20px;
   text-align: left;
   color: black;
   font-size: 30px;
 }
-#info{
+#info {
   margin-left: 20px;
   text-align: left;
   color: black;
   font-size: 15px;
 }
-#div_authors{
+#div_authors {
   margin-left: 20px;
   height: 20px;
   width: 660px;
