@@ -238,7 +238,7 @@ export default {
   },
   mounted() {
     this.getPaPerInfo();
-    // this.getComments(this.curPage);
+    this.getComments(this.curPage);
     console.log(this.paperData)
     // console.log(this.paperData.paperOtherInfo.DOI)
   },
@@ -300,7 +300,7 @@ export default {
             type: 'success'
           })
           this.getComments(this.curPage);
-          this.refreshPage(this.curPage);
+          // this.refreshPage(this.curPage);
           this.your_comment="";
         }
         else {
@@ -314,7 +314,7 @@ export default {
     },
     getComments(curPage){
       let token = localStorage.getItem('Token')
-      this.$axios.get('/comment/queryByPaperId', {
+      this.$axios.get('/comment/queryByObjectId', {
         params: {
           objectId: this.paperData.id,
           page:curPage,
