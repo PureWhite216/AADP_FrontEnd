@@ -25,7 +25,7 @@
         <v-divider :inset="inset" light class="divier" ></v-divider>
 
         <v-card>
-          <RichTextEditor
+          <RichTextReadOnly
             ref="richTextEditor"
             :height="1000"
           />
