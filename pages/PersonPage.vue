@@ -54,7 +54,7 @@
         </v-container>
         <v-pagination v-show="display===1"
           v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
+          :length="Math.ceil(this.sum_aca_achv / limit)"
           total-visible="7"
           @input="onPageChange(curPage, limit)"
         ></v-pagination>
@@ -69,7 +69,12 @@
             </v-col>
           </v-row>
         </v-container>
-
+        <v-pagination v-show="display===2"
+          v-model="curPage2"
+          :length="Math.ceil(this.sum_research / limit)"
+          total-visible="7"
+          @input="onPageChange2(curPage2, limit)"
+        ></v-pagination>
       </div>
       <div id="co_workers">
         <div style="background-color: #ffffff;height: 48px;margin-bottom: 20px;border-radius: 5px;">
@@ -97,10 +102,11 @@ export default {
   },
   data(){
     return{
-      name:"名字",
-      organization:"------",
+      name:"",
+      organization:"",
       avatar: "",
       curPage: 1,
+      curPage2: 1,
       limit: 10,
       totalPage: 10,
       sum_aca_achv:10,
@@ -123,9 +129,9 @@ export default {
       })
     },
     toInstitutionPage(){
-      this.$router.push({
-        name: 'InstitutionPage',
-      })
+      // this.$router.push({
+      //   name: 'InstitutionPage',
+      // })
     },
     toPersonPage(item){
       if(item.cooperator.userId === "-1") this.$message.error("该用户尚未创建个人门户")
@@ -137,6 +143,13 @@ export default {
         }})
       }
 
+    },
+    onPageChange2(curPage, limit) {
+      this.refreshPage2(curPage, limit);
+    },
+    refreshPage2(curPage = 1, limit = 10) {
+      this.pageItems = [];
+      this.getResearch(curPage, limit);
     },
     getResearch(curPage = 1, limit = 10)
     {
@@ -191,6 +204,7 @@ export default {
           params: {
             page: curPage,
             limit: limit,
+            user_id: this.$route.query.userID
           },
           headers: {
             token: localStorage.getItem("Token"),
@@ -225,9 +239,9 @@ export default {
     getCoWorkers(){
       this.$axios
         .get("/user/queryCooperators", {
-          // params: {
-          //   user_id: this.$route.query.userID
-          // },
+          params: {
+            user_id: this.$route.query.userID
+          },
           headers: {
             token: localStorage.getItem("Token"),
           },
@@ -257,7 +271,7 @@ export default {
             this.avatar = res.data.data[0].avatar
             this.name = res.data.data[0].realName
             if(res.data.data[0].institutionId !== "-1") this.organization = res.data.data[0].institutionName
-
+            else this.organization = "未认证"
           }
         });
     }
@@ -352,6 +366,7 @@ td{
 }
 .co_worker_organization{
   margin-bottom: 20px;
+  width: 280px;
 }
 .co_worker_organization:hover{
   color: #2c73cb;
