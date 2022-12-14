@@ -124,9 +124,9 @@ export default {
       this.$router.push({path:'/PaperDetailPage',query:{data:data}});
     },
     toResearchDetailPage(){
-      this.$router.push({
-        name: 'ResearchDetails',
-      })
+      // this.$router.push({
+      //   name: 'ResearchDetails',
+      // })
     },
     toInstitutionPage(){
       // this.$router.push({
@@ -310,6 +310,8 @@ export default {
 #div_name{
   margin-left: 40px;
   float: left;
+  font-family: "微软雅黑",serif;
+
 }
 #div_info{
   float: right;

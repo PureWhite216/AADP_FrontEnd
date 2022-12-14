@@ -5,7 +5,7 @@
       <p class="authors">{{author}}</p>
     </div>
     <br/>
-    <p id="info">{{data1.publishTime}} | {{data1.researchField}} | 点赞数：{{data1.refernum}} </p>
+    <p id="info">{{time}} | 领域：{{field}} | 点赞量：{{data1.refernum}}</p>
     <div style="width: 640px">
       <p id="abstract">{{data1.researchAbstract}}</p>
     </div>
@@ -39,6 +39,16 @@ export default {
   },
   created() {
     this.getAuthor()
+  },
+  computed:{
+    time: function () {
+          // `this` 指向 vm 实例
+          return this.data1.publishTime.replace("T"," ")
+          },
+    field: function () {
+      // `this` 指向 vm 实例
+      return this.data1.researchField === "" ? "-" : this.data1.researchField
+    }
   },
   methods: {
     likeResearch() {
