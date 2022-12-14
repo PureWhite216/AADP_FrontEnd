@@ -204,7 +204,7 @@ export default {
           params: {
             page: curPage,
             limit: limit,
-            user_id: this.$route.query.userID
+            userId: this.$route.query.userID
           },
           headers: {
             token: localStorage.getItem("Token"),
@@ -225,6 +225,9 @@ export default {
     getSumInfo(){
       this.$axios
         .get("/user/getAcademicInformation", {
+          params: {
+            userId: this.$route.query.userID
+          },
           headers: {
             token: localStorage.getItem("Token"),
           },
@@ -240,7 +243,7 @@ export default {
       this.$axios
         .get("/user/queryCooperators", {
           params: {
-            user_id: this.$route.query.userID
+            userId: this.$route.query.userID
           },
           headers: {
             token: localStorage.getItem("Token"),
@@ -276,6 +279,21 @@ export default {
         });
     }
   },
+  watch: {
+    $route(val, from) {
+      //监听到路由（参数）改变
+      // 拿到目标参数 val.query.typeCode 去再次请求数据接口
+      //this.getSearchResult(1, 10, val.query.t);
+      this.curPage=1,
+      this.curPage2=1,
+      this.getUserInfo()
+      this.getAcademicAchievement(this.curPage, this.limit)
+      this.getSumInfo()
+      // this.getSearch()
+      this.getResearch(this.curPage2, this.limit)
+      this.getCoWorkers()
+    },
+  },
 
   mounted() {
     //console.log(localStorage.getItem("userID"))
@@ -284,7 +302,7 @@ export default {
     this.getAcademicAchievement(this.curPage, this.limit)
     this.getSumInfo()
     // this.getSearch()
-    this.getResearch(this.curPage, this.limit)
+    this.getResearch(this.curPage2, this.limit)
     this.getCoWorkers()
   }
 }

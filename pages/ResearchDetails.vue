@@ -7,7 +7,7 @@
         </div>
 
         <div class="inline_div" id="div_name">
-            <p style="font-size: 30px; color: black;">{{this.authorData.realName}}</p>
+            <p style="font-size: 30px; color: black;" @click="toPersonPage">{{this.authorData.username}}</p>
             <p style="font-size: 20px; color: black;">{{this.authorData.institutionName}}</p>
         </div>
 
@@ -75,6 +75,13 @@
       setContent(){
         this.researchContent =this.$refs.richTextEditor.getJsonContent().slice(7, -1);
         this.$refs.richTextEditor.quill.setContents(JSON.parse(this.researchData.researchContent))
+      },
+      toPersonPage(){
+        this.$router.push({
+          path:'/PersonPage',
+          query:{
+            userID : this.$route.query.data.userId
+          }})
       }
     },
   }

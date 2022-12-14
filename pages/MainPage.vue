@@ -1,10 +1,10 @@
 <template>
   <div id="building">
-    <div>6</div>
-    <div id="MainPageHead">
-      <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
-    </div>
-    <div class="text-center">
+    <div></div>
+<!--    <div id="MainPageHead">-->
+<!--      &lt;!&ndash; <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> &ndash;&gt;-->
+<!--    </div>-->
+    <div class="text-center" style="margin-top: 25px">
       <v-card id="hot_academic">
         <v-card-title class="font-weight-black main_title">
           热门学术成果
@@ -127,7 +127,7 @@ export default {
   width: 1440px;
   height: 150px;
   margin: 20px auto 20px;
-  margin-top: 10px;
+  margin-top: 30px;
   background-color: #ffffff;
   vertical-align: middle;
 }
@@ -148,7 +148,7 @@ export default {
   background-color: #ffffff;
 }
 #building {
-  background: url("../assets/images/ocean.webp");
+  /*background: url("../assets/images/ocean.webp");*/
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
