@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="backgroundImg">
     <div class="text-center">
       <v-card id="research" class="mt-12">
         <v-tabs v-model="tab" align-with-title>
@@ -187,5 +187,12 @@ export default {
 .card_text {
   text-align: left;
   color: black;
+}
+.backgroundImg {
+  background: url("../assets/images/ocean1.jpeg");
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-attachment:fixed;
 }
 </style>

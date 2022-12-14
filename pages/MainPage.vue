@@ -1,6 +1,6 @@
 <template>
-  <div id="building">
-    <div>6</div>
+  <div class="backgroundImg">
+    <div>&nbsp</div>
     <div id="MainPageHead">
       <!-- <v-img :src="require('/assets/images/temp_img/head_portrait.jpg')"></v-img> -->
     </div>
@@ -147,11 +147,12 @@ export default {
 
   background-color: #ffffff;
 }
-#building {
-  background: url("../assets/images/ocean.webp");
+.backgroundImg {
+  background: url("../assets/images/ocean1.jpeg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
+  background-attachment:fixed;
 }
 #abstract {
   text-align: left;

@@ -1,6 +1,7 @@
 <template>
-  <div class="background">
-    <div class="main" style="margin-top: 12px">
+  <div class="backgroundImg">
+    <div>&nbsp</div>
+    <div class="main" style="margin-top: -12px">
       <!--      导航栏-->
       <v-navigation-drawer
         absolute
@@ -860,10 +861,12 @@ export default {
 </script>
 
 <style scoped>
-.background {
+.backgroundImg {
+  background: url("../assets/images/ocean1.jpeg");
   width: 100%;
   height: 100%;
-  background: rgba(144, 144, 144, 0.1);
+  background-size: 100% 100%;
+  background-attachment:fixed;
 
 }
 

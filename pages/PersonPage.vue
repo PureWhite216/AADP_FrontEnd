@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="backgroundImg">
+    <div>&nbsp</div>
     <div class="text-center" id="personPageHead">
       <div class="inline_div" id="div_head_portrait">
         <v-img :src="avatar" id="head_portrait" />
@@ -395,5 +396,12 @@ td{
   background-color: #ffffff;
   color: black;
   font-size: large;
+}
+.backgroundImg {
+  background: url("../assets/images/ocean1.jpeg");
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-attachment:fixed;
 }
 </style>
