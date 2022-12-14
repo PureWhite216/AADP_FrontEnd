@@ -9,7 +9,7 @@
       </h1>
     </div>
     <div class="box">
-      <!--登录-->
+      <!--登录 -->
       <div v-if="loginFlag===1" class="loginBox">
         <div class="loginTitle">
           登录
