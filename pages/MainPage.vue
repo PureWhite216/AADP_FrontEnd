@@ -16,12 +16,12 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-pagination
-          v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
-          total-visible="7"
-          @input="onPageChange(curPage, limit)"
-        ></v-pagination>
+<!--        <v-pagination-->
+<!--          v-model="curPage"-->
+<!--          :length="Math.ceil(totalPage / limit)"-->
+<!--          total-visible="7"-->
+<!--          @input="onPageChange(curPage, limit)"-->
+<!--        ></v-pagination>-->
         <br />
       </v-card>
       <v-card id="hot_research">
@@ -35,12 +35,12 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-pagination
-          v-model="curPage"
-          :length="Math.ceil(totalPage / limit)"
-          total-visible="7"
-          @input="onPageChange(curPage, limit)"
-        ></v-pagination>
+<!--        <v-pagination-->
+<!--          v-model="curPage"-->
+<!--          :length="Math.ceil(totalPage / limit)"-->
+<!--          total-visible="7"-->
+<!--          @input="onPageChange(curPage, limit)"-->
+<!--        ></v-pagination>-->
         <br />
       </v-card>
     </div>
